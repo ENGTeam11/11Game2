@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="1">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="21">
  <tileset firstgid="1" name="Interiors_16x16" tilewidth="16" tileheight="16" tilecount="17024" columns="16">
   <image source="Interiors_16x16.png" trans="000000" width="256" height="17024"/>
  </tileset>
@@ -134,6 +134,28 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="10" name="Boundary">
+  <object id="1" x="863.5" y="431" width="192.5" height="33.5"/>
+  <object id="2" x="1024" y="447.5" width="127" height="33"/>
+  <object id="3" x="1024" y="478.5" width="48" height="81.5"/>
+  <object id="4" x="1056" y="543.5" width="48" height="32.5"/>
+  <object id="5" x="1071.5" y="511" width="15.5" height="33"/>
+  <object id="6" x="1119.5" y="480" width="32" height="15.5"/>
+  <object id="7" x="1135.5" y="492.5" width="16.5" height="164"/>
+  <object id="8" x="1119.5" y="543.5" width="16" height="32.5"/>
+  <object id="9" x="1119.5" y="590.5" width="17" height="66"/>
+  <object id="10" x="911.5" y="638.5" width="210" height="17.5"/>
+  <object id="11" x="975.5" y="622.5" width="33" height="18.5"/>
+  <object id="12" x="863" y="459" width="33" height="70"/>
+  <object id="13" x="800" y="527" width="160" height="32.5"/>
+  <object id="14" x="799.5" y="559.5" width="32" height="96.5"/>
+  <object id="15" x="847.5" y="591.5" width="48.5" height="16"/>
+  <object id="16" x="831" y="639" width="48.5" height="17"/>
+  <object id="17" x="879.5" y="656" width="31.5" height="15.5"/>
+  <object id="18" x="991.75" y="495.5" width="32.25" height="17"/>
+  <object id="19" x="992" y="543.25" width="31.75" height="33"/>
+  <object id="20" x="975.75" y="559.5" width="16.1667" height="32.5"/>
+ </objectgroup>
  <layer id="1" name="Tile Layer 1" width="120" height="68">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
