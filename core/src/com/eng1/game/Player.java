@@ -24,6 +24,7 @@ public class Player extends Sprite implements InputProcessor {
 
     public Player(Sprite sprite,MapManager mapManager) {
         super(sprite.getTexture());
+        this.mapManager = mapManager;
         this.setScale(3.0f);
 
         Vector2 spawnPoint = mapManager.findObjectPosition("spawn_point", "spawn_point");
