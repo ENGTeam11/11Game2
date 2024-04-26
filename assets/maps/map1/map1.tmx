@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="4">
  <tileset firstgid="1" name="paths" tilewidth="16" tileheight="16" tilecount="1728" columns="48">
   <image source="A2_Floors_MV_TILESET.png" width="768" height="576"/>
   <tile id="12">
@@ -29320,6 +29320,16 @@
 6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6453,6448,6449,6450,6451,6452,6448
 </data>
  </layer>
+ <objectgroup id="10" name="map_change_points">
+  <object id="2" name="1to2_source" x="1888" y="880" width="16" height="80">
+   <properties>
+    <property name="1to2_source" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="11" name="spawn_point">
+  <object id="3" name="spawn_point" x="1659" y="882" width="73" height="71"/>
+ </objectgroup>
  <layer id="1" name="Grass" width="120" height="68">
   <data encoding="csv">
 410,366,122,75,225,267,175,362,361,367,324,28,125,411,320,170,169,77,415,270,35,172,366,316,224,416,178,270,36,274,78,80,271,33,271,131,314,225,125,130,266,224,30,324,172,320,412,131,271,75,169,314,369,132,178,30,366,224,414,324,171,276,29,267,219,75,218,411,173,314,78,315,220,217,318,419,173,370,217,179,419,276,315,73,223,75,27,180,125,25,129,266,26,313,125,74,419,415,25,178,27,271,320,34,173,364,122,27,170,126,84,315,413,79,74,224,273,121,414,319,
