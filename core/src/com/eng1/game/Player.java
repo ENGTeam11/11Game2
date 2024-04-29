@@ -3,65 +3,34 @@ package com.eng1.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Sprite implements InputProcessor {
     private Vector2 velocity = new Vector2();
-    private float speed = 300; // Speed in units per second
-    private float animationTime = 0;
-    private Animation<TextureRegion> still, left, right;
-    private TiledMapTileLayer collisionLayer;
-    private MapManager mapManager;
-    private Player player;
+    private float speed = 300; // Speed
+    private PlayerTracker playerTracker;
 
-    public Player(Sprite sprite,MapManager mapManager) {
+    public Player(Sprite sprite, PlayerTracker playerTracker, MapManager mapManager) {
         super(sprite.getTexture());
-        this.mapManager = mapManager;
         this.setScale(3.0f);
-
-        Vector2 spawnPoint = mapManager.findObjectPosition("spawn_point", "spawn_point");
+        this.playerTracker = playerTracker;
+        Vector2 spawnPoint = mapManager.findObjectPosition("spawn_points", "spawn_point");
         if (spawnPoint != null) {
             setPosition(spawnPoint.x, spawnPoint.y);
         }
         Gdx.input.setInputProcessor(this);
-
     }
-
-    @Override
-    public void draw(Batch batch) {
-        update(Gdx.graphics.getDeltaTime());
-        super.draw(batch);
-    }
-
     public void update(float delta) {
-
-        float oldX = getX(), oldY = getY();
-
-        float newX = oldX + velocity.x * delta;
-        float newY = oldY + velocity.y * delta;
+        float newX = getX() + velocity.x * delta;
+        float newY = getY() + velocity.y * delta;
         setPosition(newX, newY);
 
-        Vector2 transistionSource = mapManager.findObjectPosition("map_change_points", "1to2_source");
-        if (transistionSource != null && getX() <= transistionSource.x  && getY() <= transistionSource.y) {
-            mapManager.changeMap("maps/map2/map2.tmx", "1to2_destination");
+        if (playerTracker != null) {
+            playerTracker.checkPlayerTile(newX, newY);
         }
+
     }
-
-
-
-    private boolean checkCollision(float x, float y) {
-        Cell cell = collisionLayer.getCell((int) (x / collisionLayer.getTileWidth()), (int) (y / collisionLayer.getTileHeight()));
-        return cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("blocked");
-    }
-
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
@@ -120,11 +89,6 @@ public class Player extends Sprite implements InputProcessor {
     }
 
     @Override
-    public boolean touchCancelled(int i, int i1, int i2, int i3) {
-        return false;
-    }
-
-    @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
@@ -138,8 +102,9 @@ public class Player extends Sprite implements InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
 }
-
-// Add setters for animations and initialize animations in the constructor
-
-
