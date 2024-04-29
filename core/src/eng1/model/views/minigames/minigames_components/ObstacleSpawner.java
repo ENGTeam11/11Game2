@@ -1,3 +1,5 @@
+package eng1.model.views.minigames.minigames_components;
+
 import java.util.ArrayList;
 
 public class ObstacleSpawner {
