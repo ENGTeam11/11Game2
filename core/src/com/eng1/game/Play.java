@@ -47,7 +47,7 @@ public class Play implements Screen {
         camera.update();
 
         mapManager.render();
-        player.update(delta);
+        player.update(delta, mapManager);
 
         renderer.getBatch().begin();
         player.draw(renderer.getBatch());
