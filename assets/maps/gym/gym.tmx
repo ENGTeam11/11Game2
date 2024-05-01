@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="2">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="3">
  <tileset firstgid="1" name="Room_Builder_16x16" tilewidth="16" tileheight="16" tilecount="8284" columns="76">
   <image source="Room_Builder_16x16.png" trans="000000" width="1216" height="1744"/>
   <tile id="392">
@@ -21,6 +21,7 @@
   <tile id="0">
    <properties>
     <property name="destination" value="maps/map2/map2.tmx"/>
+    <property name="spawn" value="gym-m2"/>
    </properties>
   </tile>
   <tile id="378">
@@ -182,8 +183,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="10" name="spawn_points">
-  <object id="1" name="spawn_point" x="944" y="608" width="16" height="16"/>
+ <objectgroup id="11" name="entries">
+  <object id="2" name="m2-gym" x="960" y="640"/>
  </objectgroup>
  <layer id="1" name="Tile Layer 1" width="120" height="68">
   <data encoding="csv">
