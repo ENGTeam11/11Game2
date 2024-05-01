@@ -21,9 +21,15 @@ public class Player extends Sprite implements InputProcessor {
         }
         Gdx.input.setInputProcessor(this);
     }
-    public void update(float delta) {
+    public void update(float delta, MapManager mapManager) {
         float newX = getX() + velocity.x * delta;
+        if (mapManager.inRegion(new Vector2(newX, getY()), getWidth(), getHeight(), "collisions")) {
+            newX = getX();
+        }
         float newY = getY() + velocity.y * delta;
+        if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "collisions")) {
+            newY = getY();
+        }
         setPosition(newX, newY);
 
         if (playerTracker != null) {
