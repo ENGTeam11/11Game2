@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="2">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="3">
  <tileset firstgid="1" name="Room_Builder_16x16" tilewidth="16" tileheight="16" tilecount="8284" columns="76">
   <properties>
    <property name="blocked" value=""/>
@@ -32,6 +32,7 @@
   <tile id="365">
    <properties>
     <property name="destination" value="maps/map5/map5.tmx"/>
+    <property name="spawn" value="cs-m5"/>
    </properties>
   </tile>
  </tileset>
@@ -50,7 +51,7 @@
  <tileset firstgid="14637" name="activity marker" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="oie_1512512TG0HYYOf.png" width="16" height="16"/>
  </tileset>
- <layer id="7" name="collisions" width="120" height="68" visible="0">
+ <layer id="7" name="collisions" width="120" height="68">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -194,8 +195,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="10" name="spawn_points">
-  <object id="1" name="spawn_point" x="1011" y="684"/>
+ <objectgroup id="11" name="entries">
+  <object id="2" name="m5-cs" x="960" y="720"/>
  </objectgroup>
  <layer id="1" name="Tile Layer 1" width="120" height="68">
   <data encoding="csv">

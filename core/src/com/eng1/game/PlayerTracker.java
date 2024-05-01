@@ -27,8 +27,9 @@ public class PlayerTracker {
 
         if (cell != null && cell.getTile().getProperties().containsKey("destination")) {
             String newPath = cell.getTile().getProperties().get("destination", String.class);
+            String newEntry = cell.getTile().getProperties().get("spawn", String.class);
             mapManager.loadMap(newPath);
-            Vector2 newSpawn = mapManager.findObjectPosition("spawn_points", "spawn_point");
+            Vector2 newSpawn = mapManager.findObjectPosition("entries", newEntry);
             if (newSpawn != null) {
                 player.setPosition(newSpawn.x, newSpawn.y);
             }

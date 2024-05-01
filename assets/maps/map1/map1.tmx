@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="4">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="8">
  <tileset firstgid="1" name="paths" tilewidth="16" tileheight="16" tilecount="1728" columns="48">
   <image source="A2_Floors_MV_TILESET.png" width="768" height="576"/>
   <tile id="12">
@@ -27995,16 +27995,19 @@
   <tile id="577">
    <properties>
     <property name="destination" value="maps/map2/map2.tmx"/>
+    <property name="spawn" value="m1-m2"/>
    </properties>
   </tile>
   <tile id="578">
    <properties>
     <property name="destination" value="maps/map3/map3.tmx"/>
+    <property name="spawn" value="m1-m3"/>
    </properties>
   </tile>
   <tile id="579">
    <properties>
     <property name="destination" value="maps/map4/map4.tmx"/>
+    <property name="spawn" value="m1-m4"/>
    </properties>
   </tile>
   <tile id="580">
@@ -28025,6 +28028,7 @@
   <tile id="583">
    <properties>
     <property name="destination" value="maps/home/home.tmx"/>
+    <property name="spawn" value="m1-home"/>
    </properties>
   </tile>
   <tile id="584">
@@ -29449,6 +29453,12 @@
  </layer>
  <objectgroup id="11" name="spawn_points">
   <object id="3" name="spawn_point" x="1659" y="882" width="73" height="71"/>
+ </objectgroup>
+ <objectgroup id="13" name="entries">
+  <object id="4" name="m2-m1" x="1859" y="915" width="5" height="6"/>
+  <object id="5" name="m4-m1" x="1080" y="48"/>
+  <object id="6" name="m3-m1" x="48" y="920"/>
+  <object id="7" name="home-m1" x="1697" y="846"/>
  </objectgroup>
  <layer id="1" name="Grass" width="120" height="68" locked="1">
   <data encoding="csv">
