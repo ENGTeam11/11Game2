@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="3">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="27">
  <tileset firstgid="1" name="Room_Builder_16x16" tilewidth="16" tileheight="16" tilecount="8284" columns="76">
   <image source="Room_Builder_16x16.png" trans="000000" width="1216" height="1744"/>
   <tile id="392">
@@ -48,7 +48,7 @@
  <tileset firstgid="16301" name="activitymark" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="oie_1512512TG0HYYOf.png" width="16" height="16"/>
  </tileset>
- <layer id="7" name="collisions" width="120" height="68">
+ <layer id="7" name="collisions" width="120" height="68" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -627,4 +627,28 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="11" name="collisions">
+  <object id="3" x="799.75" y="254.834" width="16.6667" height="529.333"/>
+  <object id="4" x="817.084" y="254.834" width="302" height="17.3333"/>
+  <object id="5" x="829.75" y="512.167" width="83.3333" height="47.3333"/>
+  <object id="6" x="831.917" y="491" width="61.3333" height="23.3333"/>
+  <object id="7" x="814.75" y="399.5" width="145.333" height="33"/>
+  <object id="8" x="944.084" y="429.167" width="15.8333" height="19"/>
+  <object id="9" x="944.084" y="383.167" width="31.6667" height="17.3333"/>
+  <object id="10" x="960.084" y="367.5" width="14.6667" height="16.3333"/>
+  <object id="11" x="976.084" y="350.834" width="128.333" height="23.5"/>
+  <object id="12" x="1104.42" y="267.5" width="17.3333" height="502"/>
+  <object id="13" x="1005.42" y="395.667" width="85.5" height="68.25"/>
+  <object id="14" x="1004.42" y="491.667" width="87.25" height="72.75"/>
+  <object id="15" x="1003.67" y="586.917" width="101.5" height="93"/>
+  <object id="16" x="960.417" y="672.167" width="32" height="24.5"/>
+  <object id="17" x="985.167" y="655.167" width="23.5" height="24.25"/>
+  <object id="18" x="816.417" y="768.167" width="95.5" height="16"/>
+  <object id="19" x="944.417" y="767.167" width="64.5" height="16.5"/>
+  <object id="20" x="992.917" y="751.667" width="112.5" height="16.5"/>
+  <object id="21" x="815.917" y="672.167" width="83.5" height="45.5"/>
+  <object id="22" x="899.417" y="672.167" width="28" height="24.5"/>
+  <object id="23" x="831.417" y="587.667" width="83.5" height="85"/>
+  <object id="25" x="909.25" y="782" width="38.25" height="7.5"/>
+ </objectgroup>
 </map>
