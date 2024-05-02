@@ -58,6 +58,10 @@ public class FoodNinja implements Screen {
         canvas.getBatch().end();
     }
 
+    public void Update(){
+
+    }
+
     @Override
     public void resize(int width, int height) {
        
@@ -81,6 +85,10 @@ public class FoodNinja implements Screen {
     @Override
     public void dispose() {
        
+    }
+
+    public void Draw(SpriteBatch spriteBatch){
+        obstaclesManager.Draw(spriteBatch);
     }
     
 }
