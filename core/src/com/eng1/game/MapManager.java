@@ -15,17 +15,24 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.ObjectMap;
 
 public class MapManager {
     private TiledMap currentMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
     private AssetManager assetManager;
-
+    private ObjectMap<String, Float> mapScales;
     public MapManager(AssetManager assetManager, OrthographicCamera camera) {
         this.assetManager = assetManager;
         this.camera = camera;
         this.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        initializeMapScales();
+    }
+
+    public void initializeMapScales(){
+        mapScales = new ObjectMap<>();
+        mapScales.put("maps/home/home.tmx", 3.5f);
     }
 
     public Vector2 findObjectPosition(String layerName, String objectName) {
@@ -50,7 +57,13 @@ public class MapManager {
             assetManager.finishLoading();
         }
         currentMap = assetManager.get(mapPath, TiledMap.class);
+        float scale = mapScales.get(mapPath, 1.0f);
         mapRenderer = new OrthogonalTiledMapRenderer(currentMap);
+        adjustCamera(scale);
+    }
+    public void adjustCamera(float scale){
+        camera.zoom = 1 / scale;
+        camera.update();
     }
 
     public boolean inRegion(Vector2 Position, float width, float height, String layerName) {
