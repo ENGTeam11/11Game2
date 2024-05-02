@@ -19,8 +19,12 @@ public class ObstacleSpawner {
         for(int i =0; i < INIT_OBSTACLES;i++){
             int X = generator.nextInt(Gdx.graphics.getWidth())
             Obstacle obstacle = new Obstacle(obstacleTexture,new Vector2(X,0),5);
-            obstacles.add();
+            obstacles.add(obstacle);
         }
+    }
+
+    public void Spawn(int timeLeft){
+        for(int i = 0; i < INIT_OBSTACLES*timeLeft;)
     }
 
     public void Draw(SpriteBatch spriteBatch){
