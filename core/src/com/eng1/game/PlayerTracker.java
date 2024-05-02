@@ -1,7 +1,15 @@
 package com.eng1.game;
 
+import javax.swing.text.Position;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -34,5 +42,25 @@ public class PlayerTracker {
                 player.setPosition(newSpawn.x, newSpawn.y);
             }
         }
+    }
+
+    public String checkPlayerActivity(Vector2 Position, float width, float height) {
+        MapLayer ObjectLayer = mapManager.getCurrentMap().getLayers().get("activities");
+        Rectangle playerBounds = new Rectangle(Position.x, Position.y, width, height);
+        if (ObjectLayer != null) {
+            MapObjects objects = ObjectLayer.getObjects();
+
+            for (MapObject object : objects) {
+                if (object instanceof RectangleMapObject) {
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                    if (Intersector.overlaps(rectangle, playerBounds)) {
+                        if (object.getName() != null){
+                            return object.getName();
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

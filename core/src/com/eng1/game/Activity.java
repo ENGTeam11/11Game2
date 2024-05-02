@@ -71,7 +71,7 @@ public class Activity {
         String location = activityLocator[1];
         System.out.println(type);
         System.out.println(location);
-
+        System.out.println(activities.get(type).get(location));
         activities.get(type).get(location).complete();
         if (type.equals("Sleep")) {
             Activity.sleep();
