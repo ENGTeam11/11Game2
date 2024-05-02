@@ -56,6 +56,7 @@ public class Activity {
 
         // Relax: Gym
         activities.get("Relax").put("Gym", new Activity(LocalTime.of(1,0), 20, 0));
+        activities.get("Relax").put("Map1", new Activity(LocalTime.of(1,0), 10, 0));
 
         // Eat: Piazza Building
         activities.get("Eat").put("Piazza", new Activity(LocalTime.of(1,0), 10, 0));
@@ -71,8 +72,7 @@ public class Activity {
         String location = activityLocator[1];
         System.out.println(type);
         System.out.println(location);
-        System.out.println(activities.get(type).get(location));
-        activities.get(type).get(location).complete();
+        System.out.println(activities.get(type).get(location).complete());
         if (type.equals("Sleep")) {
             Activity.sleep();
         }

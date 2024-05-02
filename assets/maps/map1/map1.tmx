@@ -29967,6 +29967,6 @@
   <object id="3" name="spawn_point" x="1659" y="882" width="73" height="71"/>
  </objectgroup>
  <objectgroup id="15" name="activities">
-  <object id="76" name="Relax,Gym" x="290.667" y="970.667" width="165.333" height="101.333"/>
+  <object id="76" name="Relax,Map1" x="290.667" y="970.667" width="165.333" height="101.333"/>
  </objectgroup>
 </map>
