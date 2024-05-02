@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import eng1.model.views.*;
+import minigames.FoodNinja;
 
 /**
  * The main game class responsible for managing screens.
@@ -16,6 +17,8 @@ public class HeslingtonHustle extends Game {
 	private EndScreen endScreen;
 	private AppPreferences preferences;
 	private CharacterScreen characterScreen;
+	private FoodNinja foodNinja;
+	private MenuState menuState;
 
 	// Screen constants
 	public final static int MENU = 0;
@@ -45,8 +48,8 @@ public class HeslingtonHustle extends Game {
 	 * @param screen The screen constant indicating the screen to switch to.
 	 *
 	 */
-	public void changeScreen(int screen) {
-		switch (screen) {
+	public void changeScreen(MenuState gameState) {
+		switch (gameState) {
 			case MENU:
 				if (menuScreen == null) menuScreen = new MenuScreen(this);
 				setScreen(menuScreen);
@@ -66,6 +69,10 @@ public class HeslingtonHustle extends Game {
 			case CHARACTER:
 				if (characterScreen == null) characterScreen = new CharacterScreen(this);
 				setScreen(characterScreen);
+				break;
+			case FOODNINJA:
+				if(characterScreen == null) foodNinja = new FoodNinja(this);
+				setScreen(foodNinja);
 				break;
 		}
 	}
