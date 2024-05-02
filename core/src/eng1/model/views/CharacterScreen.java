@@ -1,6 +1,7 @@
 package eng1.model.views;
 
 import com.eng1.game.HeslingtonHustle;
+import com.eng1.game.MenuState;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -85,7 +86,7 @@ public class CharacterScreen extends ScreenAdapter {
             public void changed(ChangeEvent event, Actor actor) {
                 Play.setSelectedCharacter("Character1"); // Set selected character
                 // Change the screen to the main game screen
-                parent.changeScreen(HeslingtonHustle.APPLICATION);
+                parent.changeScreen(MenuState.APPLICATION);
             }
         });
 
@@ -93,7 +94,7 @@ public class CharacterScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Play.setSelectedCharacter("Character2");
-                parent.changeScreen(HeslingtonHustle.APPLICATION);
+                parent.changeScreen(MenuState.APPLICATION);
             }
         });
 
@@ -101,7 +102,7 @@ public class CharacterScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Play.setSelectedCharacter("Character3");
-                parent.changeScreen(HeslingtonHustle.APPLICATION);
+                parent.changeScreen(MenuState.APPLICATION);
             }
         });
 
