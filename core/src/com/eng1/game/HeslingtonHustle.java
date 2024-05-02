@@ -18,14 +18,6 @@ public class HeslingtonHustle extends Game {
 	private AppPreferences preferences;
 	private CharacterScreen characterScreen;
 	private FoodNinja foodNinja;
-	private MenuState menuState;
-
-	// Screen constants
-	public final static int MENU = 0;
-	public final static int PREFERENCES = 1;
-	public final static int APPLICATION = 2;
-	public final static int ENDGAME = 3;
-	public final static int CHARACTER = 4;
 	
 	@Override
 	public void create() {
@@ -48,8 +40,8 @@ public class HeslingtonHustle extends Game {
 	 * @param screen The screen constant indicating the screen to switch to.
 	 *
 	 */
-	public void changeScreen(MenuState gameState) {
-		switch (gameState) {
+	public void changeScreen(MenuState screen) {
+		switch (screen) {
 			case MENU:
 				if (menuScreen == null) menuScreen = new MenuScreen(this);
 				setScreen(menuScreen);
@@ -84,10 +76,10 @@ public class HeslingtonHustle extends Game {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			if (getScreen() == preferencesScreen) {
 				// If currently on preferences screen, switch to the game screen
-				changeScreen(APPLICATION);
+				changeScreen(MenuState.APPLICATION);
 			} else {
 				// Otherwise, switch to preferences screen
-				changeScreen(PREFERENCES);
+				changeScreen(MenuState.PREFERENCES);
 			}
 		}
 	}
