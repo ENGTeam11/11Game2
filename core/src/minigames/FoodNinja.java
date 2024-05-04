@@ -31,7 +31,7 @@ public class FoodNinja implements Screen {
     private ObstacleSpawner obstaclesManager;
     private Instant startTime;
     private Stage canvas;
-    private TextArea screenText;
+    private TextArea screenText,timer;
     private final int GAME_LENGTH_SECONDS = 30;
 
     public FoodNinja(HeslingtonHustle inParent){
@@ -49,7 +49,9 @@ public class FoodNinja implements Screen {
         TextField.TextFieldStyle textFieldStyle = new TextFieldStyle();
         textFieldStyle.fontColor = Color.BLACK;
         screenText = new TextArea("",textFieldStyle);
-        screenText.setPosition(Gdx.graphics.getWidth()/2-screenText.getWidth()/2, Gdx.graphics.getHeight()/2 - screenText.getHeight()/2);
+        screenText.setPosition(Gdx.graphics.getWidth()/2-screenText.getWidth()*2, Gdx.graphics.getHeight()/2 - screenText.getHeight()*2;
+        timer = new TextArea("", textFieldStyle);
+        timer.setPosition(0, timer.getWidth()*2);
         canvas.addActor(screenText);
         Gdx.input.setInputProcessor(canvas);
     }
@@ -61,11 +63,11 @@ public class FoodNinja implements Screen {
         Instant gameTime = Instant.now();
         //This if statement takes care of the state before the game begins where the player has to click space to begin
         if(miniGState == MinigameState.WAIT){
-            screenText.appendText("Press space to start the game");
+            screenText.setText("Press space to start the game");
             if(Gdx.input.isKeyPressed(Keys.SPACE)){
                 miniGState = MinigameState.END;
                 startTime = Instant.now();
-                screenText.clear();
+                screenText.setText("");
             }
         }
         //This if statement takes care of mini game logic 
@@ -73,6 +75,7 @@ public class FoodNinja implements Screen {
             long gameDuration = gameTime.getEpochSecond() - startTime.getEpochSecond();
             /*checks the difference between the start time and end time of the game in seconds since 1970 and
             checks if the difference is longer than the set game length in seconds*/
+            timer.setText(String.valueOf(GAME_LENGTH_SECONDS-(int)gameDuration));
             if(gameDuration >= GAME_LENGTH_SECONDS){
                 miniGState = MinigameState.END;
             }
@@ -82,7 +85,7 @@ public class FoodNinja implements Screen {
         }
         //This if statement is responsible for handling the end of the game 
         else if(miniGState == MinigameState.END){
-            screenText.appendText("Press space to go back to the main game");
+            screenText.setText("Press space to go back to the main game");
             if(Gdx.input.isKeyPressed(Keys.SPACE)){
                 obstaclesManager.ClearObstacles();
                 parent.changeScreen(MenuState.APPLICATION);
@@ -129,7 +132,7 @@ public class FoodNinja implements Screen {
 
     @Override
     public void dispose() {
-       
+       canvas.dispose();
     }
 
     public void Draw(SpriteBatch spriteBatch){
