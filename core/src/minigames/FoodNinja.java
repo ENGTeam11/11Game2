@@ -3,19 +3,17 @@ package minigames;
 import java.time.Instant;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.eng1.game.HeslingtonHustle;
 import com.eng1.game.MenuState;
-import com.eng1.game.Play;
 
 import minigames.minigames_components.MinigameState;
 import minigames.minigames_components.Mouse;
+import minigames.minigames_components.Obstacle;
 import minigames.minigames_components.ObstacleSpawner;
 
 public class FoodNinja implements Screen {
@@ -33,7 +31,7 @@ public class FoodNinja implements Screen {
     public FoodNinja(HeslingtonHustle inParent){
         parent = inParent;
         miniGState = MinigameState.WAIT;
-        obstaclesManager = new ObstacleSpawner(Gdx.);
+        obstaclesManager = new ObstacleSpawner(new Texture(Gdx.files.internal(null)));
         mouse = new Mouse();
         canvas = new Stage(new StretchViewport(800, 600));
     }
@@ -52,17 +50,31 @@ public class FoodNinja implements Screen {
         if(miniGState == MinigameState.WAIT){
             if(Gdx.input.isKeyPressed(62)){
                 miniGState = MinigameState.END;
+                obstaclesManager.InitFoodNinjaObstacles();
                 startTime = Instant.now();
             }
         }
         //This if statement takes care of mini game logic 
         else if(miniGState == MinigameState.START){
+            long gameDuration = gameTime.getEpochSecond() - startTime.getEpochSecond();
             /*checks the difference between the start time and end time of the game in seconds since 1970 and
             checks if the difference is longer than the set game length in seconds*/
-            if(gameTime.getEpochSecond() - startTime.getEpochSecond() >= GAME_LENGTH_SECONDS){
+            if(gameDuration >= GAME_LENGTH_SECONDS){
                 miniGState = MinigameState.END;
             }
+            if(gameDuration%2 == 0){
+                obstaclesManager.InitFoodNinjaObstacles();
+            }
+            for(Obstacle obstacle : obstaclesManager.getObstacles()){
+                if(obstacle.getBounds().Contains(mouse.getCircleBounds())){
+                    obstacle.setDraw(false);
+                }
+                obstacle.CalcTrajectory(delta);
+                obstacle.Update(delta);
+            }
             mouse.Update(delta);
+            Draw((SpriteBatch)canvas.getBatch());
+            obstaclesManager.RemoveObstacle();
         }
         //This if statement is responsible for handling the end of the game 
         else if(miniGState == MinigameState.END){
