@@ -49,7 +49,7 @@ public class FoodNinja implements Screen {
         TextField.TextFieldStyle textFieldStyle = new TextFieldStyle();
         textFieldStyle.fontColor = Color.BLACK;
         screenText = new TextArea("",textFieldStyle);
-        screenText.setPosition(Gdx.graphics.getWidth()/2-screenText.getWidth()*2, Gdx.graphics.getHeight()/2 - screenText.getHeight()*2;
+        screenText.setPosition(Gdx.graphics.getWidth()/2-screenText.getWidth()*2, Gdx.graphics.getHeight()/2 - screenText.getHeight()*2);
         timer = new TextArea("", textFieldStyle);
         timer.setPosition(0, timer.getWidth()*2);
         canvas.addActor(screenText);
