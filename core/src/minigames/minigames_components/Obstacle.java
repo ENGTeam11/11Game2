@@ -14,21 +14,21 @@ public class Obstacle {
     private Vector2 moveTrajectory;
     private int angle =-1;
 
-    public Obstacle(Texture inTexture, Vector2 inPosition,float radius){
+    public Obstacle(Texture inTexture, Vector2 inPosition){
         obstaclePos = inPosition;
         obstacleTexture = inTexture;
-        obstacleBounds = new CircleBounds(obstaclePos, radius);
+        obstacleBounds = new CircleBounds(obstaclePos, (float)obstacleTexture.getWidth()/2);
      }
 
-    public Obstacle(Texture inTexture, Vector2 inPosition,float radius,int inAngle){
+    public Obstacle(Texture inTexture, Vector2 inPosition,int inAngle){
        obstaclePos = inPosition;
        obstacleTexture = inTexture;
        angle = inAngle;
-       obstacleBounds = new CircleBounds(obstaclePos, radius);
+       obstacleBounds = new CircleBounds(obstaclePos, (float)obstacleTexture.getWidth()/2);
     }
 
     public void Update(float delta){
-        if(angle >= 0){
+        if(angle >= 25){
             CalcTrajectory(delta);
         }
     }
@@ -50,6 +50,10 @@ public class Obstacle {
     
     public Vector2 getPos(){
         return obstaclePos;
+    }
+
+    public CircleBounds getBounds(){
+        return obstacleBounds;
     }
 
     public boolean getDraw(){
