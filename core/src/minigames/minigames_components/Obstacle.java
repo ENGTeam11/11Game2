@@ -2,11 +2,12 @@ package minigames.minigames_components;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Obstacle {
     private Vector2 obstaclePos;
-    private Texture obstacleTexture;
+    private TextureRegion obstacleTexture;
     private float speed = 2;
     private double gravity = 0.4;
     private CircleBounds obstacleBounds;
@@ -14,17 +15,17 @@ public class Obstacle {
     private Vector2 moveTrajectory;
     private int angle =-1;
 
-    public Obstacle(Texture inTexture, Vector2 inPosition){
+    public Obstacle(TextureRegion inTexture, Vector2 inPosition){
         obstaclePos = inPosition;
         obstacleTexture = inTexture;
-        obstacleBounds = new CircleBounds(obstaclePos, (float)obstacleTexture.getWidth()/2);
+        obstacleBounds = new CircleBounds(obstaclePos, (float)obstacleTexture.getRegionWidth()/2);
      }
 
-    public Obstacle(Texture inTexture, Vector2 inPosition,int inAngle){
+    public Obstacle(TextureRegion inTexture, Vector2 inPosition,int inAngle){
        obstaclePos = inPosition;
        obstacleTexture = inTexture;
        angle = inAngle;
-       obstacleBounds = new CircleBounds(obstaclePos, (float)obstacleTexture.getWidth()/2);
+       obstacleBounds = new CircleBounds(obstaclePos, (float)obstacleTexture.getRegionWidth()/2);
     }
 
     public void Update(float delta){
