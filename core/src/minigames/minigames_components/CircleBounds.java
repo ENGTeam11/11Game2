@@ -11,11 +11,11 @@ public class CircleBounds {
         boundRad = inBoundRad;
     }
 
-    public boolean Contains(CircleBounds circle1, CircleBounds circle2){
-        float xDiff = circle1.getPosition().x - circle2.getPosition().x;
-        float yDiff = circle1.getPosition().y - circle2.getPosition().y;
+    public boolean Contains(CircleBounds circleContained){
+        float xDiff = getPosition().x - circleContained.getPosition().x;
+        float yDiff = getPosition().y - circleContained.getPosition().y;
 
-        return Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2)) <= circle1.getRadius();
+        return Math.sqrt(Math.pow(xDiff,2) + Math.pow(yDiff,2)) <= getRadius();
     }
 
     public Vector2 getPosition(){
