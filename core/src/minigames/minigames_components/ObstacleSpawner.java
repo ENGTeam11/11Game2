@@ -10,32 +10,38 @@ import com.badlogic.gdx.math.Vector2;
 
 public class ObstacleSpawner {
     private final int INIT_OBSTACLES = 10;
+    private final int OBSTAClE_LIMIT = 100;
     private ArrayList<Obstacle> obstacles;
     private Texture obstacleTexture;
 
     public ObstacleSpawner(Texture inObstacleTexture){
         obstacleTexture = inObstacleTexture;
+        obstacles = new ArrayList<Obstacle>();
     }
 
     public void InitFoodNinjaObstacles(){
         Random generator = new Random();
-        ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
         for(int i =0; i < INIT_OBSTACLES;i++){
+            if(obstacles.size() >= OBSTAClE_LIMIT) break;
             int X = generator.nextInt(Gdx.graphics.getWidth());
             int angle = generator.nextInt((90-25)+1)+25;
-            Obstacle obstacle = new Obstacle(obstacleTexture,new Vector2(X,0),5,angle);
+            Obstacle obstacle = new Obstacle(obstacleTexture,new Vector2(X,0),angle);
             obstacles.add(obstacle);
         }
     }
 
-    public void Spawn(int timeLeft){
-        for(int i = 0; i < INIT_OBSTACLES*timeLeft;)
+
+    public void RemoveObstacle(){
+        for(Obstacle obstacle : obstacles){
+            if(!obstacle.getDraw()){
+                obstacles.remove(obstacle);
+            }
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch){
         for(Obstacle obstacle : obstacles){
-            if(obstacle.getDraw()):
-                obstacle.Draw(spriteBatch);
+            if(obstacle.getDraw()) obstacle.Draw(spriteBatch);
         }
     }
 
