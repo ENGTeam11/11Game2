@@ -4,9 +4,14 @@ import java.time.Instant;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.eng1.game.HeslingtonHustle;
 import com.eng1.game.MenuState;
@@ -26,18 +31,26 @@ public class FoodNinja implements Screen {
     private ObstacleSpawner obstaclesManager;
     private Instant startTime;
     private Stage canvas;
+    private TextArea screenText;
     private final int GAME_LENGTH_SECONDS = 30;
 
     public FoodNinja(HeslingtonHustle inParent){
         parent = inParent;
         miniGState = MinigameState.WAIT;
-        obstaclesManager = new ObstacleSpawner(new Texture(Gdx.files.internal(null)));
+        obstaclesManager = new ObstacleSpawner(new Texture(Gdx.files.internal("minigame/Fruit.png")));
+        obstaclesManager.SplitFoodTextures();
         mouse = new Mouse();
-        canvas = new Stage(new StretchViewport(800, 600));
+        
     }
     @Override
     public void show() {
-        // TODO Auto-generated method stub
+        /*Sets up the elements of the screen when switched to this screen */
+        canvas = new Stage(new StretchViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
+        TextField.TextFieldStyle textFieldStyle = new TextFieldStyle();
+        textFieldStyle.fontColor = Color.BLACK;
+        screenText = new TextArea("",textFieldStyle);
+        screenText.setPosition(Gdx.graphics.getWidth()/2-screenText.getWidth()/2, Gdx.graphics.getHeight()/2 - screenText.getHeight()/2);
+        canvas.addActor(screenText);
         Gdx.input.setInputProcessor(canvas);
     }
 
@@ -48,10 +61,11 @@ public class FoodNinja implements Screen {
         Instant gameTime = Instant.now();
         //This if statement takes care of the state before the game begins where the player has to click space to begin
         if(miniGState == MinigameState.WAIT){
-            if(Gdx.input.isKeyPressed(62)){
+            screenText.appendText("Press space to start the game");
+            if(Gdx.input.isKeyPressed(Keys.SPACE)){
                 miniGState = MinigameState.END;
-                obstaclesManager.InitFoodNinjaObstacles();
                 startTime = Instant.now();
+                screenText.clear();
             }
         }
         //This if statement takes care of mini game logic 
@@ -62,29 +76,35 @@ public class FoodNinja implements Screen {
             if(gameDuration >= GAME_LENGTH_SECONDS){
                 miniGState = MinigameState.END;
             }
-            if(gameDuration%2 == 0){
-                obstaclesManager.InitFoodNinjaObstacles();
-            }
-            for(Obstacle obstacle : obstaclesManager.getObstacles()){
-                if(obstacle.getBounds().Contains(mouse.getCircleBounds())){
-                    obstacle.setDraw(false);
-                }
-                obstacle.CalcTrajectory(delta);
-                obstacle.Update(delta);
-            }
-            mouse.Update(delta);
+            Update(delta, gameDuration);
             Draw((SpriteBatch)canvas.getBatch());
             obstaclesManager.RemoveObstacle();
         }
         //This if statement is responsible for handling the end of the game 
         else if(miniGState == MinigameState.END){
-            parent.changeScreen(MenuState.APPLICATION);
+            screenText.appendText("Press space to go back to the main game");
+            if(Gdx.input.isKeyPressed(Keys.SPACE)){
+                obstaclesManager.ClearObstacles();
+                parent.changeScreen(MenuState.APPLICATION);
+            }
         }
         canvas.getBatch().end();
+        canvas.draw();
+        canvas.act();
     }
 
-    public void Update(){
-
+    public void Update(float delta,long gameDuration){
+        if(gameDuration%2 == 0){
+            obstaclesManager.SpawnFoodNinjaObstacles();
+        }
+        for(Obstacle obstacle : obstaclesManager.getObstacles()){
+            if(obstacle.getBounds().Contains(mouse.getCircleBounds())){
+                obstacle.setDraw(false);
+            }
+            obstacle.CalcTrajectory(delta);
+            obstacle.Update(delta);
+        }
+        mouse.Update(delta);
     }
 
     @Override
