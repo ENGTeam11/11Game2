@@ -35,6 +35,7 @@ public class Player extends Sprite implements InputProcessor {
 
         if (interacting){
             if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "activities")){
+                interacting = false;
                 Activity.completeActivity(playerTracker.checkPlayerActivity(new Vector2(getX(), getY()), getWidth(), getHeight()));
             }
         }
