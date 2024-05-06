@@ -18,18 +18,19 @@ public class Play implements Screen {
     private Player player;
     private BitmapFont displayDateTime;
     public static String selectedCharacter;
+    private PlayerTracker playerTracker;
 
     public Play() {
+        Activity.createActivities();
         camera = new OrthographicCamera();
         AssetManager assetManager = new AssetManager();
         mapManager = new MapManager(assetManager, camera);
         mapManager.loadMap("maps/map1/map1.tmx");
-        player =  new Player(new Sprite(new Texture("playerCharacters/playerCharacter1.png")), mapManager);
-        mapManager.setPlayer(player);
+        playerTracker = new PlayerTracker(mapManager);
+        player = new Player(new Sprite(new Texture("playerCharacters/playerCharacter1.png")), playerTracker, mapManager);
+        playerTracker.setPlayer(player);
         displayDateTime = new BitmapFont();
-        renderer = new OrthogonalTiledMapRenderer(mapManager.getCurrentMap());
     }
-
 
     public static void setSelectedCharacter(String character) {
         selectedCharacter = character;
@@ -47,7 +48,7 @@ public class Play implements Screen {
         camera.update();
 
         mapManager.render();
-        player.update(delta); // Ensure player logic is updated
+        player.update(delta, mapManager);
 
         renderer.getBatch().begin();
         player.draw(renderer.getBatch());
