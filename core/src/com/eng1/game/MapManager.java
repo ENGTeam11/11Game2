@@ -35,6 +35,9 @@ public class MapManager {
     public void initializeMapScales(){
         mapScales = new ObjectMap<>();
         mapScales.put("maps/home/home.tmx", 3.5f);
+        mapScales.put("maps/gym/gym.tmx", 3.0f);
+        mapScales.put("maps/cs/computer-science-building.tmx", 2.0f);
+        mapScales.put("maps/piazza/piazza.tmx", 1.9f);
     }
 
     public Vector2 findObjectPosition(String layerName, String objectName) {
