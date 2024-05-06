@@ -63,7 +63,7 @@ public class HeslingtonHustle extends Game {
 				setScreen(characterScreen);
 				break;
 			case FOODNINJA:
-				if(characterScreen == null) foodNinja = new FoodNinja(this);
+				if(foodNinja == null) foodNinja = new FoodNinja(this);
 				setScreen(foodNinja);
 				break;
 		}
