@@ -1,6 +1,7 @@
 package minigames.minigames_components;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -19,6 +20,7 @@ public class ObstacleSpawner {
     public ObstacleSpawner(Texture inObstacleTexture){
         obstacleSpriteSheet = inObstacleTexture;
         obstacles = new ArrayList<Obstacle>();
+        obstacleTextures = new ArrayList<TextureRegion>();
     }
 
     public void SpawnFoodNinjaObstacles(){
@@ -44,9 +46,10 @@ public class ObstacleSpawner {
     }
 
     public void RemoveObstacle(){
-        for(Obstacle obstacle : obstacles){
+        for(Iterator<Obstacle> i = obstacles.iterator();i.hasNext();){
+            Obstacle obstacle = i.next();
             if(!obstacle.getDraw()){
-                obstacles.remove(obstacle);
+                i.remove();
             }
         }
     }
