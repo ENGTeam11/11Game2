@@ -73,6 +73,9 @@ public class Activity {
         System.out.println(type);
         System.out.println(location);
         System.out.println(activities.get(type).get(location).complete());
+        if(activityIdentifier == "Eat"){
+            gameInstance.changeScreen(MenuState.FOODNINJA);
+        }
         if (type.equals("Sleep")) {
             Activity.sleep();
         }
@@ -91,6 +94,7 @@ public class Activity {
         if (GameStats.getEnergy() - this.energyNeeded < 0) {
             return "Insufficient Energy";
         }
+        
 
         // Increase the relevent trackers
         this.timesCompletedDay++;
