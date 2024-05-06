@@ -73,7 +73,7 @@ public class Activity {
         System.out.println(type);
         System.out.println(location);
         System.out.println(activities.get(type).get(location).complete());
-        if(activityIdentifier == "Eat"){
+        if(type.equals("Eat")  ){
             gameInstance.changeScreen(MenuState.FOODNINJA);
         }
         if (type.equals("Sleep")) {
