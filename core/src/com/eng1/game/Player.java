@@ -20,7 +20,6 @@ public class Player extends Sprite implements InputProcessor {
         if (spawnPoint != null) {
             setPosition(spawnPoint.x, spawnPoint.y);
         }
-        Gdx.input.setInputProcessor(this);
     }
     public void update(float delta, MapManager mapManager) {
         float newX = getX() + velocity.x * delta;
