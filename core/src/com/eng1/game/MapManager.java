@@ -92,6 +92,11 @@ public class MapManager {
     public TiledMap getCurrentMap() {
         return currentMap;
     }
+
+    public float getCurrentScale(){
+        return mapScales.get(currentMapPath, 1.0f);
+    }
+
     public void render() {
         mapRenderer.setView(camera);
         mapRenderer.render();
