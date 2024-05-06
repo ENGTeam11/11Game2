@@ -3,7 +3,11 @@ package com.eng1.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Sprite implements InputProcessor {
@@ -31,7 +35,8 @@ public class Player extends Sprite implements InputProcessor {
             newY = getY();
         }
         setPosition(newX, newY);
-
+        System.out.println(getX());
+        System.out.println(getY());
         if (playerTracker != null) {
             playerTracker.checkPlayerTile(newX, newY);
         }
@@ -77,6 +82,15 @@ public class Player extends Sprite implements InputProcessor {
                 break;
         }
         return true;
+    }
+
+   
+    public void draw(OrthographicCamera cam){
+        SpriteBatch batch = new SpriteBatch();
+        batch.setProjectionMatrix(cam.combined);
+        batch.begin();
+        batch.draw(getTexture(), getX(), getY(), getTexture().getWidth()*getScaleX(), getTexture().getHeight()*getScaleY());
+        batch.end();
     }
 
     @Override

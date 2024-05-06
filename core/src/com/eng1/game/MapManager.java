@@ -24,6 +24,7 @@ public class MapManager {
     private AssetManager assetManager;
     private ObjectMap<String, Float> mapScales;
     private String currentMapPath;
+    
     public MapManager(AssetManager assetManager, OrthographicCamera camera) {
         this.assetManager = assetManager;
         this.camera = camera;
@@ -38,7 +39,7 @@ public class MapManager {
 
     public Vector2 findObjectPosition(String layerName, String objectName) {
         MapLayer layer = currentMap.getLayers().get(layerName);
-        float scale = mapScales.get(currentMapPath, 1.0f);
+        float scale = 1;//mapScales.get(currentMapPath, 1.0f);
         if (layer != null) {
             for (MapObject object : layer.getObjects()) {
                 if (objectName.equals(object.getName()) && object instanceof RectangleMapObject) {

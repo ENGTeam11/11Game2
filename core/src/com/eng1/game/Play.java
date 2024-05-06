@@ -50,7 +50,7 @@ public class Play implements Screen {
         player.update(delta, mapManager);
 
         renderer.getBatch().begin();
-        player.draw(renderer.getBatch());
+        player.draw(camera);
         displayDateTime.draw(renderer.getBatch(), "TEXT", 10, 20);
         renderer.getBatch().end();
     }
