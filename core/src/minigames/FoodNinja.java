@@ -6,12 +6,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.eng1.game.HeslingtonHustle;
 import com.eng1.game.MenuState;
@@ -45,27 +48,34 @@ public class FoodNinja implements Screen {
     @Override
     public void show() {
         /*Sets up the elements of the screen when switched to this screen */
+        
         canvas = new Stage(new StretchViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
         TextField.TextFieldStyle textFieldStyle = new TextFieldStyle();
-        textFieldStyle.fontColor = Color.BLACK;
+        textFieldStyle.fontColor = Color.WHITE;
+        textFieldStyle.font = new BitmapFont(); 
         screenText = new TextArea("",textFieldStyle);
+        screenText.setSize(200,20);
         screenText.setPosition(Gdx.graphics.getWidth()/2-screenText.getWidth()*2, Gdx.graphics.getHeight()/2 - screenText.getHeight()*2);
         timer = new TextArea("", textFieldStyle);
-        timer.setPosition(0, timer.getWidth()*2);
+        timer.setSize(20,20);
+        timer.setPosition(0, Gdx.graphics.getBackBufferHeight()-timer.getHeight()*2);
         canvas.addActor(screenText);
+        canvas.addActor(timer);
         Gdx.input.setInputProcessor(canvas);
     }
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         canvas.getBatch().begin();
         //Gets the current time from the system clock
         Instant gameTime = Instant.now();
         //This if statement takes care of the state before the game begins where the player has to click space to begin
-        if(miniGState == MinigameState.WAIT){
+        if(miniGState == MinigameState.WAIT){ 
             screenText.setText("Press space to start the game");
             if(Gdx.input.isKeyPressed(Keys.SPACE)){
-                miniGState = MinigameState.END;
+                miniGState = MinigameState.START;
                 startTime = Instant.now();
                 screenText.setText("");
             }
@@ -81,13 +91,13 @@ public class FoodNinja implements Screen {
             }
             Update(delta, gameDuration);
             Draw((SpriteBatch)canvas.getBatch());
-            obstaclesManager.RemoveObstacle();
         }
         //This if statement is responsible for handling the end of the game 
         else if(miniGState == MinigameState.END){
             screenText.setText("Press space to go back to the main game");
             if(Gdx.input.isKeyPressed(Keys.SPACE)){
                 obstaclesManager.ClearObstacles();
+                miniGState = MinigameState.WAIT;
                 parent.changeScreen(MenuState.APPLICATION);
             }
         }
@@ -97,17 +107,34 @@ public class FoodNinja implements Screen {
     }
 
     public void Update(float delta,long gameDuration){
-        if(gameDuration%2 == 0){
+        mouse.Update(delta);
+        if(gameDuration%3 == 0){
             obstaclesManager.SpawnFoodNinjaObstacles();
         }
         for(Obstacle obstacle : obstaclesManager.getObstacles()){
-            if(obstacle.getBounds().Contains(mouse.getCircleBounds())){
+            checkObstacleIsWithinScreen(obstacle);
+            if(mouse.getCircleBounds().contains(obstacle.getBounds())){
                 obstacle.setDraw(false);
             }
-            obstacle.CalcTrajectory(delta);
             obstacle.Update(delta);
+            obstacle.Move();
         }
-        mouse.Update(delta);
+        obstaclesManager.RemoveObstacle();
+    }
+
+    private void checkObstacleIsWithinScreen(Obstacle obstacle){
+        if(obstacle.getPos().y  < 0){
+            obstacle.setDraw(false);
+        }
+        if(obstacle.getPos().y + obstacle.getTexture().getRegionHeight()*2 >= Gdx.graphics.getBackBufferHeight()){
+            obstacle.setDraw(false);
+        }
+        if(obstacle.getPos().x < 0){
+            obstacle.setDraw(false);
+        }
+        if(obstacle.getPos().x + obstacle.getTexture().getRegionWidth()*2 >= Gdx.graphics.getBackBufferWidth()){
+            obstacle.setDraw(false);
+        }
     }
 
     @Override
@@ -127,12 +154,13 @@ public class FoodNinja implements Screen {
 
     @Override
     public void hide() {
-      
+      dispose();
     }
 
     @Override
     public void dispose() {
        canvas.dispose();
+       Gdx.input.setInputProcessor(null);
     }
 
     public void Draw(SpriteBatch spriteBatch){
