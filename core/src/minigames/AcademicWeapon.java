@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.eng1.game.HeslingtonHustle;
@@ -23,7 +22,7 @@ public class AcademicWeapon implements Screen{
     private Instant startTime;
     private Stage canvas;
     private TextArea screenText,timer;
-    private final int GAME_LENGTH_SECONDS = 30;
+    private final int GAME_LENGTH_SECONDS = 30;  
 
     public AcademicWeapon(HeslingtonHustle inParent){
         parent = inParent;
