@@ -21,6 +21,7 @@ public class Play implements Screen {
     private PlayerTracker playerTracker;
 
     public Play() {
+        Activity.createActivities();
         camera = new OrthographicCamera();
         AssetManager assetManager = new AssetManager();
         mapManager = new MapManager(assetManager, camera);
@@ -38,7 +39,9 @@ public class Play implements Screen {
     @Override
     public void show() {
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        Gdx.input.setInputProcessor(player);
     }
+    
 
     @Override
     public void render(float delta) {

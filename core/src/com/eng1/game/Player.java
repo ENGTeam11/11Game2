@@ -13,6 +13,7 @@ public class Player extends Sprite implements InputProcessor {
     private float scale;
     private boolean up, down, left, right;
     private PlayerTracker playerTracker;
+    private boolean interacting = false;
 
     public Player(Sprite sprite, PlayerTracker playerTracker, MapManager mapManager) {
         super(sprite.getTexture());
@@ -37,6 +38,15 @@ public class Player extends Sprite implements InputProcessor {
             newY = getY();  
         }
         setPosition(newX, newY);
+
+        if (interacting){
+            if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "activities")){
+                interacting = false;
+                Activity.completeActivity(playerTracker.checkPlayerActivity(new Vector2(getX(), getY()), getWidth(), getHeight()));
+            }
+        }
+
+
         if (playerTracker != null) {
             playerTracker.checkPlayerTile(newX, newY);
         }
@@ -84,6 +94,11 @@ public class Player extends Sprite implements InputProcessor {
             case Keys.D:
                 right = true;
                 break;
+                case Keys.E:
+                case Keys.ENTER:
+                case Keys.SPACE:
+                    interacting = true;
+                    break;
         }
         return true;
     }
@@ -103,6 +118,12 @@ public class Player extends Sprite implements InputProcessor {
             case Keys.D:
                 right = false;
                 break;
+            case Keys.E:
+            case Keys.ENTER:
+            case Keys.SPACE:
+                interacting = false;
+                break;
+
         }
         return true;
     }
