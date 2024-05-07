@@ -35,6 +35,30 @@ public class ObstacleSpawner {
         }
     }
 
+    public void SpawnAcademicWeapon(){
+        Random generator = new Random();
+        for(int i = 0; i < INIT_OBSTACLES; i++){
+            if(obstacles.size() >= OBSTAClE_LIMIT) break;
+
+            int X = 0;
+            int Y = 0;
+
+            if(i%2 == 0){
+                Y = generator.nextInt(Gdx.graphics.getBackBufferHeight());
+            }
+            if(i%3==0){
+                X = Gdx.graphics.getBackBufferWidth()-1;
+            }
+            if(i%5==0){
+                X = Gdx.graphics.getBackBufferWidth()-1;
+                Y = generator.nextInt(Gdx.graphics.getBackBufferHeight());
+            }
+            int texturePicked = generator.nextInt(0);
+            Vector2 obstaclePos = new Vector2(X,Y);
+            Obstacle obstacle = new Obstacle(obstacleTextures.get(texturePicked),obstaclePos);
+            obstacles.add(obstacle);
+        }
+    }
     public void SplitFoodTextures(){
         for(int i = 0; i < obstacleSpriteSheet.getWidth()/16; i++){
             obstacleTextures.add(new TextureRegion(obstacleSpriteSheet,i*16,0,16,16));
