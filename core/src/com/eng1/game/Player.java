@@ -1,6 +1,5 @@
 package com.eng1.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,6 +10,10 @@ public class Player extends Sprite implements InputProcessor {
     private float speed = 300; // Speed
     private PlayerTracker playerTracker;
     private boolean interacting = false;
+
+    public Player(){
+
+    }
 
     public Player(Sprite sprite, PlayerTracker playerTracker, MapManager mapManager) {
         super(sprite.getTexture());
