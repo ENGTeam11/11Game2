@@ -1,4 +1,5 @@
 package minigames.minigames_components;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
@@ -32,6 +33,7 @@ public class Obstacle {
     }
 
     public void Update(float delta){
+        checkObstacleIsWithinScreen();
         if(angle >= 25){
             CalcTrajectory(delta);
         }
@@ -39,9 +41,24 @@ public class Obstacle {
         obstacleBounds.setPosition(boundsPos);
     }
 
+    protected void checkObstacleIsWithinScreen(){
+        if(getPos().y  < 0){
+            setDraw(false);
+        }
+        if(getPos().y + getTexture().getRegionHeight()*2 >= Gdx.graphics.getBackBufferHeight()){
+            setDraw(false);
+        }
+        if(getPos().x < 0){
+            setDraw(false);
+        }
+        if(getPos().x + getTexture().getRegionWidth()*2 >= Gdx.graphics.getBackBufferWidth()){
+            setDraw(false);
+        }
+    }
+
     private void CalcTrajectory(float delta){
         double xVel = (speed*delta) * Math.cos(angle);
-        double yVel = (speed*delta)*Math.sin(angle) - (1/2)*gravity*delta*delta;
+        double yVel = (speed*delta) * Math.sin(angle) - (1/2)*gravity*delta*delta;
         moveTrajectory = new Vector2((float)xVel,(float)yVel);
     }
 
