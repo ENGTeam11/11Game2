@@ -5,20 +5,24 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Obstacle {
-    private Vector2 obstaclePos;
+    protected Vector2 obstaclePos;
     private TextureRegion obstacleTexture;
-    private float speed = 20;
-    private double gravity = 4.5;
-    private Circle obstacleBounds;
-    private boolean draw = true;
-    private Vector2 moveTrajectory;
-    private int angle =-1;
+    protected float speed = 20;
+    protected double gravity = 4.5;
+    protected Circle obstacleBounds;
+    protected boolean draw = true;
+    protected Vector2 moveTrajectory;
+    protected int angle =-1;
+
+    public Obstacle(){
+
+    }
 
     public Obstacle(TextureRegion inTexture, Vector2 inPosition){
         obstaclePos = inPosition;
         obstacleTexture = inTexture;
         obstacleBounds = new Circle(obstaclePos, (float)obstacleTexture.getRegionWidth()/2);
-     }
+    }
 
     public Obstacle(TextureRegion inTexture, Vector2 inPosition,int inAngle){
        obstaclePos = inPosition;
