@@ -10,8 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.eng1.game.HeslingtonHustle;
 import com.eng1.game.MenuState;
+import com.eng1.game.Player;
 
+import minigames.minigames_components.MiniGamePlayer;
 import minigames.minigames_components.MinigameState;
+import minigames.minigames_components.Mouse;
 import minigames.minigames_components.ObstacleSpawner;
 
 public class AcademicWeapon implements Screen{
@@ -22,10 +25,14 @@ public class AcademicWeapon implements Screen{
     private Instant startTime;
     private Stage canvas;
     private TextArea screenText,timer;
+    private Mouse mouse;
+    private MiniGamePlayer player;
     private final int GAME_LENGTH_SECONDS = 30;  
 
     public AcademicWeapon(HeslingtonHustle inParent){
         parent = inParent;
+        mouse = new Mouse();
+        player = new MiniGamePlayer();
     }
 
     @Override
@@ -72,6 +79,10 @@ public class AcademicWeapon implements Screen{
         canvas.getBatch().end();
         canvas.draw();
         canvas.act();
+    }
+
+    public void Update(float delta){
+
     }
 
     @Override
