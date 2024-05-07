@@ -57,6 +57,8 @@ public class Activity {
         // Relax: Gym
         activities.get("Relax").put("Gym", new Activity(LocalTime.of(1,0), 20, 0));
         activities.get("Relax").put("Map1", new Activity(LocalTime.of(1,0), 10, 0));
+        activities.get("Relax").put("Basketball", new Activity(LocalTime.of(1,0), 250, 0));
+        activities.get("Relax").put("Football", new Activity(LocalTime.of(1,30), 30, 0));
 
         // Eat: Piazza Building
         activities.get("Eat").put("Piazza", new Activity(LocalTime.of(1,0), 10, 0));

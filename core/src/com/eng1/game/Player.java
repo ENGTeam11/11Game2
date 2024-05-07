@@ -53,8 +53,6 @@ public class Player extends Sprite implements InputProcessor {
         
         scale = mapManager.getCurrentScale();
         this.setScale(3.0f / scale);
-
-        System.out.println(getScaleX());
     }
 
     public void movementscheck(){
