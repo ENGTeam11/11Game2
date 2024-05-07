@@ -818,7 +818,7 @@
   <object id="88" x="3" y="1072.48" width="1914" height="16"/>
  </objectgroup>
  <objectgroup id="16" name="activities">
-  <object id="92" name="relax,basketball" x="756" y="210.666" width="592" height="590.667"/>
+  <object id="92" name="Relax,Basketball" x="756" y="210.666" width="592" height="590.667"/>
   <object id="93" name="Relax,Football" x="83.6665" y="50.1665" width="568.667" height="779.667"/>
  </objectgroup>
 </map>
