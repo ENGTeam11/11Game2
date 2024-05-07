@@ -27,6 +27,7 @@ public class PlayerTracker {
 
     public void update(float delta) {
         // checkPlayerTile();
+
     }
 
     public void checkPlayerTile(float playerX, float playerY) {

@@ -51,8 +51,9 @@ public class Play implements Screen {
 
         mapManager.render();
         player.update(delta, mapManager);
-
+        
         renderer.getBatch().begin();
+        renderer.getBatch().setProjectionMatrix(camera.combined);
         player.draw(renderer.getBatch());
         displayDateTime.draw(renderer.getBatch(), "TEXT", 10, 20);
         renderer.getBatch().end();

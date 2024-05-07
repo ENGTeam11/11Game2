@@ -15,26 +15,40 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.ObjectMap;
 
 public class MapManager {
     private TiledMap currentMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
     private AssetManager assetManager;
-
+    private ObjectMap<String, Float> mapScales;
+    private String currentMapPath;
+    
     public MapManager(AssetManager assetManager, OrthographicCamera camera) {
         this.assetManager = assetManager;
         this.camera = camera;
         this.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        initializeMapScales();
+    }
+
+    public void initializeMapScales(){
+        mapScales = new ObjectMap<>();
+        mapScales.put("maps/home/home.tmx", 3.5f);
+        mapScales.put("maps/gym/gym.tmx", 3.0f);
+        mapScales.put("maps/cs/computer-science-building.tmx", 2.8f);
+        mapScales.put("maps/piazza/piazza.tmx", 2.4f);
     }
 
     public Vector2 findObjectPosition(String layerName, String objectName) {
         MapLayer layer = currentMap.getLayers().get(layerName);
+        float scale = 1;//mapScales.get(currentMapPath, 1.0f);
         if (layer != null) {
             for (MapObject object : layer.getObjects()) {
                 if (objectName.equals(object.getName()) && object instanceof RectangleMapObject) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    return new Vector2(rect.x, rect.y); // Assuming the bottom-left corner as the reference
+                    Rectangle scaledRect = new Rectangle(rect.x * scale, rect.y * scale, rect.width * scale, rect.height * scale);
+                    return new Vector2(scaledRect.x , scaledRect.y); // Assuming the bottom-left corner as the reference
                 }
             }
         }
@@ -50,7 +64,14 @@ public class MapManager {
             assetManager.finishLoading();
         }
         currentMap = assetManager.get(mapPath, TiledMap.class);
+        currentMapPath = mapPath;
+        float scale = mapScales.get(mapPath, 1.0f);
         mapRenderer = new OrthogonalTiledMapRenderer(currentMap);
+        adjustCamera(scale);
+    }
+    public void adjustCamera(float scale){
+        camera.zoom = 1 / scale;
+        camera.update();
     }
 
     public boolean inRegion(Vector2 Position, float width, float height, String layerName) {
@@ -74,6 +95,11 @@ public class MapManager {
     public TiledMap getCurrentMap() {
         return currentMap;
     }
+
+    public float getCurrentScale(){
+        return mapScales.get(currentMapPath, 1.0f);
+    }
+
     public void render() {
         mapRenderer.setView(camera);
         mapRenderer.render();

@@ -3,18 +3,22 @@ package com.eng1.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Sprite implements InputProcessor {
     private Vector2 velocity = new Vector2();
     private float speed = 300; // Speed
+    private float scale;
+    private boolean up, down, left, right;
     private PlayerTracker playerTracker;
     private boolean interacting = false;
 
     public Player(Sprite sprite, PlayerTracker playerTracker, MapManager mapManager) {
         super(sprite.getTexture());
         this.setScale(3.0f);
+        scale = mapManager.getCurrentScale();
         this.playerTracker = playerTracker;
         Vector2 spawnPoint = mapManager.findObjectPosition("spawn_points", "spawn_point");
         if (spawnPoint != null) {
@@ -23,13 +27,15 @@ public class Player extends Sprite implements InputProcessor {
         Gdx.input.setInputProcessor(this);
     }
     public void update(float delta, MapManager mapManager) {
+
+        movementscheck();
         float newX = getX() + velocity.x * delta;
         if (mapManager.inRegion(new Vector2(newX, getY()), getWidth(), getHeight(), "collisions")) {
             newX = getX();
         }
         float newY = getY() + velocity.y * delta;
         if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "collisions")) {
-            newY = getY();
+            newY = getY();  
         }
         setPosition(newX, newY);
 
@@ -40,29 +46,53 @@ public class Player extends Sprite implements InputProcessor {
             }
         }
 
+
         if (playerTracker != null) {
             playerTracker.checkPlayerTile(newX, newY);
         }
+        
+        scale = mapManager.getCurrentScale();
+        this.setScale(3.0f / scale);
 
+        System.out.println(getScaleX());
     }
+
+    public void movementscheck(){
+        if(up && !down){
+            velocity.y = speed / scale;
+        }
+        else if(!up && down){
+            velocity.y = -speed / scale;
+        }
+        else{
+            velocity.y = 0;
+        }
+
+        if(!left && right){
+            velocity.x = speed / scale;
+        }
+        else if(left && !right){
+            velocity.x = -speed / scale;
+        }
+        else{
+            velocity.x = 0;
+        }
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Keys.W:
-            case Keys.UP:
-                velocity.y = speed;
+                up = true;
                 break;
             case Keys.S:
-            case Keys.DOWN:
-                velocity.y = -speed;
+                down = true;
                 break;
             case Keys.A:
-            case Keys.LEFT:
-                velocity.x = -speed;
+                left = true;
                 break;
             case Keys.D:
-            case Keys.RIGHT:
-                velocity.x = speed;
+                right = true;
                 break;
                 case Keys.E:
                 case Keys.ENTER:
@@ -77,16 +107,16 @@ public class Player extends Sprite implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Keys.W:
+                up = false;
+                break;
             case Keys.S:
-            case Keys.UP:
-            case Keys.DOWN:
-                velocity.y = 0;
+                down = false;
                 break;
             case Keys.A:
+                left = false;
+                break;
             case Keys.D:
-            case Keys.LEFT:
-            case Keys.RIGHT:
-                velocity.x = 0;
+                right = false;
                 break;
             case Keys.E:
             case Keys.ENTER:
@@ -96,6 +126,11 @@ public class Player extends Sprite implements InputProcessor {
 
         }
         return true;
+    }
+
+    @Override
+    public void draw(Batch batch){
+        batch.draw(getTexture(), getX(), getY(), getTexture().getWidth()*getScaleX(), getTexture().getHeight()*getScaleY());
     }
 
     @Override
