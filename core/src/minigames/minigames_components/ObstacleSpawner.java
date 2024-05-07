@@ -35,7 +35,7 @@ public class ObstacleSpawner {
         }
     }
 
-    public void SpawnAcademicWeapon(){
+    public void SpawnAcademicWeaponObstacles(){
         Random generator = new Random();
         for(int i = 0; i < INIT_OBSTACLES; i++){
             if(obstacles.size() >= OBSTAClE_LIMIT) break;
@@ -59,10 +59,15 @@ public class ObstacleSpawner {
             obstacles.add(obstacle);
         }
     }
+
     public void SplitFoodTextures(){
         for(int i = 0; i < obstacleSpriteSheet.getWidth()/16; i++){
             obstacleTextures.add(new TextureRegion(obstacleSpriteSheet,i*16,0,16,16));
         }
+    }
+
+    public void SplitLettertextures(){
+        for(int i=0; i < obstacleSpriteSheet.getWidth())
     }
 
     public void ClearObstacles(){
