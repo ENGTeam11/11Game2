@@ -40,8 +40,11 @@ public class MainScreen implements Screen {
     @Override
     public void show() {
         // This method is called when the screen is first shown.
-        play = new Play(); // Instantiate the Play class
+        if (play == null){ 
+            play = new Play(); // Instantiate the Play class
+        }
         parent.setScreen(play); // Switch to the 'Play' screen (where the game is run / rendered)
+        
     }
 
 

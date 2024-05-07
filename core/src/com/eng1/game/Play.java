@@ -38,7 +38,9 @@ public class Play implements Screen {
     @Override
     public void show() {
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        Gdx.input.setInputProcessor(player);
     }
+    
 
     @Override
     public void render(float delta) {
