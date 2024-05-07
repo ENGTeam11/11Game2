@@ -112,7 +112,6 @@ public class FoodNinja implements Screen {
             obstaclesManager.SpawnFoodNinjaObstacles();
         }
         for(Obstacle obstacle : obstaclesManager.getObstacles()){
-            checkObstacleIsWithinScreen(obstacle);
             if(mouse.getCircleBounds().contains(obstacle.getBounds())){
                 obstacle.setDraw(false);
             }
@@ -120,21 +119,6 @@ public class FoodNinja implements Screen {
             obstacle.Move();
         }
         obstaclesManager.RemoveObstacle();
-    }
-
-    private void checkObstacleIsWithinScreen(Obstacle obstacle){
-        if(obstacle.getPos().y  < 0){
-            obstacle.setDraw(false);
-        }
-        if(obstacle.getPos().y + obstacle.getTexture().getRegionHeight()*2 >= Gdx.graphics.getBackBufferHeight()){
-            obstacle.setDraw(false);
-        }
-        if(obstacle.getPos().x < 0){
-            obstacle.setDraw(false);
-        }
-        if(obstacle.getPos().x + obstacle.getTexture().getRegionWidth()*2 >= Gdx.graphics.getBackBufferWidth()){
-            obstacle.setDraw(false);
-        }
     }
 
     @Override
