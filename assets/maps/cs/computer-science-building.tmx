@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="29">
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="30">
  <tileset firstgid="1" name="Room_Builder_16x16" tilewidth="16" tileheight="16" tilecount="8284" columns="76">
   <properties>
    <property name="blocked" value=""/>
@@ -729,5 +729,8 @@
   <object id="26" x="848" y="624.083" width="100.75" height="48.6667"/>
   <object id="27" x="948.833" y="623.749" width="45.0833" height="32.6667"/>
   <object id="28" x="944" y="750.182" width="32.1818" height="8.90909"/>
+ </objectgroup>
+ <objectgroup id="13" name="activities">
+  <object id="29" name="Study,CompSci" x="1084" y="487" width="22.5" height="52"/>
  </objectgroup>
 </map>

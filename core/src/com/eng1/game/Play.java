@@ -21,6 +21,7 @@ public class Play implements Screen {
     private PlayerTracker playerTracker;
 
     public Play() {
+        Activity.createActivities();
         camera = new OrthographicCamera();
         AssetManager assetManager = new AssetManager();
         mapManager = new MapManager(assetManager, camera);
