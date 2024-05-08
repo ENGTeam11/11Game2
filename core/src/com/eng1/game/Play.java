@@ -1,6 +1,7 @@
 package com.eng1.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Play implements Screen {
     private OrthographicCamera camera;
@@ -19,6 +21,8 @@ public class Play implements Screen {
     private BitmapFont displayDateTime;
     public static String selectedCharacter;
     private PlayerTracker playerTracker;
+    private GameUI gameUI;
+    private Skin skin;
 
     public Play() {
         Activity.createActivities();
@@ -29,7 +33,10 @@ public class Play implements Screen {
         playerTracker = new PlayerTracker(mapManager);
         player = new Player(new Sprite(new Texture("playerCharacters/playerCharacter1.png")), playerTracker, mapManager);
         playerTracker.setPlayer(player);
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        gameUI = new GameUI(skin);
         displayDateTime = new BitmapFont();
+
     }
 
     public static void setSelectedCharacter(String character) {
@@ -39,7 +46,12 @@ public class Play implements Screen {
     @Override
     public void show() {
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Gdx.input.setInputProcessor(player);
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(gameUI.getStage());
+        inputMultiplexer.addProcessor(player);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+
+
     }
     
 
@@ -51,6 +63,7 @@ public class Play implements Screen {
 
         mapManager.render();
         player.update(delta, mapManager);
+        gameUI.render(delta);
         
         renderer.getBatch().begin();
         renderer.getBatch().setProjectionMatrix(camera.combined);
@@ -74,6 +87,7 @@ public class Play implements Screen {
 
         camera.setToOrtho(false, viewportWidth, viewportHeight);
         camera.update();
+        gameUI.resize(width, height);
 
         if (mapManager.getCurrentMap() != null) {
             renderer = new OrthogonalTiledMapRenderer(mapManager.getCurrentMap());
@@ -100,6 +114,7 @@ public class Play implements Screen {
         mapManager.dispose();
         player.getTexture().dispose();
         displayDateTime.dispose();
+        gameUI.dispose();
     }
 }
 
