@@ -125,7 +125,7 @@ public class PauseScreen implements Screen {
         });
 
         // Add labels
-        titleLabel = new Label("Preferences", skin);
+        titleLabel = new Label("Paused", skin);
         volumeMusicLabel = new Label("Music Volume", skin);
         volumeSoundLabel = new Label("Sound Volume", skin);
         musicOnOffLabel = new Label("Music", skin);
