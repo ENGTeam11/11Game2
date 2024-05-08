@@ -1,5 +1,6 @@
 package eng1.model.views;
 
+import com.badlogic.gdx.Input;
 import com.eng1.game.HeslingtonHustle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -132,6 +133,9 @@ public class CharacterScreen extends ScreenAdapter {
      */
     @Override
     public void render(float delta) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            parent.changeScreen(HeslingtonHustle.MENU);
+        }
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));

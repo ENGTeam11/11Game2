@@ -23,7 +23,7 @@ import com.eng1.game.HeslingtonHustle;
  * Allows the player to adjust game settings such as volume and enable/disable music and sound effects.
  * Currently redundant apart from ability to quit game
  */
-public class PreferencesScreen implements Screen {
+public class PauseScreen implements Screen {
 
     private HeslingtonHustle parent;
     private Stage stage;
@@ -39,7 +39,7 @@ public class PreferencesScreen implements Screen {
      * Initializes the parent orchestrator and creates a new stage for UI rendering.
      * @param eng1 The orchestrator of the game.
      */
-    public PreferencesScreen(HeslingtonHustle eng1) {
+    public PauseScreen(HeslingtonHustle eng1) {
         parent = eng1;
         // create stage and set it as input processor
         stage = new Stage(new ScreenViewport());
@@ -107,7 +107,7 @@ public class PreferencesScreen implements Screen {
         });
 
         // return to main screen button
-        final TextButton backButton = new TextButton("Back", skin);
+        final TextButton backButton = new TextButton("Main Menu", skin);
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -157,7 +157,7 @@ public class PreferencesScreen implements Screen {
     @Override
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            parent.changeScreen(HeslingtonHustle.MENU);
+            parent.changeScreen(HeslingtonHustle.APPLICATION);
         }
         // clear the screen ready for next set of images to be drawn
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);

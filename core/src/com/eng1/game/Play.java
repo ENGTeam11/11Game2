@@ -1,9 +1,6 @@
 package com.eng1.game;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,8 +22,10 @@ public class Play implements Screen {
     private GameUI gameUI;
     private Skin skin;
     private GameStats gameStats;
+    private HeslingtonHustle heslingtonHustle;
 
-    public Play() {
+    public Play(HeslingtonHustle game) {
+        heslingtonHustle = game;
         Activity.createActivities();
         camera = new OrthographicCamera();
         AssetManager assetManager = new AssetManager();
@@ -60,6 +59,9 @@ public class Play implements Screen {
 
     @Override
     public void render(float delta) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            heslingtonHustle.changeScreen(HeslingtonHustle.PAUSE);
+        }
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();

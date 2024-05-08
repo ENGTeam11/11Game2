@@ -16,6 +16,7 @@ public class HeslingtonHustle extends Game {
 	private EndScreen endScreen;
 	private AppPreferences preferences;
 	private CharacterScreen characterScreen;
+	private PauseScreen pauseScreen;
 
 	// Screen constants
 	public final static int MENU = 0;
@@ -23,6 +24,7 @@ public class HeslingtonHustle extends Game {
 	public final static int APPLICATION = 2;
 	public final static int ENDGAME = 3;
 	public final static int CHARACTER = 4;
+	public final static int PAUSE = 5;
 	
 	@Override
 	public void create() {
@@ -67,6 +69,9 @@ public class HeslingtonHustle extends Game {
 				if (characterScreen == null) characterScreen = new CharacterScreen(this);
 				setScreen(characterScreen);
 				break;
+			case PAUSE:
+				if (pauseScreen == null) pauseScreen = new PauseScreen(this);
+				setScreen(pauseScreen);
 		}
 	}
 
@@ -74,14 +79,7 @@ public class HeslingtonHustle extends Game {
 	public void render() {
 		super.render();
 		// Handle input events
-		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-			if (getScreen() == preferencesScreen) {
-				// If currently on preferences screen, switch to the game screen
-				changeScreen(APPLICATION);
-			} else {
-				// Otherwise, switch to preferences screen
-				changeScreen(PREFERENCES);
-			}
-		}
+
+
 	}
 }
