@@ -76,6 +76,9 @@ public class Activity {
         if(type.equals("Eat")  ){
             gameInstance.changeScreen(MenuState.FOODNINJA);
         }
+        if(type.equals("Study")){
+            gameInstance.changeScreen(MenuState.ACADEMICWEAPON);
+        }
         if (type.equals("Sleep")) {
             Activity.sleep();
         }
