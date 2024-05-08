@@ -39,6 +39,7 @@ public class Play implements Screen {
         gameUI = new GameUI(skin);
         displayDateTime = new BitmapFont();
         gameStats = new GameStats();
+        GameStats.initializeGameTime();
 
         MenuScreen.setStartNewGame(false); // Set start new game to false, so a new instance is not created everytime
 
@@ -69,7 +70,7 @@ public class Play implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
 
-        GameStats.initializeGameTime(delta);
+        GameStats.initializeGameTimeFlow(delta);
         mapManager.render();
         player.update(delta, mapManager);
         gameUI.render(delta);

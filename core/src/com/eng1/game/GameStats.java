@@ -1,19 +1,23 @@
 package com.eng1.game;
 
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameStats {
     private static int energy = 100;
     public static final int MAX_ENERGY = 100;
     private static int score = 0;
-    private static int day = 1;
-    private static int hour = 8; // Starting at 8 AM
-    private static int minute = 0;
+    private static int day;
+    private static int hour;
+    private static int minute;
     private static final int MINUTES_PER_HOUR = 60;
     private static final int HOURS_PER_DAY = 24;
-    private static float elapsedTime = 0;// Every real-world minute is 60 game minutes
+    private static float elapsedTime = 0; // Time accumulator
 
-    private static long lastUpdateTime = TimeUtils.millis();
+
+    public static void initializeGameTime(){
+        day = 1; // Start at Day 1
+        hour = 8; // Start at 8 AM
+        minute = 0;
+    }
 
     public static int getEnergy() {
         return energy;
@@ -42,7 +46,7 @@ public class GameStats {
         energy = MAX_ENERGY;
     }
 
-    public static void initializeGameTime(float delta) {
+    public static void initializeGameTimeFlow(float delta) {
         elapsedTime += delta;
 
         while (elapsedTime >= 1) { // Every second in the real world
