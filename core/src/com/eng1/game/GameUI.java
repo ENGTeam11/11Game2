@@ -15,25 +15,12 @@ public class GameUI {
     private Skin skin;
     private Dialog controlsDialog;
 
-    public GameUI(Skin skin){
+    public GameUI(Skin skin) {
         stage = new Stage(new ScreenViewport());
         this.skin = skin;
 
         setupControlsDialog();
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                controlsDialog.show(stage);
-                controlsDialog.setSize(stage.getWidth()  * 0.25f, stage.getHeight() * 0.25f);
-                controlsDialog.setPosition((stage.getWidth() - controlsDialog.getWidth()) / 2, (stage.getHeight() - controlsDialog.getHeight()) / 2);
-            }
-        }, 0.1f);
-
     }
-
-
-
 
     private void setupControlsDialog() {
         controlsDialog = new Dialog("HOW TO PLAY", skin);
@@ -41,9 +28,11 @@ public class GameUI {
         controlsDialog.getTitleLabel().setAlignment(Align.center);
         controlsDialog.button("OK",true);
         controlsDialog.setMovable(false);
+        controlsDialog.show(stage);
+        controlsDialog.setSize(stage.getWidth()  * 0.25f, stage.getHeight() * 0.25f);
+        controlsDialog.setPosition((stage.getWidth() - controlsDialog.getWidth()) / 2, (stage.getHeight() - controlsDialog.getHeight()) / 2);
 
     }
-
     public void render(float delta) {
         stage.act(delta);
         stage.draw();
