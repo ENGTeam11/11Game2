@@ -1,5 +1,6 @@
 package com.eng1.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -23,6 +24,7 @@ public class Play implements Screen {
     private PlayerTracker playerTracker;
     private GameUI gameUI;
     private Skin skin;
+    private GameStats gameStats;
 
     public Play() {
         Activity.createActivities();
@@ -36,6 +38,7 @@ public class Play implements Screen {
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         gameUI = new GameUI(skin);
         displayDateTime = new BitmapFont();
+        gameStats = new GameStats();
 
     }
 
@@ -61,6 +64,7 @@ public class Play implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
 
+        GameStats.initializeGameTime(delta);
         mapManager.render();
         player.update(delta, mapManager);
         gameUI.render(delta);

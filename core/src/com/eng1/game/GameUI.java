@@ -50,7 +50,7 @@ public class GameUI {
         statsTable.setBackground(skin.getDrawable("default-pane"));
         statsTable.pad(10);
 
-        timeLabel = new Label("Time: " + GameStats.getTime().toString(), skin);
+        timeLabel = new Label("Time: " + GameStats.getFormattedTime(), skin);
         dayLabel = new Label("Day: " + GameStats.getDay(), skin);
         scoreLabel = new Label("Score: " + GameStats.getScore(), skin);
 
@@ -64,7 +64,7 @@ public class GameUI {
     }
     public void updateStats(){
         dayLabel.setText("Day: " + GameStats.getDay());
-        timeLabel.setText("Time: " + GameStats.getTime().toString());
+        timeLabel.setText("Time: " + GameStats.getFormattedTime());
         scoreLabel.setText("Score: " + GameStats.getScore());
 
 

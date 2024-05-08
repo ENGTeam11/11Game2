@@ -15,7 +15,7 @@ public class Activity {
     private static Map<String, Map<String, Activity>> activities; // Map of the activity types
     // each activity type containing a map of the locations and activities within those locations
     // Activities can be called using the type then the location
-    private final LocalTime timeNeeded; // Time required to complete the activity
+    private final int timeNeeded; // Time required to complete the activity
     private final int energyNeeded; // Energy required to complete the activity
     private int timesCompletedWeek; // Times the activity has been completed in the week (can be used to decrese the reward of an activity if it is completed multiple times)
     private int timesCompletedDay; // Times the activity has been completed that day (can be used to stop activites being completed too many times or to increase the reward i.e. eating 3 meals)
@@ -25,7 +25,7 @@ public class Activity {
 
     private static int finalScore;
 
-    public Activity(LocalTime timeNeeded, int energyNeeded, int reward) {
+    public Activity(int timeNeeded, int energyNeeded, int reward) {
         // Constructor for activities
         this.timeNeeded = timeNeeded;
         this.energyNeeded = energyNeeded;
@@ -52,93 +52,74 @@ public class Activity {
 
         // Add activties to their activity type
         // Study: CompSci Building
-        activities.get("Study").put("CompSci", new Activity(LocalTime.of(3,0), 30, 0));
+        activities.get("Study").put("CompSci", new Activity(180, 30, 0));
 
         // Relax: Gym
-        activities.get("Relax").put("Gym", new Activity(LocalTime.of(1,0), 20, 0));
-        activities.get("Relax").put("Map1", new Activity(LocalTime.of(1,0), 10, 0));
-        activities.get("Relax").put("Basketball", new Activity(LocalTime.of(1,0), 250, 0));
-        activities.get("Relax").put("Football", new Activity(LocalTime.of(1,30), 30, 0));
+        activities.get("Relax").put("Gym", new Activity(60, 20, 0));
+        activities.get("Relax").put("Map1", new Activity(60, 10, 0));
+        activities.get("Relax").put("Basketball", new Activity(60, 250, 0));
+        activities.get("Relax").put("Football", new Activity(90, 30, 0));
 
         // Eat: Piazza Building
-        activities.get("Eat").put("Piazza", new Activity(LocalTime.of(1,0), 10, 0));
+        activities.get("Eat").put("Piazza", new Activity(60, 10, 0));
 
         // Sleep: Home
-        activities.get("Sleep").put("Home", new Activity(LocalTime.of(0,0),0, 0));
+        activities.get("Sleep").put("Home", new Activity(0,0, 0));
     }
 
     public static void completeActivity(String activityIdentifier) {
-        // Takes a string to indicate the activity being completed. i.e. "Relax,Gym"
-        String[] activityLocator = activityIdentifier.split(",");
-        String type = activityLocator[0];
-        String location = activityLocator[1];
-        System.out.println(type);
-        System.out.println(location);
-        System.out.println(activities.get(type).get(location).complete());
+        String[] parts = activityIdentifier.split(",");
+        String type = parts[0];
+        String location = parts[1];
+
+        Activity activity = activities.get(type).get(location);
+        System.out.println(activity.complete());
+
         if (type.equals("Sleep")) {
-            Activity.sleep();
+            sleep();
         }
     }
 
-    public String complete() {
-        // Returns whether the activity has been completed
-        // Checks whether there is enough time left in the day to complete the activity
-        LocalTime tempTime = GameStats.getTime().plusHours(this.timeNeeded.getHour());
-        tempTime = tempTime.plusMinutes(this.timeNeeded.getMinute());
-        if (tempTime.isAfter(GameStats.DAY_END) && tempTime.isBefore(GameStats.DAY_START)) {
-            return "Insufficient Time";
+    public String complete(){
+        if (GameStats.getEnergy() < energyNeeded) {
+            return "Insufficient energy";
         }
-
-        // Checks whether there is enough energy left to complete the activity
-        if (GameStats.getEnergy() - this.energyNeeded < 0) {
-            return "Insufficient Energy";
+        GameStats.increaseTime(timeNeeded);
+        if (GameStats.getTime() > 2400) {
+            return "Insufficient time";
         }
-
-        // Increase the relevent trackers
         this.timesCompletedDay++;
         this.timesCompletedWeek++;
-        GameStats.increaseTime(this.timeNeeded);
         GameStats.decreaseEnergy(this.energyNeeded);
+        GameStats.increaseScore(reward);
+
+        return "Activity Completed";
 
         // Debugging
         // ---
-        System.out.println("Current time: " + GameStats.getTime());
-        System.out.println("Current energy: " + GameStats.getEnergy());
-        System.out.println("Current score: " + GameStats.getScore());
+        //System.out.println("Current time: " + GameStats.getTime());
+        //System.out.println("Current energy: " + GameStats.getEnergy());
+        //System.out.println("Current score: " + GameStats.getScore());
         // ---
 
-        return "Activity Completed";
     }
+
 
 
     public static void sleep() {
         // Debugging
         // ---
-        System.out.println("Sleeping");
+        // System.out.println("Sleeping");
         // ---
 
-        // Calculate the days score and add to the total score
-        GameStats.increaseScore(calculateDayScore());
-
-        // Reset activity day counts
-        for (Map<String, Activity> typeActivities : activities.values()) {
-            // typeActivities is the map for each type of activity
-            for (Activity activity : typeActivities.values()) {
-                activity.timesCompletedDay = 0;
-            }
-        }
-
-        //Reset stats
         GameStats.newDay();
 
-        System.out.println(Activity.countCompletedActivities());
-
+        resetDayActivities();
         if (GameStats.getDay() > 7) {
-            // Pass the score and activities completed to EndScreen
-            Map<String, Integer> activitiesCompleted = Activity.countCompletedActivities();
-            int score = calculateDayScore();
             gameInstance.changeScreen(HeslingtonHustle.ENDGAME);
         }
+
+
     }
 
     public static Map<String, Integer> countCompletedActivities() {
@@ -171,5 +152,13 @@ public class Activity {
 
     public static void setFinalScore(int score) {
         finalScore = score;
+    }
+
+    private static void resetDayActivities() {
+        for (Map<String, Activity> typeActivities : activities.values()) {
+            for (Activity activity : typeActivities.values()) {
+                activity.timesCompletedDay = 0;
+            }
+        }
     }
 }
