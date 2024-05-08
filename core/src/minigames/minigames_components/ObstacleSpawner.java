@@ -23,7 +23,7 @@ public class ObstacleSpawner {
         obstacleTextures = new ArrayList<TextureRegion>();
     }
 
-    public void SpawnFoodNinjaObstacles(){
+    public void spawnFoodNinjaObstacles(){
         Random generator = new Random();
         for(int i =0; i < INIT_OBSTACLES;i++){
             if(obstacles.size() >= OBSTAClE_LIMIT) break;
@@ -35,7 +35,7 @@ public class ObstacleSpawner {
         }
     }
 
-    public void SpawnAcademicWeaponObstacles(){
+    public void spawnAcademicWeaponObstacles(){
         Random generator = new Random();
         for(int i = 0; i < INIT_OBSTACLES; i++){
             if(obstacles.size() >= OBSTAClE_LIMIT) break;
@@ -53,28 +53,30 @@ public class ObstacleSpawner {
                 X = Gdx.graphics.getBackBufferWidth()-1;
                 Y = generator.nextInt(Gdx.graphics.getBackBufferHeight());
             }
-            int texturePicked = generator.nextInt(0);
+            int texturePicked = generator.nextInt(obstacleTextures.size());
             Vector2 obstaclePos = new Vector2(X,Y);
             Obstacle obstacle = new Obstacle(obstacleTextures.get(texturePicked),obstaclePos);
             obstacles.add(obstacle);
         }
     }
 
-    public void SplitFoodTextures(){
+    public void splitFoodTextures(){
         for(int i = 0; i < obstacleSpriteSheet.getWidth()/16; i++){
             obstacleTextures.add(new TextureRegion(obstacleSpriteSheet,i*16,0,16,16));
         }
     }
 
-    public void SplitLettertextures(){
-        for(int i=0; i < obstacleSpriteSheet.getWidth())
+    public void splitLettertextures(){
+        for(int i=33; i < 59;i++){
+             obstacleTextures.add(new TextureRegion(obstacleSpriteSheet,i*16,0,16,16));
+        }
     }
 
-    public void ClearObstacles(){
+    public void clearObstacles(){
         obstacles = new ArrayList<Obstacle>();
     }
 
-    public void RemoveObstacle(){
+    public void removeObstacle(){
         for(Iterator<Obstacle> i = obstacles.iterator();i.hasNext();){
             Obstacle obstacle = i.next();
             if(!obstacle.getDraw()){
@@ -83,9 +85,9 @@ public class ObstacleSpawner {
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch){
+    public void draw(SpriteBatch spriteBatch){
         for(Obstacle obstacle : obstacles){
-            if(obstacle.getDraw()) obstacle.Draw(spriteBatch);
+            if(obstacle.getDraw()) obstacle.draw(spriteBatch);
         }
     }
 
