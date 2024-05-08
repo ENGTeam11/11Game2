@@ -7,4 +7,5 @@ public enum MenuState {
     ENDGAME,
     CHARACTER,
     FOODNINJA,
+    ACADEMICWEAPON,
 }
