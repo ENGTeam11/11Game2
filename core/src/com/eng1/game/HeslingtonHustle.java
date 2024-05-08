@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import eng1.model.views.*;
+import minigames.AcademicWeapon;
 import minigames.FoodNinja;
 
 /**
@@ -18,6 +19,7 @@ public class HeslingtonHustle extends Game {
 	private AppPreferences preferences;
 	private CharacterScreen characterScreen;
 	private FoodNinja foodNinja;
+	private AcademicWeapon academicWeapon;
 	
 	@Override
 	public void create() {
@@ -65,6 +67,10 @@ public class HeslingtonHustle extends Game {
 			case FOODNINJA:
 				if(foodNinja == null) foodNinja = new FoodNinja(this);
 				setScreen(foodNinja);
+				break;
+			case ACADEMICWEAPON:
+				if(academicWeapon == null) academicWeapon = new AcademicWeapon(this);
+				setScreen(academicWeapon);
 				break;
 		}
 	}
