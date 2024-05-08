@@ -12,7 +12,7 @@ public class Mouse {
         circleBounds = new Circle(mousePos, 16);
     }
 
-    public void Update(float delta){
+    public void update(float delta){
         mousePos.set(Gdx.input.getX(),Gdx.input.getY());
         float circlePosY = Gdx.graphics.getBackBufferHeight()-mousePos.y;
         Vector2 circlePosition = new Vector2(mousePos.x,circlePosY);
