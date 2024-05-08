@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Obstacle {
     protected Vector2 obstaclePos;
-    private TextureRegion obstacleTexture;
+    protected TextureRegion obstacleTexture;
     protected float speed = 20;
     protected double gravity = 4.5;
     protected Circle obstacleBounds;
@@ -32,10 +32,10 @@ public class Obstacle {
        obstacleBounds = new Circle(obstaclePos, (float)obstacleTexture.getRegionWidth()/2);
     }
 
-    public void Update(float delta){
+    public void update(float delta){
         checkObstacleIsWithinScreen();
         if(angle >= 25){
-            CalcTrajectory(delta);
+            calcTrajectory(delta);
         }
         Vector2 boundsPos = new Vector2(obstaclePos.x + obstacleTexture.getRegionWidth()/2,obstaclePos.y + obstacleTexture.getRegionHeight()/2);
         obstacleBounds.setPosition(boundsPos);
@@ -56,17 +56,17 @@ public class Obstacle {
         }
     }
 
-    private void CalcTrajectory(float delta){
+    private void calcTrajectory(float delta){
         double xVel = (speed*delta) * Math.cos(angle);
         double yVel = (speed*delta) * Math.sin(angle) - (1/2)*gravity*delta*delta;
         moveTrajectory = new Vector2((float)xVel,(float)yVel);
     }
 
-    public void Move(){
+    public void move(){
         obstaclePos = new Vector2(obstaclePos.x - moveTrajectory.x,obstaclePos.y - moveTrajectory.y);
     }
 
-    public void Draw(SpriteBatch spriteBatch){
+    public void draw(SpriteBatch spriteBatch){
         spriteBatch.draw(obstacleTexture,obstaclePos.x,obstaclePos.y);
     }
     
