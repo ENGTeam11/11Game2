@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.eng1.game.HeslingtonHustle;
 import com.eng1.game.MenuState;
@@ -41,26 +40,36 @@ public class FoodNinja implements Screen {
         parent = inParent;
         miniGState = MinigameState.WAIT;
         obstaclesManager = new ObstacleSpawner(new Texture(Gdx.files.internal("minigame/Fruit.png")));
-        obstaclesManager.SplitFoodTextures();
+        obstaclesManager.splitFoodTextures();
         mouse = new Mouse();
         
     }
     @Override
     public void show() {
         /*Sets up the elements of the screen when switched to this screen */
-        
+        //The stage where the game will be drawn
         canvas = new Stage(new StretchViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
+
+        //Style of the text area
         TextField.TextFieldStyle textFieldStyle = new TextFieldStyle();
         textFieldStyle.fontColor = Color.WHITE;
         textFieldStyle.font = new BitmapFont(); 
+
+        //Sets the text area for the start of the game and end of the game 
         screenText = new TextArea("",textFieldStyle);
         screenText.setSize(200,20);
         screenText.setPosition(Gdx.graphics.getWidth()/2-screenText.getWidth()*2, Gdx.graphics.getHeight()/2 - screenText.getHeight()*2);
+
+        //Sets the text area for the timer of the game
         timer = new TextArea("", textFieldStyle);
         timer.setSize(20,20);
         timer.setPosition(0, Gdx.graphics.getBackBufferHeight()-timer.getHeight()*2);
+
+        //Adds the text areas to the stage
         canvas.addActor(screenText);
         canvas.addActor(timer);
+
+        //sets the input processor to the canvas
         Gdx.input.setInputProcessor(canvas);
     }
 
@@ -89,14 +98,13 @@ public class FoodNinja implements Screen {
             if(gameDuration >= GAME_LENGTH_SECONDS){
                 miniGState = MinigameState.END;
             }
-            Update(delta, gameDuration);
-            Draw((SpriteBatch)canvas.getBatch());
+            update(delta, gameDuration);
+            draw((SpriteBatch)canvas.getBatch());
         }
         //This if statement is responsible for handling the end of the game 
         else if(miniGState == MinigameState.END){
             screenText.setText("Press space to go back to the main game");
             if(Gdx.input.isKeyPressed(Keys.SPACE)){
-                obstaclesManager.ClearObstacles();
                 miniGState = MinigameState.WAIT;
                 parent.changeScreen(MenuState.APPLICATION);
             }
@@ -106,19 +114,19 @@ public class FoodNinja implements Screen {
         canvas.act();
     }
 
-    public void Update(float delta,long gameDuration){
-        mouse.Update(delta);
+    public void update(float delta,long gameDuration){
+        mouse.update(delta);
         if(gameDuration%3 == 0){
-            obstaclesManager.SpawnFoodNinjaObstacles();
+            obstaclesManager.spawnFoodNinjaObstacles();
         }
         for(Obstacle obstacle : obstaclesManager.getObstacles()){
             if(mouse.getCircleBounds().contains(obstacle.getBounds())){
                 obstacle.setDraw(false);
             }
-            obstacle.Update(delta);
-            obstacle.Move();
+            obstacle.update(delta);
+            obstacle.move();
         }
-        obstaclesManager.RemoveObstacle();
+        obstaclesManager.removeObstacle();
     }
 
     @Override
@@ -144,11 +152,12 @@ public class FoodNinja implements Screen {
     @Override
     public void dispose() {
        canvas.dispose();
+       obstaclesManager.clearObstacles();
        Gdx.input.setInputProcessor(null);
     }
 
-    public void Draw(SpriteBatch spriteBatch){
-        obstaclesManager.Draw(spriteBatch);
+    public void draw(SpriteBatch spriteBatch){
+        obstaclesManager.draw(spriteBatch);
     }
     
 }
