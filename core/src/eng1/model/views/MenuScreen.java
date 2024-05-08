@@ -21,6 +21,7 @@ public class MenuScreen extends ScreenAdapter {
     private HeslingtonHustle parent; // Field to store the orchestrator of the game
     private Stage stage; // Stage for handling UI elements
     private Label titleLabel; // Label for displaying the game title
+    private static boolean startNewGame = false;
 
     /**
      * Constructor for the MenuScreen class.
@@ -73,6 +74,7 @@ public class MenuScreen extends ScreenAdapter {
         newGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                startNewGame = true;
                 parent.changeScreen(HeslingtonHustle.CHARACTER);
             }
         });
@@ -84,6 +86,12 @@ public class MenuScreen extends ScreenAdapter {
                 parent.changeScreen(HeslingtonHustle.PREFERENCES);
             }
         });
+    }
+    public static boolean isStartNewGame() {
+        return startNewGame;
+    }
+    public static void setStartNewGame(boolean newGameClicked) {
+        startNewGame = newGameClicked;
     }
 
     @Override

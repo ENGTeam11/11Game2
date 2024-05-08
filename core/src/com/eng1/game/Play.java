@@ -7,9 +7,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import eng1.model.views.MenuScreen;
+
 
 public class Play implements Screen {
     private OrthographicCamera camera;
@@ -38,6 +39,8 @@ public class Play implements Screen {
         gameUI = new GameUI(skin);
         displayDateTime = new BitmapFont();
         gameStats = new GameStats();
+
+        MenuScreen.setStartNewGame(false); // Set start new game to false, so a new instance is not created everytime
 
     }
 
