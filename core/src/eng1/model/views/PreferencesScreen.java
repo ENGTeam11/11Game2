@@ -106,7 +106,7 @@ public class PreferencesScreen implements Screen {
         });
 
         // return to main screen button
-        final TextButton backButton = new TextButton("Back", skin);
+        final TextButton backButton = new TextButton("Main Menu", skin);
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -115,7 +115,7 @@ public class PreferencesScreen implements Screen {
         });
 
         // quit game button
-        final TextButton quitButton = new TextButton("Quit", skin);
+        final TextButton quitButton = new TextButton("Quit Game", skin);
         quitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
