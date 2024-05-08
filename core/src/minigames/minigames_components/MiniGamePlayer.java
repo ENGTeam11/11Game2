@@ -29,20 +29,40 @@ public class MiniGamePlayer extends Player {
     }
 
     public MiniGamePlayer(Texture inPlayerTexture, Vector2 inPlayerPosition, Circle inPlayerBounds){
+        super();
+        bullets = new ArrayList<Bullet>();
+        playerSpeed = 20;
+        playerTexture = inPlayerTexture;
+        playerPosition = inPlayerPosition;
+        playerBounds = inPlayerBounds;
 
     }
 
-    public void update(float delta, SpriteBatch spriteBatch){
+    public void update(float delta,SpriteBatch spriteBatch,ArrayList<Obstacle> obstacles){
         totalDelta+=delta;
         processInput();
+        updateBullets(delta, spriteBatch,obstacles);
     }
-    public void updateBullets(float delta,SpriteBatch spriteBatch){
+
+    private void checkCollisions(Bullet bullet ,ArrayList<Obstacle> obstacles){
+        for(Obstacle obstacle : obstacles){
+            if(bullet.getBounds().overlaps(obstacle.getBounds())){
+                obstacle.setDraw(false);
+                bullet.setDraw(false);
+            }
+        }
+    }
+
+    private void updateBullets(float delta,SpriteBatch spriteBatch,ArrayList<Obstacle> obstacles){
         if(bullets.size() > 0){
             for(Iterator<Bullet> i = bullets.iterator(); i.hasNext();){
                 Bullet bulletToUpdate = i.next();
+                checkCollisions(bulletToUpdate, obstacles);
                 bulletToUpdate.update(delta);
                 bulletToUpdate.draw(spriteBatch);
-                if
+                if(!bulletToUpdate.getDraw()){
+                    i.remove();
+                }
             }
         } 
     }
@@ -69,6 +89,29 @@ public class MiniGamePlayer extends Player {
         }
         return true;
     }
+    
+    @Override
+    public boolean keyUp(int keyCode){
+        switch(keyCode){
+            case Keys.W:
+            case Keys.UP:
+                moveUp = false;
+                break;
+            case Keys.A:
+            case Keys.LEFT:
+                moveLeft = false;
+                break;
+            case Keys.S:
+            case Keys.DOWN:
+                moveDown = false;
+                break;
+            case Keys.D:
+            case Keys.RIGHT:
+                moveRight = false;
+                break;
+        }
+        return true; 
+    }
 
     public void processInput(){
         if(moveUp){
@@ -83,7 +126,7 @@ public class MiniGamePlayer extends Player {
         if(moveDown){
             playerPosition = playerPosition.add(0,-playerSpeed);
         }
-        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && academicWeaponInstance){
             if(totalDelta > SHOOT_DElAY){
                 shoot();
                 totalDelta = 0;
@@ -92,14 +135,14 @@ public class MiniGamePlayer extends Player {
     }
 
     private void shoot() {
-        Texture bulletTexture = null;
+        Texture bulletTexture = new Texture(Gdx.files.internal("minigames/Bullets.png"));
         Vector2 bulletPosition = playerPosition.add(playerTexture.getWidth()/2,playerTexture.getHeight());
         Vector2 bulletBoundPosition = new Vector2(bulletPosition.x + bulletTexture.getWidth()/2,bulletPosition.y + bulletTexture.getHeight()/2);
         Circle bulletBounds = new Circle(bulletBoundPosition,bulletTexture.getWidth()/2);
         bullets.add(new Bullet(bulletTexture,bulletPosition,bulletBounds));
     }
 
-    public void Draw(SpriteBatch spriteBatch){
+    public void draw(SpriteBatch spriteBatch){
         spriteBatch.draw(playerTexture, playerPosition.x, playerPosition.y);
     }
     public Texture getTexture(){
