@@ -73,7 +73,7 @@ public class Activity {
         String location = parts[1];
 
         Activity activity = activities.get(type).get(location);
-        System.out.println(activity.complete());
+        activity.complete();
         if(type.equals("Eat")  ){
             gameInstance.changeScreen(MenuState.FOODNINJA);
         }
