@@ -1,6 +1,5 @@
 package com.eng1.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -15,6 +14,10 @@ public class Player extends Sprite implements InputProcessor {
     private PlayerTracker playerTracker;
     private boolean interacting = false;
 
+    public Player(){
+
+    }
+
     public Player(Sprite sprite, PlayerTracker playerTracker, MapManager mapManager) {
         super(sprite.getTexture());
         this.setScale(3.0f);
@@ -24,7 +27,6 @@ public class Player extends Sprite implements InputProcessor {
         if (spawnPoint != null) {
             setPosition(spawnPoint.x, spawnPoint.y);
         }
-        Gdx.input.setInputProcessor(this);
     }
     public void update(float delta, MapManager mapManager) {
 
