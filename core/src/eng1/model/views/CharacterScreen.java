@@ -1,137 +1,119 @@
 package eng1.model.views;
 
-import com.badlogic.gdx.Input;
-import com.eng1.game.HeslingtonHustle;
-import com.eng1.game.MenuState;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.eng1.game.HeslingtonHustle;
+import com.eng1.game.LeaderboardEntry;
+import com.eng1.game.MenuState;
 import com.eng1.game.Play;
 
-/**
- * Represents the character selection screen of the game.
- * Allows the player to select their character from available choices.
- */
 public class CharacterScreen extends ScreenAdapter {
     private HeslingtonHustle parent;
     private Stage stage;
+    private Skin skin;
+    private TextButton character1Button, character2Button, character3Button;
+    private TextButton startGameButton;
     private Label titleLabel;
+    private TextField playerNameField;
 
-
-    /**
-     * Constructs a new CharacterScreen.
-     *
-     * @param game The orchestrator of the game.
-     */
     public CharacterScreen(HeslingtonHustle game) {
         parent = game;
+        stage = new Stage(new StretchViewport(800, 600));
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        Gdx.input.setInputProcessor(stage);
 
-        stage = new Stage(new StretchViewport(800, 600)); // Changes the 'zoom' of the screen to be more readable
-        Gdx.input.setInputProcessor(stage); // Set the input processor to the stage
+        // Setup UI
+        setupUi();
     }
 
-    /**
-     * Called when this screen becomes the current screen.
-     * Sets up UI elements and handles input events.
-     */
-    @Override
-    public void show() {
-        // Create table and skin
+    private void setupUi() {
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
-        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        // Create title label
+        // Create title and player name input
         titleLabel = new Label("Character Selection", skin);
+        playerNameField = new TextField("", skin);
+        playerNameField.setMessageText("Enter your player name");
 
-        // Create character selection buttons
-        TextButton character1Button = new TextButton("Character 1", skin);
-        character1Button.setSize(1000f, 50f); // Set the width and height of the button
+        // Initialize character buttons
+        character1Button = new TextButton("", skin);
+        character2Button = new TextButton("", skin);
+        character3Button = new TextButton("", skin);
 
-        TextButton character2Button = new TextButton("Character 2", skin);
-        character2Button.setSize(200f, 50f);
+        // Setup character images
+        setupCharacterButton(character1Button, "playerCharacters/playerCharacter1.png", "Character1");
+        setupCharacterButton(character2Button, "playerCharacters/playerCharacter2.png", "Character2");
+        setupCharacterButton(character3Button, "playerCharacters/playerCharacter3.png", "Character3");
 
-        TextButton character3Button = new TextButton("Character 3", skin);
-        character3Button.setSize(200f, 50f);
-
-        // Load character images from assets
-        Texture character1Texture = new Texture(Gdx.files.internal("playerCharacters/playerCharacter1.png"));
-        Texture character2Texture = new Texture(Gdx.files.internal("playerCharacters/playerCharacter2.png"));
-        Texture character3Texture = new Texture(Gdx.files.internal("playerCharacters/playerCharacter3.png"));
-
-        Image character1Image = new Image(new TextureRegionDrawable(new TextureRegion(character1Texture)));
-        character1Image.setSize(200f, 200f); // Set the width and height of the image
-
-        Image character2Image = new Image(new TextureRegionDrawable(new TextureRegion(character2Texture)));
-        character2Image.setSize(200f, 200f);
-
-        Image character3Image = new Image(new TextureRegionDrawable(new TextureRegion(character3Texture)));
-        character3Image.setSize(200f, 200f);
-
-        // Add listeners to character selection buttons
-        character1Button.addListener(new ChangeListener() {
+        // Start Game button
+        startGameButton = new TextButton("Start Game!", skin);
+        startGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Play.setSelectedCharacter("Character1"); // Set selected character
-                // Change the screen to the main game screen
-                parent.changeScreen(MenuState.APPLICATION);
+                if (!playerNameField.getText().isEmpty()) {
+                    LeaderboardEntry.setPlayerName(playerNameField.getText());
+                    parent.changeScreen(MenuState.APPLICATION);
+                } else {
+                    playerNameField.setMessageText("Please enter a name!");
+                }
             }
         });
 
-        character2Button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Play.setSelectedCharacter("Character2");
-                parent.changeScreen(MenuState.APPLICATION);
-            }
-        });
-
-        character3Button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Play.setSelectedCharacter("Character3");
-                parent.changeScreen(MenuState.APPLICATION);
-            }
-        });
-
-        // Add padding and spacing between elements
-        table.pad(20f);
-        table.defaults().pad(10f);
-
-        // Add actors to the table with increased size
-        table.add(titleLabel).colspan(3).padBottom(40f);
+        // Layout
+        table.add(titleLabel).colspan(3).padBottom(20);
         table.row();
-        table.add(character1Button).fillX().uniformX().padRight(20f);
-        table.add(character2Button).fillX().uniformX().padRight(20f);
-        table.add(character3Button).fillX().uniformX();
-        table.row().padTop(40f);
-        table.add(character1Image).center().padRight(20f);
-        table.add(character2Image).center().padRight(20f);
-        table.add(character3Image).center();
+        table.add(playerNameField).colspan(3).fillX().padBottom(20);
+        table.row();
+        table.add(character1Button).padRight(10);
+        table.add(character2Button).padRight(10);
+        table.add(character3Button);
+        table.row().padTop(20);
+        table.add(startGameButton).colspan(3).fillX();
 
-        // Set the input processor to the stage
+        // Set the input processor
         Gdx.input.setInputProcessor(stage);
     }
 
-    /**
-     * Renders the screen.
-     * Clears the screen and renders the stage.
-     *
-     * @param delta The time elapsed since the last frame.
-     */
+    private void setupCharacterButton(TextButton button, String imagePath, final String characterName) {
+        Texture characterTexture = new Texture(Gdx.files.internal(imagePath));
+        Image characterImage = new Image(new TextureRegionDrawable(new TextureRegion(characterTexture)));
+
+        button.add(characterImage).size(100, 100);
+        button.row();
+        button.add(new Label(characterName, skin));
+
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Play.setSelectedCharacter(characterName);
+                highlightSelectedButton(button);
+            }
+        });
+    }
+
+    private void highlightSelectedButton(TextButton selectedButton) {
+        // Reset style for all buttons
+        character1Button.setStyle(skin.get(TextButton.TextButtonStyle.class));
+        character2Button.setStyle(skin.get(TextButton.TextButtonStyle.class));
+        character3Button.setStyle(skin.get(TextButton.TextButtonStyle.class));
+
+        // Highlight the selected button
+        TextButton.TextButtonStyle highlightedStyle = new TextButton.TextButtonStyle(selectedButton.getStyle());
+        highlightedStyle.fontColor = com.badlogic.gdx.graphics.Color.YELLOW;
+        selectedButton.setStyle(highlightedStyle);
+    }
+
     @Override
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -143,23 +125,14 @@ public class CharacterScreen extends ScreenAdapter {
         stage.draw();
     }
 
-    /**
-     * Called when the screen size is changed.
-     * Updates the viewport of the stage.
-     *
-     * @param width  The new width of the screen.
-     * @param height The new height of the screen.
-     */
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
 
-    /**
-     * Disposes of resources used by this screen.
-     */
     @Override
     public void dispose() {
         stage.dispose();
+        skin.dispose();
     }
 }
