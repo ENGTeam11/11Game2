@@ -9,6 +9,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.eng1.game.Player;
 
@@ -18,7 +19,7 @@ public class MiniGamePlayer extends Player {
     private Circle playerBounds;
     private Vector2 playerPosition;
     private ArrayList<Bullet> bullets;
-    private final float SHOOT_DElAY = 0.3f;
+    private final float SHOOT_DELAY = 0.3f;
     private float totalDelta;
     private boolean moveUp, moveDown, moveLeft, moveRight;
     private boolean academicWeaponInstance = false;
@@ -31,7 +32,7 @@ public class MiniGamePlayer extends Player {
     public MiniGamePlayer(Texture inPlayerTexture, Vector2 inPlayerPosition, Circle inPlayerBounds){
         super();
         bullets = new ArrayList<Bullet>();
-        playerSpeed = 20;
+        playerSpeed = 50;
         playerTexture = inPlayerTexture;
         playerPosition = inPlayerPosition;
         playerBounds = inPlayerBounds;
@@ -40,13 +41,13 @@ public class MiniGamePlayer extends Player {
 
     public void update(float delta,SpriteBatch spriteBatch,ArrayList<Obstacle> obstacles){
         totalDelta+=delta;
-        processInput();
+        processInput(delta);
         updateBullets(delta, spriteBatch,obstacles);
     }
 
     private void checkCollisions(Bullet bullet ,ArrayList<Obstacle> obstacles){
         for(Obstacle obstacle : obstacles){
-            if(bullet.getBounds().overlaps(obstacle.getBounds())){
+            if(Intersector.overlaps(bullet.getBounds(),obstacle.getBounds())){
                 obstacle.setDraw(false);
                 bullet.setDraw(false);
             }
@@ -57,9 +58,11 @@ public class MiniGamePlayer extends Player {
         if(bullets.size() > 0){
             for(Iterator<Bullet> i = bullets.iterator(); i.hasNext();){
                 Bullet bulletToUpdate = i.next();
+                if(bulletToUpdate.getDraw()){
+                    bulletToUpdate.update(delta);
+                    bulletToUpdate.draw(spriteBatch);
+                }
                 checkCollisions(bulletToUpdate, obstacles);
-                bulletToUpdate.update(delta);
-                bulletToUpdate.draw(spriteBatch);
                 if(!bulletToUpdate.getDraw()){
                     i.remove();
                 }
@@ -113,33 +116,40 @@ public class MiniGamePlayer extends Player {
         return true; 
     }
 
-    public void processInput(){
+    @Override
+    public boolean touchDown(int x, int y, int pointer, int button){
+        if(button == Input.Buttons.LEFT && academicWeaponInstance){
+            if(totalDelta >SHOOT_DELAY){
+                shoot(new Vector2(x, y));
+            }
+        }
+        return true;
+    }
+
+    public void processInput(float delta){
         if(moveUp){
-            playerPosition = playerPosition.add(0, playerSpeed);
+            playerPosition = playerPosition.add(0, playerSpeed*delta);
         }
         if(moveLeft){
-            playerPosition = playerPosition.add(-playerSpeed,0);
+            playerPosition = playerPosition.add(-playerSpeed*delta,0);
         }
         if(moveRight){
-            playerPosition = playerPosition.add(playerSpeed, 0);
+            playerPosition = playerPosition.add(playerSpeed*delta, 0);
         }
         if(moveDown){
-            playerPosition = playerPosition.add(0,-playerSpeed);
-        }
-        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && academicWeaponInstance){
-            if(totalDelta > SHOOT_DElAY){
-                shoot();
-                totalDelta = 0;
-            }
+            playerPosition = playerPosition.add(0,-playerSpeed*delta);
         }
     }
 
-    private void shoot() {
-        Texture bulletTexture = new Texture(Gdx.files.internal("minigames/Bullets.png"));
-        Vector2 bulletPosition = playerPosition.add(playerTexture.getWidth()/2,playerTexture.getHeight());
+    private void shoot(Vector2 mousePos) {
+        Texture bulletTexture = new Texture(Gdx.files.internal("minigame/Bullets.png"));
+        Vector2 bulletPosition = new Vector2(playerPosition.x + playerTexture.getWidth()/2,playerPosition.y + playerTexture.getHeight() );
         Vector2 bulletBoundPosition = new Vector2(bulletPosition.x + bulletTexture.getWidth()/2,bulletPosition.y + bulletTexture.getHeight()/2);
         Circle bulletBounds = new Circle(bulletBoundPosition,bulletTexture.getWidth()/2);
-        bullets.add(new Bullet(bulletTexture,bulletPosition,bulletBounds));
+        Bullet bulletToAdd = new Bullet(bulletTexture,bulletPosition,bulletBounds);
+        Vector2 translatedMousePos = new Vector2(mousePos.x,Gdx.graphics.getHeight()-mousePos.y);
+        bulletToAdd.setMoveTrajectory(bulletToAdd.getNormalizedVectorDirection(playerPosition, translatedMousePos));
+        bullets.add(bulletToAdd);
     }
 
     public void draw(SpriteBatch spriteBatch){
@@ -148,7 +158,6 @@ public class MiniGamePlayer extends Player {
     public Texture getTexture(){
         return playerTexture;
     }
-
     public Circle getBounds(){
         return playerBounds;
     }
@@ -159,6 +168,10 @@ public class MiniGamePlayer extends Player {
     
     public void setGameInstance(boolean value){
         academicWeaponInstance = value;
+    }
+
+    public void cleanBullets(){
+        bullets = new ArrayList<Bullet>();
     }
 
 }
