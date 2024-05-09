@@ -4,8 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import eng1.model.views.*;
-import minigames.AcademicWeapon;
-import minigames.FoodNinja;
 
 /**
  * The main game class responsible for managing screens.
@@ -18,8 +16,15 @@ public class HeslingtonHustle extends Game {
 	private EndScreen endScreen;
 	private AppPreferences preferences;
 	private CharacterScreen characterScreen;
-	private FoodNinja foodNinja;
-	private AcademicWeapon academicWeapon;
+	private PauseScreen pauseScreen;
+
+	// Screen constants
+	public final static int MENU = 0;
+	public final static int PREFERENCES = 1;
+	public final static int APPLICATION = 2;
+	public final static int ENDGAME = 3;
+	public final static int CHARACTER = 4;
+	public final static int PAUSE = 5;
 	
 	@Override
 	public void create() {
@@ -42,7 +47,7 @@ public class HeslingtonHustle extends Game {
 	 * @param screen The screen constant indicating the screen to switch to.
 	 *
 	 */
-	public void changeScreen(MenuState screen) {
+	public void changeScreen(int screen) {
 		switch (screen) {
 			case MENU:
 				if (menuScreen == null) menuScreen = new MenuScreen(this);
@@ -67,14 +72,6 @@ public class HeslingtonHustle extends Game {
 			case PAUSE:
 				if (pauseScreen == null) pauseScreen = new PauseScreen(this);
 				setScreen(pauseScreen);
-			case FOODNINJA:
-				if(foodNinja == null) foodNinja = new FoodNinja(this);
-				setScreen(foodNinja);
-				break;
-			case ACADEMICWEAPON:
-				if(academicWeapon == null) academicWeapon = new AcademicWeapon(this);
-				setScreen(academicWeapon);
-				break;
 		}
 	}
 
