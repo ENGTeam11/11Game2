@@ -506,17 +506,17 @@
  <objectgroup id="14" name="collisions">
   <object id="3" x="863.833" y="430.917" width="192.5" height="33.5"/>
   <object id="4" x="1050.08" y="447.417" width="101.25" height="33"/>
-  <object id="5" x="1050.08" y="478.417" width="22.25" height="66"/>
-  <object id="6" x="1023.08" y="543.417" width="64.5" height="23"/>
-  <object id="7" x="1071.83" y="510.917" width="15.5" height="33"/>
+  <object id="5" x="1050.08" y="478.417" width="6.25" height="66"/>
+  <object id="6" x="1023.08" y="543.417" width="58.6818" height="23"/>
+  <object id="7" x="1056.01" y="510.917" width="27.8636" height="33"/>
   <object id="8" x="1119.83" y="479.917" width="32" height="15.5"/>
   <object id="9" x="1135.83" y="492.417" width="16.5" height="164"/>
-  <object id="10" x="1104.83" y="544.917" width="31" height="26.25"/>
+  <object id="10" x="1108.47" y="544.917" width="27.3636" height="26.25"/>
   <object id="11" x="1119.83" y="599.417" width="17" height="48.25"/>
   <object id="12" x="911.833" y="640.417" width="210" height="15.5"/>
   <object id="13" x="975.833" y="624.417" width="16" height="16.5"/>
   <object id="14" x="863.333" y="458.917" width="16.5" height="70"/>
-  <object id="15" x="800.333" y="526.917" width="160" height="32.5"/>
+  <object id="15" x="800.333" y="526.917" width="150.727" height="32.5"/>
   <object id="16" x="799.833" y="559.417" width="16.25" height="96.5"/>
   <object id="17" x="832.083" y="581.167" width="48.5" height="17"/>
   <object id="18" x="816.583" y="640.167" width="63.25" height="15.75"/>
