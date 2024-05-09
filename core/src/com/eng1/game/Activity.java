@@ -116,7 +116,10 @@ public class Activity {
 
         resetDayActivities();
         if (GameStats.getDay() > 7) {
-            gameInstance.changeScreen(HeslingtonHustle.ENDGAME);
+            // Pass the score and activities completed to EndScreen
+            Map<String, Integer> activitiesCompleted = Activity.countCompletedActivities();
+            int score = calculateDayScore();
+            gameInstance.changeScreen(MenuState.ENDGAME);
         }
 
 
