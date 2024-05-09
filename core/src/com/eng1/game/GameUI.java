@@ -53,11 +53,13 @@ public class GameUI {
         timeLabel = new Label("Time: " + GameStats.getFormattedTime(), skin);
         dayLabel = new Label("Day: " + GameStats.getDay(), skin);
         scoreLabel = new Label("Score: " + GameStats.getScore(), skin);
+        energyLabel = new Label("Energy: " + GameStats.getEnergy(), skin );
         
 
         statsTable.add(dayLabel).expandX().fillX().row();
         statsTable.add(timeLabel).expandX().fillX().row();
         statsTable.add(scoreLabel).expandX().fillX().row();
+        statsTable.add(energyLabel).expand().fillX().row();
         
 
         statsTable.setSize(tableWidth, tableHeight);
@@ -68,6 +70,7 @@ public class GameUI {
         dayLabel.setText("Day: " + GameStats.getDay());
         timeLabel.setText("Time: " + GameStats.getFormattedTime());
         scoreLabel.setText("Score: " + GameStats.getScore());
+        energyLabel.setText("Energy: " + GameStats.getEnergy());
         
 
 

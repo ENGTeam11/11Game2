@@ -37,7 +37,6 @@ public class Play implements Screen {
         playerTracker.setPlayer(player);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         gameUI = new GameUI(skin);
-        displayDateTime = new BitmapFont();
         gameStats = new GameStats();
         GameStats.initializeGameTime();
 
@@ -78,7 +77,6 @@ public class Play implements Screen {
         renderer.getBatch().begin();
         renderer.getBatch().setProjectionMatrix(camera.combined);
         player.draw(renderer.getBatch());
-        displayDateTime.draw(renderer.getBatch(), "TEXT", 10, 20);
         renderer.getBatch().end();
     }
 
