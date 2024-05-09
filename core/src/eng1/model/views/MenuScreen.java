@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eng1.game.HeslingtonHustle;
 import com.eng1.game.MenuState;
+import org.w3c.dom.Text;
 
 /**
  * Represents the main menu screen of the game.
@@ -49,6 +50,7 @@ public class MenuScreen extends ScreenAdapter {
         // Create buttons
         titleLabel = new Label("Heslington Hustle", skin);
         TextButton newGame = new TextButton("New Game", skin);
+        TextButton leaderboard = new TextButton("Leaderboard", skin);
         TextButton preferences = new TextButton("Preferences", skin);
         TextButton exit = new TextButton("Exit", skin);
 
@@ -58,6 +60,8 @@ public class MenuScreen extends ScreenAdapter {
         table.add(newGame).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
         table.add(preferences).fillX().uniformX();
+        table.row().pad(0, 0, 10, 0);
+        table.add(leaderboard).fillX().uniformX();
         table.row();
         table.add(exit).fillX().uniformX();
 
@@ -87,6 +91,13 @@ public class MenuScreen extends ScreenAdapter {
                 parent.changeScreen(MenuState.PREFERENCES);
             }
         });
+        leaderboard.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                parent.changeScreen(MenuState.LEADERBOARD);
+            }
+        });
+
     }
     public static boolean isStartNewGame() {
         return startNewGame;

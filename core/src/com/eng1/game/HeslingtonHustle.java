@@ -21,6 +21,7 @@ public class HeslingtonHustle extends Game {
 	private FoodNinja foodNinja;
 	private AcademicWeapon academicWeapon;
 	private PauseScreen pauseScreen;
+	private LeaderboardScreen leaderboardScreen;
 	
 	@Override
 	public void create() {
@@ -76,7 +77,11 @@ public class HeslingtonHustle extends Game {
 				if(academicWeapon == null) academicWeapon = new AcademicWeapon(this);
 				setScreen(academicWeapon);
 				break;
-		}
+			case LEADERBOARD:
+				if (leaderboardScreen == null) leaderboardScreen = new LeaderboardScreen(this);
+				setScreen(leaderboardScreen);
+				break;
+ 		}
 	}
 
 	@Override

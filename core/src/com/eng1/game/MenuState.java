@@ -9,4 +9,5 @@ public enum MenuState {
     PAUSE,
     FOODNINJA,
     ACADEMICWEAPON,
+    LEADERBOARD,
 }
