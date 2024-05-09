@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tests</a> &gt; <a href="index.source.html" class="el_package">eng1.model.views</a> &gt; <span class="el_source">MenuScreen.java</span></div><h1>MenuScreen.java</h1><pre class="source lang-java linenums">package eng1.model.views;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.eng1.game.HeslingtonHustle;
+
+/**
+ * Represents the main menu screen of the game.
+ * Provides options for starting a new game, accessing preferences, and exiting the game.
+ */
+public class MenuScreen extends ScreenAdapter {
+    private HeslingtonHustle parent; // Field to store the orchestrator of the game
+    private Stage stage; // Stage for handling UI elements
+    private Label titleLabel; // Label for displaying the game title
+<span class="nc" id="L24">    private static boolean startNewGame = false;</span>
+
+    /**
+     * Constructor for the MenuScreen class.
+     * Initializes the parent orchestrator and creates a new stage for UI rendering.
+     * @param game The orchestrator of the game.
+     */
+<span class="nc" id="L31">    public MenuScreen(HeslingtonHustle game) {</span>
+<span class="nc" id="L32">        parent = game;</span>
+<span class="nc" id="L33">        stage = new Stage(new ScreenViewport());</span>
+<span class="nc" id="L34">    }</span>
+
+    @Override
+    public void show() {
+<span class="nc" id="L38">        Gdx.input.setInputProcessor(stage); // Set the input processor to the stage</span>
+
+        // Create a table that fills the screen. Everything else will go inside this table.
+<span class="nc" id="L41">        Table table = new Table();</span>
+<span class="nc" id="L42">        table.setFillParent(true);</span>
+<span class="nc" id="L43">        stage.addActor(table);</span>
+
+        // Temporary until we have asset manager in
+<span class="nc" id="L46">        Skin skin = new Skin(Gdx.files.internal(&quot;skin/uiskin.json&quot;));</span>
+
+        // Create buttons
+<span class="nc" id="L49">        titleLabel = new Label(&quot;Heslington Hustle&quot;, skin);</span>
+<span class="nc" id="L50">        TextButton newGame = new TextButton(&quot;New Game&quot;, skin);</span>
+<span class="nc" id="L51">        TextButton preferences = new TextButton(&quot;Preferences&quot;, skin);</span>
+<span class="nc" id="L52">        TextButton exit = new TextButton(&quot;Exit&quot;, skin);</span>
+
+        // Add buttons to table
+<span class="nc" id="L55">        table.add(titleLabel).colspan(2);</span>
+<span class="nc" id="L56">        table.row().pad(10, 0, 0, 0);</span>
+<span class="nc" id="L57">        table.add(newGame).fillX().uniformX();</span>
+<span class="nc" id="L58">        table.row().pad(10, 0, 10, 0);</span>
+<span class="nc" id="L59">        table.add(preferences).fillX().uniformX();</span>
+<span class="nc" id="L60">        table.row();</span>
+<span class="nc" id="L61">        table.add(exit).fillX().uniformX();</span>
+
+        // Create button listeners
+
+        // Exits the game when exit is clicked
+<span class="nc" id="L66">        exit.addListener(new ChangeListener() {</span>
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+<span class="nc" id="L69">                Gdx.app.exit();</span>
+<span class="nc" id="L70">            }</span>
+        });
+
+        // Changes to character screen when new game is clicked
+<span class="nc" id="L74">        newGame.addListener(new ChangeListener() {</span>
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+<span class="nc" id="L77">                startNewGame = true;</span>
+<span class="nc" id="L78">                parent.changeScreen(HeslingtonHustle.CHARACTER);</span>
+<span class="nc" id="L79">            }</span>
+        });
+
+        // Changes to preferences screen when preferences is clicked
+<span class="nc" id="L83">        preferences.addListener(new ChangeListener() {</span>
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+<span class="nc" id="L86">                parent.changeScreen(HeslingtonHustle.PREFERENCES);</span>
+<span class="nc" id="L87">            }</span>
+        });
+<span class="nc" id="L89">    }</span>
+    public static boolean isStartNewGame() {
+<span class="nc" id="L91">        return startNewGame;</span>
+    }
+    public static void setStartNewGame(boolean newGameClicked) {
+<span class="nc" id="L94">        startNewGame = newGameClicked;</span>
+<span class="nc" id="L95">    }</span>
+
+    @Override
+    public void render(float delta) {
+        // Clear the screen ready for the next set of images to be drawn
+<span class="nc" id="L100">        Gdx.gl.glClearColor(0f, 0f, 0f, 1);</span>
+<span class="nc" id="L101">        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);</span>
+
+        // Tell our stage to do actions and draw itself
+<span class="nc" id="L104">        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));</span>
+<span class="nc" id="L105">        stage.draw();</span>
+<span class="nc" id="L106">    }</span>
+
+    @Override
+    public void resize(int width, int height) {
+        // Change the stage's viewport when the screen size is changed
+<span class="nc" id="L111">        stage.getViewport().update(width, height, true);</span>
+<span class="nc" id="L112">    }</span>
+
+    @Override
+    public void pause() {
+        // Not needed
+<span class="nc" id="L117">    }</span>
+
+    @Override
+    public void resume() {
+        // Not needed
+<span class="nc" id="L122">    }</span>
+
+    @Override
+    public void hide() {
+        // Not needed
+<span class="nc" id="L127">    }</span>
+
+    @Override
+    public void dispose() {
+        // Dispose of assets when not needed anymore
+<span class="nc" id="L132">        stage.dispose();</span>
+<span class="nc" id="L133">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

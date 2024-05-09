@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tests</a> &gt; <a href="index.source.html" class="el_package">eng1.model.views</a> &gt; <span class="el_source">MainScreen.java</span></div><h1>MainScreen.java</h1><pre class="source lang-java linenums">package eng1.model.views;
+
+import com.eng1.game.HeslingtonHustle;
+import com.eng1.game.Play;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
+
+/**
+ * This class represents the main screen of the game.
+ * This screen serves as the playing point of the game and handles user interactions such as escape to go to a settings screen / quit.
+ */
+public class MainScreen implements Screen {
+    private HeslingtonHustle parent; // a field to store our orchestrator
+    private Play play;
+
+    /**
+     * Constructs a new MainScreen instance.
+     * @param heslingtonHustle The orchestrator of the game.
+     *                         This parameter is used to navigate between screens.
+     */
+<span class="nc" id="L23">    public MainScreen(HeslingtonHustle heslingtonHustle){</span>
+<span class="nc" id="L24">        parent = heslingtonHustle;     // setting the argument to our field</span>
+
+        // Add input listener to handle escape key press
+<span class="nc" id="L27">        Gdx.input.setInputProcessor(new InputAdapter() {</span>
+            @Override
+            public boolean keyDown(int keycode) {
+<span class="nc bnc" id="L30" title="All 2 branches missed.">                if (keycode == Keys.ESCAPE) {</span>
+                    // Navigate to preferences screen or quit game
+<span class="nc" id="L32">                    parent.changeScreen(HeslingtonHustle.PREFERENCES);</span>
+<span class="nc" id="L33">                    return true; // Key press handled -&gt; navigates to screen</span>
+                }
+<span class="nc" id="L35">                return false; // Key press not handled -&gt; doesn't navigate to screen</span>
+            }
+        });
+<span class="nc" id="L38">    }</span>
+
+    @Override
+    public void show() {
+        // This method is called when the screen is first shown.
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (MenuScreen.isStartNewGame()) {</span>
+<span class="nc" id="L44">            play = new Play(parent);</span>
+        }
+<span class="nc" id="L46">        parent.setScreen(play); // Switch to the 'Play' screen (where the game is run / rendered)</span>
+        
+<span class="nc" id="L48">    }</span>
+
+
+    // Override methods from Screen interface
+    // These methods are called by the game framework at various stages of the screen lifecycle
+    // Not currently used / needed.
+    @Override
+    public void render(float delta) {
+        // This method is called every frame to render the screen.
+        // You can put your rendering code here.
+<span class="nc" id="L58">    }</span>
+
+    @Override
+    public void resize(int width, int height) {
+        // This method is called when the screen size is changed.
+        // You can handle resizing of your screen here.
+<span class="nc" id="L64">    }</span>
+
+    @Override
+    public void pause() {
+        // This method is called when the game is paused.
+        // You can pause any ongoing processes or animations here.
+<span class="nc" id="L70">    }</span>
+
+    @Override
+    public void resume() {
+        // This method is called when the game is resumed from a paused state.
+        // You can resume any paused processes or animations here.
+<span class="nc" id="L76">    }</span>
+
+    @Override
+    public void hide() {
+        // This method is called when the screen is hidden or switched to another screen.
+        // You can dispose of any resources associated with the screen here.
+<span class="nc" id="L82">    }</span>
+
+    @Override
+    public void dispose() {
+        // This method is called when the screen is about to be disposed.
+        // You can dispose of any resources associated with the screen here.
+<span class="nc" id="L88">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

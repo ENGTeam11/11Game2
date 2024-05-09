@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoadingScreen.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tests</a> &gt; <a href="index.source.html" class="el_package">eng1.model.views</a> &gt; <span class="el_source">LoadingScreen.java</span></div><h1>LoadingScreen.java</h1><pre class="source lang-java linenums">package eng1.model.views;
+
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.eng1.game.HeslingtonHustle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
+/**
+ * Represents the loading screen of the game.
+ * This screen is displayed while the game is loading resources or preparing for the main menu.
+ * ((redundant for now because loading takes a negligible amount of time))
+ */
+public class LoadingScreen implements Screen {
+    private HeslingtonHustle parent; // a field to store our orchestrator
+    private Stage stage;
+
+    /**
+     * Constructor for the LoadingScreen class.
+     * Initializes the parent orchestrator and creates a new stage for UI rendering.
+     * @param heslingtonHustle The orchestrator of the game.
+     */
+<span class="nc" id="L22">    public LoadingScreen(HeslingtonHustle heslingtonHustle){</span>
+<span class="nc" id="L23">        parent = heslingtonHustle;     // setting the argument to our field.</span>
+<span class="nc" id="L24">        stage = new Stage(new ScreenViewport());</span>
+
+<span class="nc" id="L26">    }</span>
+    @Override
+    public void show() {
+<span class="nc" id="L29">    }</span>
+
+    /**
+     * When the loading screen has finished loading, set the screen to the menu screen.
+     */
+    @Override
+    public void render(float delta) {
+<span class="nc" id="L36">        parent.changeScreen(HeslingtonHustle.MENU);</span>
+
+<span class="nc" id="L38">    }</span>
+
+    @Override
+    public void resize(int width, int height) {
+<span class="nc" id="L42">        stage.getViewport().update(width, height, true);</span>
+
+<span class="nc" id="L44">    }</span>
+
+    @Override
+    public void pause() {
+<span class="nc" id="L48">    }</span>
+
+    @Override
+    public void resume() {
+<span class="nc" id="L52">    }</span>
+
+    @Override
+    public void hide() {
+<span class="nc" id="L56">    }</span>
+
+    @Override
+    public void dispose() {
+<span class="nc" id="L60">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

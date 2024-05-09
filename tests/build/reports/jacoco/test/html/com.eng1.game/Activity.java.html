@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Activity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tests</a> &gt; <a href="index.source.html" class="el_package">com.eng1.game</a> &gt; <span class="el_source">Activity.java</span></div><h1>Activity.java</h1><pre class="source lang-java linenums">package com.eng1.game;
+
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.math.Interpolation;
+
+import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.eng1.game.HeslingtonHustle;
+
+
+public class Activity {
+
+    private static Map&lt;String, Map&lt;String, Activity&gt;&gt; activities; // Map of the activity types
+    // each activity type containing a map of the locations and activities within those locations
+    // Activities can be called using the type then the location
+    private final int timeNeeded; // Time required to complete the activity
+    private final int energyNeeded; // Energy required to complete the activity
+    private int timesCompletedWeek; // Times the activity has been completed in the week (can be used to decrese the reward of an activity if it is completed multiple times)
+    private int timesCompletedDay; // Times the activity has been completed that day (can be used to stop activites being completed too many times or to increase the reward i.e. eating 3 meals)
+    private final int reward; // Score the activity gives for being completed
+
+    private static HeslingtonHustle gameInstance; // Reference to the HeslingtonHustle instance
+
+    private static int finalScore;
+
+<span class="nc" id="L28">    public Activity(int timeNeeded, int energyNeeded, int reward) {</span>
+        // Constructor for activities
+<span class="nc" id="L30">        this.timeNeeded = timeNeeded;</span>
+<span class="nc" id="L31">        this.energyNeeded = energyNeeded;</span>
+<span class="nc" id="L32">        this.timesCompletedWeek = 0;</span>
+<span class="nc" id="L33">        this.timesCompletedDay = 0;</span>
+<span class="nc" id="L34">        this.reward = reward;</span>
+<span class="nc" id="L35">    }</span>
+
+    // Method to set the game instance
+    public static void setGameInstance(HeslingtonHustle game) {
+<span class="nc" id="L39">        gameInstance = game;</span>
+<span class="nc" id="L40">    }</span>
+
+    public static void createActivities() {
+        // Create all activities here
+        // Call this method at the start of a new game
+
+<span class="nc" id="L46">        activities = new HashMap&lt;&gt;();</span>
+        // Add in each type of activity
+<span class="nc" id="L48">        activities.put(&quot;Study&quot;, new HashMap&lt;&gt;());</span>
+<span class="nc" id="L49">        activities.put(&quot;Relax&quot;, new HashMap&lt;&gt;());</span>
+<span class="nc" id="L50">        activities.put(&quot;Eat&quot;, new HashMap&lt;&gt;());</span>
+<span class="nc" id="L51">        activities.put(&quot;Sleep&quot;, new HashMap&lt;&gt;());</span>
+
+        // Add activties to their activity type
+        // Study: CompSci Building
+<span class="nc" id="L55">        activities.get(&quot;Study&quot;).put(&quot;CompSci&quot;, new Activity(180, 30, 0));</span>
+
+        // Relax: Gym
+<span class="nc" id="L58">        activities.get(&quot;Relax&quot;).put(&quot;Gym&quot;, new Activity(60, 20, 0));</span>
+<span class="nc" id="L59">        activities.get(&quot;Relax&quot;).put(&quot;Map1&quot;, new Activity(60, 10, 0));</span>
+<span class="nc" id="L60">        activities.get(&quot;Relax&quot;).put(&quot;Basketball&quot;, new Activity(60, 250, 0));</span>
+<span class="nc" id="L61">        activities.get(&quot;Relax&quot;).put(&quot;Football&quot;, new Activity(90, 30, 0));</span>
+
+        // Eat: Piazza Building
+<span class="nc" id="L64">        activities.get(&quot;Eat&quot;).put(&quot;Piazza&quot;, new Activity(60, 10, 0));</span>
+
+        // Sleep: Home
+<span class="nc" id="L67">        activities.get(&quot;Sleep&quot;).put(&quot;Home&quot;, new Activity(0,0, 0));</span>
+<span class="nc" id="L68">    }</span>
+
+    public static void completeActivity(String activityIdentifier) {
+<span class="nc" id="L71">        String[] parts = activityIdentifier.split(&quot;,&quot;);</span>
+<span class="nc" id="L72">        String type = parts[0];</span>
+<span class="nc" id="L73">        String location = parts[1];</span>
+
+<span class="nc" id="L75">        Activity activity = activities.get(type).get(location);</span>
+<span class="nc" id="L76">        System.out.println(activity.complete());</span>
+
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (type.equals(&quot;Sleep&quot;)) {</span>
+<span class="nc" id="L79">            sleep();</span>
+        }
+<span class="nc" id="L81">    }</span>
+
+    public String complete(){
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (GameStats.getEnergy() &lt; energyNeeded) {</span>
+<span class="nc" id="L85">            return &quot;Insufficient energy&quot;;</span>
+        }
+<span class="nc" id="L87">        GameStats.increaseTime(timeNeeded);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (GameStats.getTime() &gt; 2400) {</span>
+<span class="nc" id="L89">            return &quot;Insufficient time&quot;;</span>
+        }
+<span class="nc" id="L91">        this.timesCompletedDay++;</span>
+<span class="nc" id="L92">        this.timesCompletedWeek++;</span>
+<span class="nc" id="L93">        GameStats.decreaseEnergy(this.energyNeeded);</span>
+<span class="nc" id="L94">        GameStats.increaseScore(reward);</span>
+
+<span class="nc" id="L96">        return &quot;Activity Completed&quot;;</span>
+
+        // Debugging
+        // ---
+        //System.out.println(&quot;Current time: &quot; + GameStats.getTime());
+        //System.out.println(&quot;Current energy: &quot; + GameStats.getEnergy());
+        //System.out.println(&quot;Current score: &quot; + GameStats.getScore());
+        // ---
+
+    }
+
+
+
+    public static void sleep() {
+        // Debugging
+        // ---
+        // System.out.println(&quot;Sleeping&quot;);
+        // ---
+
+<span class="nc" id="L115">        GameStats.newDay();</span>
+
+<span class="nc" id="L117">        resetDayActivities();</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if (GameStats.getDay() &gt; 7) {</span>
+<span class="nc" id="L119">            gameInstance.changeScreen(HeslingtonHustle.ENDGAME);</span>
+        }
+
+
+<span class="nc" id="L123">    }</span>
+
+    public static Map&lt;String, Integer&gt; countCompletedActivities() {
+        // Count the completed activites for the end screen
+<span class="nc" id="L127">        Map&lt;String, Integer&gt; counts = new HashMap&lt;&gt;();</span>
+        // Add in each type of activity
+<span class="nc" id="L129">        counts.put(&quot;Study&quot;, 0);</span>
+<span class="nc" id="L130">        counts.put(&quot;Relax&quot;, 0);</span>
+<span class="nc" id="L131">        counts.put(&quot;Eat&quot;, 0);</span>
+<span class="nc" id="L132">        counts.put(&quot;Sleep&quot;, 0);</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        for (String type : activities.keySet()) {</span>
+            // typeActivities is the map for each type of activity
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            for (Activity activity : activities.get(type).values()) {</span>
+<span class="nc" id="L136">                counts.put(type, counts.get(type) + activity.timesCompletedWeek);</span>
+<span class="nc" id="L137">            }</span>
+<span class="nc" id="L138">        }</span>
+
+<span class="nc" id="L140">        return counts;</span>
+    }
+
+    public static int calculateDayScore() {
+        // Score to be calculated here
+        // Can be completed by iterating through the activites and checking if their timeCompletedDay is &gt; 0
+<span class="nc" id="L146">        return  0;</span>
+    }
+
+    public static int getFinalScore() {
+<span class="nc" id="L150">        return finalScore;</span>
+    }
+
+    public static void setFinalScore(int score) {
+<span class="nc" id="L154">        finalScore = score;</span>
+<span class="nc" id="L155">    }</span>
+
+    private static void resetDayActivities() {
+<span class="nc bnc" id="L158" title="All 2 branches missed.">        for (Map&lt;String, Activity&gt; typeActivities : activities.values()) {</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">            for (Activity activity : typeActivities.values()) {</span>
+<span class="nc" id="L160">                activity.timesCompletedDay = 0;</span>
+<span class="nc" id="L161">            }</span>
+<span class="nc" id="L162">        }</span>
+<span class="nc" id="L163">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

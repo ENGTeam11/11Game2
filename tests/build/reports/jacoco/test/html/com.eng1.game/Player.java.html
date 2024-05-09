@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Player.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tests</a> &gt; <a href="index.source.html" class="el_package">com.eng1.game</a> &gt; <span class="el_source">Player.java</span></div><h1>Player.java</h1><pre class="source lang-java linenums">package com.eng1.game;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
+
+public class Player extends Sprite implements InputProcessor {
+<span class="nc" id="L11">    private Vector2 velocity = new Vector2();</span>
+<span class="nc" id="L12">    private float speed = 300; // Speed</span>
+    private float scale;
+    private boolean up, down, left, right;
+    private PlayerTracker playerTracker;
+<span class="nc" id="L16">    private boolean interacting = false;</span>
+
+    public Player(Sprite sprite, PlayerTracker playerTracker, MapManager mapManager) {
+<span class="nc" id="L19">        super(sprite.getTexture());</span>
+<span class="nc" id="L20">        this.setScale(3.0f);</span>
+<span class="nc" id="L21">        scale = mapManager.getCurrentScale();</span>
+<span class="nc" id="L22">        this.playerTracker = playerTracker;</span>
+<span class="nc" id="L23">        Vector2 spawnPoint = mapManager.findObjectPosition(&quot;spawn_points&quot;, &quot;spawn_point&quot;);</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        if (spawnPoint != null) {</span>
+<span class="nc" id="L25">            setPosition(spawnPoint.x, spawnPoint.y);</span>
+        }
+<span class="nc" id="L27">        Gdx.input.setInputProcessor(this);</span>
+<span class="nc" id="L28">    }</span>
+    public void update(float delta, MapManager mapManager) {
+
+<span class="nc" id="L31">        movementscheck();</span>
+<span class="nc" id="L32">        float newX = getX() + velocity.x * delta;</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (mapManager.inRegion(new Vector2(newX, getY()), getWidth(), getHeight(), &quot;collisions&quot;)) {</span>
+<span class="nc" id="L34">            newX = getX();</span>
+        }
+<span class="nc" id="L36">        float newY = getY() + velocity.y * delta;</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), &quot;collisions&quot;)) {</span>
+<span class="nc" id="L38">            newY = getY();  </span>
+        }
+<span class="nc" id="L40">        setPosition(newX, newY);</span>
+
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (interacting){</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">            if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), &quot;activities&quot;)){</span>
+<span class="nc" id="L44">                interacting = false;</span>
+<span class="nc" id="L45">                Activity.completeActivity(playerTracker.checkPlayerActivity(new Vector2(getX(), getY()), getWidth(), getHeight()));</span>
+            }
+        }
+
+
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (playerTracker != null) {</span>
+<span class="nc" id="L51">            playerTracker.checkPlayerTile(newX, newY);</span>
+        }
+        
+<span class="nc" id="L54">        scale = mapManager.getCurrentScale();</span>
+<span class="nc" id="L55">        this.setScale(3.0f / scale);</span>
+<span class="nc" id="L56">    }</span>
+
+    public void movementscheck(){
+<span class="nc bnc" id="L59" title="All 4 branches missed.">        if(up &amp;&amp; !down){</span>
+<span class="nc" id="L60">            velocity.y = speed / scale;</span>
+        }
+<span class="nc bnc" id="L62" title="All 4 branches missed.">        else if(!up &amp;&amp; down){</span>
+<span class="nc" id="L63">            velocity.y = -speed / scale;</span>
+        }
+        else{
+<span class="nc" id="L66">            velocity.y = 0;</span>
+        }
+
+<span class="nc bnc" id="L69" title="All 4 branches missed.">        if(!left &amp;&amp; right){</span>
+<span class="nc" id="L70">            velocity.x = speed / scale;</span>
+        }
+<span class="nc bnc" id="L72" title="All 4 branches missed.">        else if(left &amp;&amp; !right){</span>
+<span class="nc" id="L73">            velocity.x = -speed / scale;</span>
+        }
+        else{
+<span class="nc" id="L76">            velocity.x = 0;</span>
+        }
+<span class="nc" id="L78">    }</span>
+
+    @Override
+    public boolean keyDown(int keycode) {
+<span class="nc bnc" id="L82" title="All 6 branches missed.">        switch (keycode) {</span>
+            case Keys.W:
+<span class="nc" id="L84">                up = true;</span>
+<span class="nc" id="L85">                break;</span>
+            case Keys.S:
+<span class="nc" id="L87">                down = true;</span>
+<span class="nc" id="L88">                break;</span>
+            case Keys.A:
+<span class="nc" id="L90">                left = true;</span>
+<span class="nc" id="L91">                break;</span>
+            case Keys.D:
+<span class="nc" id="L93">                right = true;</span>
+<span class="nc" id="L94">                break;</span>
+                case Keys.E:
+                case Keys.ENTER:
+                case Keys.SPACE:
+<span class="nc" id="L98">                    interacting = true;</span>
+                    break;
+        }
+<span class="nc" id="L101">        return true;</span>
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+<span class="nc bnc" id="L106" title="All 6 branches missed.">        switch (keycode) {</span>
+            case Keys.W:
+<span class="nc" id="L108">                up = false;</span>
+<span class="nc" id="L109">                break;</span>
+            case Keys.S:
+<span class="nc" id="L111">                down = false;</span>
+<span class="nc" id="L112">                break;</span>
+            case Keys.A:
+<span class="nc" id="L114">                left = false;</span>
+<span class="nc" id="L115">                break;</span>
+            case Keys.D:
+<span class="nc" id="L117">                right = false;</span>
+<span class="nc" id="L118">                break;</span>
+            case Keys.E:
+            case Keys.ENTER:
+            case Keys.SPACE:
+<span class="nc" id="L122">                interacting = false;</span>
+                break;
+
+        }
+<span class="nc" id="L126">        return true;</span>
+    }
+
+    @Override
+    public void draw(Batch batch){
+<span class="nc" id="L131">        batch.draw(getTexture(), getX(), getY(), getTexture().getWidth()*getScaleX(), getTexture().getHeight()*getScaleY());</span>
+<span class="nc" id="L132">    }</span>
+
+    @Override
+    public boolean keyTyped(char character) {
+<span class="nc" id="L136">        return false;</span>
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+<span class="nc" id="L141">        return false;</span>
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+<span class="nc" id="L146">        return false;</span>
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+<span class="nc" id="L151">        return false;</span>
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+<span class="nc" id="L156">        return false;</span>
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+<span class="nc" id="L161">        return false;</span>
+    }
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+<span class="nc" id="L166">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

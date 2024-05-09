@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameUI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tests</a> &gt; <a href="index.source.html" class="el_package">com.eng1.game</a> &gt; <span class="el_source">GameUI.java</span></div><h1>GameUI.java</h1><pre class="source lang-java linenums">package com.eng1.game;
+
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+
+
+public class GameUI {
+    private Stage stage;
+    private Skin skin;
+    private Dialog controlsDialog;
+    private Label energyLabel, timeLabel, scoreLabel, dayLabel;
+    private Table statsTable;
+
+<span class="nc" id="L22">    public GameUI(Skin skin) {</span>
+<span class="nc" id="L23">        stage = new Stage(new ScreenViewport());</span>
+<span class="nc" id="L24">        this.skin = skin;</span>
+<span class="nc" id="L25">        setupStatsDialog();</span>
+<span class="nc" id="L26">        setupControlsDialog();</span>
+
+<span class="nc" id="L28">    }</span>
+
+    private void setupControlsDialog() {
+<span class="nc" id="L31">        controlsDialog = new Dialog(&quot;HOW TO PLAY&quot;, skin);</span>
+<span class="nc" id="L32">        controlsDialog.text(&quot;Use WASD to move around and E to interact!&quot;);</span>
+<span class="nc" id="L33">        controlsDialog.getTitleLabel().setAlignment(Align.center);</span>
+<span class="nc" id="L34">        controlsDialog.button(&quot;OK&quot;,true);</span>
+<span class="nc" id="L35">        controlsDialog.setMovable(false);</span>
+<span class="nc" id="L36">        controlsDialog.show(stage);</span>
+<span class="nc" id="L37">        controlsDialog.setSize(stage.getWidth()  * 0.25f, stage.getHeight() * 0.25f);</span>
+<span class="nc" id="L38">        controlsDialog.setPosition((stage.getWidth() - controlsDialog.getWidth()) / 2, (stage.getHeight() - controlsDialog.getHeight()) / 2);</span>
+
+<span class="nc" id="L40">    }</span>
+    private void setupStatsDialog() {
+<span class="nc" id="L42">        Table wrapperTable = new Table();</span>
+<span class="nc" id="L43">        wrapperTable.setFillParent(true);</span>
+<span class="nc" id="L44">        wrapperTable.top().right();</span>
+
+<span class="nc" id="L46">        statsTable = new Table(skin);</span>
+<span class="nc" id="L47">        float tableWidth = Gdx.graphics.getWidth() * 0.20f;</span>
+<span class="nc" id="L48">        float tableHeight = Gdx.graphics.getHeight() * 0.20f;</span>
+
+<span class="nc" id="L50">        statsTable.setBackground(skin.getDrawable(&quot;default-pane&quot;));</span>
+<span class="nc" id="L51">        statsTable.pad(10);</span>
+
+<span class="nc" id="L53">        timeLabel = new Label(&quot;Time: &quot; + GameStats.getFormattedTime(), skin);</span>
+<span class="nc" id="L54">        dayLabel = new Label(&quot;Day: &quot; + GameStats.getDay(), skin);</span>
+<span class="nc" id="L55">        scoreLabel = new Label(&quot;Score: &quot; + GameStats.getScore(), skin);</span>
+        
+
+<span class="nc" id="L58">        statsTable.add(dayLabel).expandX().fillX().row();</span>
+<span class="nc" id="L59">        statsTable.add(timeLabel).expandX().fillX().row();</span>
+<span class="nc" id="L60">        statsTable.add(scoreLabel).expandX().fillX().row();</span>
+        
+
+<span class="nc" id="L63">        statsTable.setSize(tableWidth, tableHeight);</span>
+<span class="nc" id="L64">        wrapperTable.add(statsTable);</span>
+<span class="nc" id="L65">        stage.addActor(wrapperTable);</span>
+<span class="nc" id="L66">    }</span>
+    public void updateStats(){
+<span class="nc" id="L68">        dayLabel.setText(&quot;Day: &quot; + GameStats.getDay());</span>
+<span class="nc" id="L69">        timeLabel.setText(&quot;Time: &quot; + GameStats.getFormattedTime());</span>
+<span class="nc" id="L70">        scoreLabel.setText(&quot;Score: &quot; + GameStats.getScore());</span>
+        
+
+
+<span class="nc" id="L74">    }</span>
+
+    public void render(float delta) {
+<span class="nc" id="L77">        updateStats();</span>
+<span class="nc" id="L78">        stage.act(delta);</span>
+<span class="nc" id="L79">        stage.draw();</span>
+<span class="nc" id="L80">    }</span>
+    public void resize(int width, int height) {
+<span class="nc" id="L82">        stage.getViewport().update(width, height, true);</span>
+<span class="nc" id="L83">    }</span>
+    public Stage getStage(){
+<span class="nc" id="L85">        return stage;</span>
+    }
+    public void dispose(){
+<span class="nc" id="L88">        stage.dispose();</span>
+<span class="nc" id="L89">        skin.dispose();</span>
+<span class="nc" id="L90">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

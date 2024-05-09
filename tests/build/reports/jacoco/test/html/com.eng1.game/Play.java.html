@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Play.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tests</a> &gt; <a href="index.source.html" class="el_package">com.eng1.game</a> &gt; <span class="el_source">Play.java</span></div><h1>Play.java</h1><pre class="source lang-java linenums">package com.eng1.game;
+
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import eng1.model.views.MenuScreen;
+
+
+public class Play implements Screen {
+    private OrthographicCamera camera;
+    private OrthogonalTiledMapRenderer renderer;
+    private MapManager mapManager;
+    private Player player;
+    private BitmapFont displayDateTime;
+    public static String selectedCharacter;
+    private PlayerTracker playerTracker;
+    private GameUI gameUI;
+    private Skin skin;
+    private GameStats gameStats;
+    private HeslingtonHustle heslingtonHustle;
+
+<span class="nc" id="L28">    public Play(HeslingtonHustle game) {</span>
+<span class="nc" id="L29">        heslingtonHustle = game;</span>
+<span class="nc" id="L30">        Activity.createActivities();</span>
+<span class="nc" id="L31">        camera = new OrthographicCamera();</span>
+<span class="nc" id="L32">        AssetManager assetManager = new AssetManager();</span>
+<span class="nc" id="L33">        mapManager = new MapManager(assetManager, camera);</span>
+<span class="nc" id="L34">        mapManager.loadMap(&quot;maps/map1/map1.tmx&quot;);</span>
+<span class="nc" id="L35">        playerTracker = new PlayerTracker(mapManager);</span>
+<span class="nc" id="L36">        player = new Player(new Sprite(new Texture(&quot;playerCharacters/playerCharacter1.png&quot;)), playerTracker, mapManager);</span>
+<span class="nc" id="L37">        playerTracker.setPlayer(player);</span>
+<span class="nc" id="L38">        skin = new Skin(Gdx.files.internal(&quot;skin/uiskin.json&quot;));</span>
+<span class="nc" id="L39">        gameUI = new GameUI(skin);</span>
+<span class="nc" id="L40">        displayDateTime = new BitmapFont();</span>
+<span class="nc" id="L41">        gameStats = new GameStats();</span>
+<span class="nc" id="L42">        GameStats.initializeGameTime();</span>
+
+<span class="nc" id="L44">        MenuScreen.setStartNewGame(false); // Set start new game to false, so a new instance is not created everytime</span>
+
+<span class="nc" id="L46">    }</span>
+
+    public static void setSelectedCharacter(String character) {
+<span class="nc" id="L49">        selectedCharacter = character;</span>
+<span class="nc" id="L50">    }</span>
+
+    @Override
+    public void show() {
+<span class="nc" id="L54">        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());</span>
+<span class="nc" id="L55">        InputMultiplexer inputMultiplexer = new InputMultiplexer();</span>
+<span class="nc" id="L56">        inputMultiplexer.addProcessor(gameUI.getStage());</span>
+<span class="nc" id="L57">        inputMultiplexer.addProcessor(player);</span>
+<span class="nc" id="L58">        Gdx.input.setInputProcessor(inputMultiplexer);</span>
+
+
+<span class="nc" id="L61">    }</span>
+    
+
+    @Override
+    public void render(float delta) {
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {</span>
+<span class="nc" id="L67">            heslingtonHustle.changeScreen(HeslingtonHustle.PAUSE);</span>
+        }
+<span class="nc" id="L69">        Gdx.gl.glClearColor(0, 0, 0, 1);</span>
+<span class="nc" id="L70">        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);</span>
+<span class="nc" id="L71">        camera.update();</span>
+
+<span class="nc" id="L73">        GameStats.initializeGameTimeFlow(delta);</span>
+<span class="nc" id="L74">        mapManager.render();</span>
+<span class="nc" id="L75">        player.update(delta, mapManager);</span>
+<span class="nc" id="L76">        gameUI.render(delta);</span>
+        
+<span class="nc" id="L78">        renderer.getBatch().begin();</span>
+<span class="nc" id="L79">        renderer.getBatch().setProjectionMatrix(camera.combined);</span>
+<span class="nc" id="L80">        player.draw(renderer.getBatch());</span>
+<span class="nc" id="L81">        displayDateTime.draw(renderer.getBatch(), &quot;TEXT&quot;, 10, 20);</span>
+<span class="nc" id="L82">        renderer.getBatch().end();</span>
+<span class="nc" id="L83">    }</span>
+
+    @Override
+    public void resize(int width, int height) {
+<span class="nc" id="L87">        float aspectRatio = 16f / 9f;</span>
+<span class="nc" id="L88">        float scale = 1f;</span>
+<span class="nc" id="L89">        float viewportHeight = height;</span>
+<span class="nc" id="L90">        float viewportWidth = viewportHeight * aspectRatio;</span>
+
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (viewportWidth &gt; width) {</span>
+<span class="nc" id="L93">            scale = width / viewportWidth;</span>
+<span class="nc" id="L94">            viewportWidth = width;</span>
+<span class="nc" id="L95">            viewportHeight = viewportWidth / aspectRatio;</span>
+        }
+
+<span class="nc" id="L98">        camera.setToOrtho(false, viewportWidth, viewportHeight);</span>
+<span class="nc" id="L99">        camera.update();</span>
+<span class="nc" id="L100">        gameUI.resize(width, height);</span>
+
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (mapManager.getCurrentMap() != null) {</span>
+<span class="nc" id="L103">            renderer = new OrthogonalTiledMapRenderer(mapManager.getCurrentMap());</span>
+        }
+<span class="nc" id="L105">    }</span>
+
+    @Override
+    public void pause() {
+
+<span class="nc" id="L110">    }</span>
+
+    @Override
+    public void resume() {
+
+<span class="nc" id="L115">    }</span>
+
+    @Override
+    public void hide() {
+
+<span class="nc" id="L120">    }</span>
+
+    @Override
+    public void dispose() {
+<span class="nc" id="L124">        mapManager.dispose();</span>
+<span class="nc" id="L125">        player.getTexture().dispose();</span>
+<span class="nc" id="L126">        displayDateTime.dispose();</span>
+<span class="nc" id="L127">        gameUI.dispose();</span>
+<span class="nc" id="L128">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
