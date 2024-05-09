@@ -42,8 +42,10 @@ public class AcademicWeapon implements Screen{
 
     public AcademicWeapon(HeslingtonHustle inParent){
         parent = inParent;
-        obstacleManager = new ObstacleSpawner(new Texture(Gdx.files.internal("minigame/LetterFont.png")))
+        obstacleManager = new ObstacleSpawner(new Texture(Gdx.files.internal("minigame/LetterFont.png")));
+        obstacleManager.splitLettertextures();
         player = initialisePlayer();
+        player.setGameInstance(true);
         mouse = new Mouse();
     }
 
@@ -144,16 +146,18 @@ public class AcademicWeapon implements Screen{
         player.update(delta, (SpriteBatch)canvas.getBatch(),obstacleManager.getObstacles());
         player.draw((SpriteBatch)canvas.getBatch());
         mouse.update(delta);
-        manageObstacles(gameDuration);
+        manageObstacles(gameDuration,delta);
     }
 
-    public void manageObstacles(long gameDuration){
+    public void manageObstacles(long gameDuration,float delta){
         if(gameDuration % 3 == 0){
             obstacleManager.spawnAcademicWeaponObstacles();
         }
         for(Obstacle obstacle : obstacleManager.getObstacles()){
+            obstacle.follow(player.getPosition(), delta);
             obstacle.draw((SpriteBatch)canvas.getBatch());
         }
+        obstacleManager.removeObstacle();
     }
 
     @Override
