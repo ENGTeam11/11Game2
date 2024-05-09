@@ -9,7 +9,7 @@ public class LeaderboardEntry {
         LeaderboardEntry.score = score;
     }
 
-    public String getPlayerName() {
+    public static String getPlayerName() {
         return playerName;
     }
     public static void setPlayerName(String playerName) {
@@ -18,7 +18,7 @@ public class LeaderboardEntry {
     public int getScore() {
         return score;
     }
-    public void setScore(int score) {
+    public static void setScore(int score) {
         LeaderboardEntry.score = score;
     }
 }
