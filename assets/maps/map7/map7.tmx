@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="15" nextobjectid="24">
+=======
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="120" height="68" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="27">
+>>>>>>> origin/map-updates
  <tileset firstgid="1" name="paths" tilewidth="16" tileheight="16" tilecount="1728" columns="48">
   <image source="A2_Floors_MV_TILESET.png" width="768" height="576"/>
  </tileset>
@@ -703,6 +707,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+<<<<<<< HEAD
  <objectgroup id="14" name="collisions">
   <object id="3" x="66.0718" y="193.372" width="336" height="608.75"/>
   <object id="4" x="434.072" y="337.122" width="192" height="336"/>
@@ -724,5 +729,35 @@
   <object id="21" x="1458.07" y="679.122" width="47" height="68"/>
   <object id="22" x="1878.07" y="742.122" width="10" height="105"/>
   <object id="23" x="1858.07" y="684.122" width="49" height="60"/>
+=======
+ <objectgroup id="9" name="Boundary">
+  <object id="1" x="64" y="192.25" width="336" height="608.75"/>
+  <object id="2" x="432" y="336" width="192" height="336"/>
+  <object id="3" x="16" y="816.091" width="143.909" height="257.909"/>
+  <object id="4" x="688.167" y="31.9167" width="335.833" height="768.167"/>
+  <object id="5" x="1104" y="142.667" width="336.333" height="657.417"/>
+  <object id="6" x="1520" y="144" width="336" height="656"/>
+  <object id="7" x="-0.181818" y="0" width="1920.22" height="16"/>
+  <object id="8" x="0.121212" y="0.242424" width="15.6364" height="1088.18"/>
+  <object id="10" x="-4.44089e-16" y="1072" width="1919.82" height="16.1818"/>
+  <object id="11" x="1904" y="959.667" width="16" height="112.667"/>
+  <object id="12" x="1904" y="16" width="16" height="863.833"/>
+  <object id="13" x="640" y="736" width="16.6667" height="114.667"/>
+  <object id="14" x="623.333" y="683.333" width="64" height="56.6667"/>
+  <object id="15" x="418.667" y="735.333" width="12" height="113.333"/>
+  <object id="16" x="403.333" y="679.333" width="38.6667" height="66.6667"/>
+  <object id="17" x="1056" y="743" width="15" height="105"/>
+  <object id="18" x="1040" y="674" width="49" height="72"/>
+  <object id="19" x="1474" y="742" width="13" height="106"/>
+  <object id="20" x="1456" y="678" width="47" height="68"/>
+  <object id="21" x="1876" y="741" width="10" height="105"/>
+  <object id="22" x="1856" y="683" width="49" height="60"/>
+ </objectgroup>
+ <objectgroup id="10" name="Entries">
+  <object id="23" name="m7 - m6" x="1903.5" y="880" width="16.5" height="80.5"/>
+ </objectgroup>
+ <objectgroup id="11" name="Exits">
+  <object id="24" name="m6 - m7" x="1872" y="911.5" width="16" height="16.5"/>
+>>>>>>> origin/map-updates
  </objectgroup>
 </map>
