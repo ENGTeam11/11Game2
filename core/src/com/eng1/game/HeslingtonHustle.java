@@ -18,20 +18,8 @@ public class HeslingtonHustle extends Game {
 	private EndScreen endScreen;
 	private AppPreferences preferences;
 	private CharacterScreen characterScreen;
-<<<<<<< HEAD
-	private PauseScreen pauseScreen;
-
-	// Screen constants
-	public final static int MENU = 0;
-	public final static int PREFERENCES = 1;
-	public final static int APPLICATION = 2;
-	public final static int ENDGAME = 3;
-	public final static int CHARACTER = 4;
-	public final static int PAUSE = 5;
-=======
 	private FoodNinja foodNinja;
 	private AcademicWeapon academicWeapon;
->>>>>>> Minigames
 	
 	@Override
 	public void create() {
@@ -76,11 +64,6 @@ public class HeslingtonHustle extends Game {
 				if (characterScreen == null) characterScreen = new CharacterScreen(this);
 				setScreen(characterScreen);
 				break;
-<<<<<<< HEAD
-			case PAUSE:
-				if (pauseScreen == null) pauseScreen = new PauseScreen(this);
-				setScreen(pauseScreen);
-=======
 			case FOODNINJA:
 				if(foodNinja == null) foodNinja = new FoodNinja(this);
 				setScreen(foodNinja);
@@ -89,7 +72,6 @@ public class HeslingtonHustle extends Game {
 				if(academicWeapon == null) academicWeapon = new AcademicWeapon(this);
 				setScreen(academicWeapon);
 				break;
->>>>>>> Minigames
 		}
 	}
 
@@ -97,10 +79,6 @@ public class HeslingtonHustle extends Game {
 	public void render() {
 		super.render();
 		// Handle input events
-<<<<<<< HEAD
-
-
-=======
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			if (getScreen() == preferencesScreen) {
 				// If currently on preferences screen, switch to the game screen
@@ -110,6 +88,5 @@ public class HeslingtonHustle extends Game {
 				changeScreen(MenuState.PREFERENCES);
 			}
 		}
->>>>>>> Minigames
 	}
 }
