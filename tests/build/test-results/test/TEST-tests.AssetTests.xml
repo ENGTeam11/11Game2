@@ -1,29 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="tests.AssetTests" tests="1" skipped="0" failures="1" errors="0" timestamp="2024-05-09T09:34:04" hostname="CSE270PC11" time="0.02">
+<testsuite name="tests.AssetTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-05-09T09:59:17" hostname="CSE270PC11" time="0.008">
   <properties/>
-  <testcase name="testShipAssetExists" classname="tests.AssetTests" time="0.02">
-    <failure message="java.lang.AssertionError: The asset for player 1 exists" type="java.lang.AssertionError">java.lang.AssertionError: The asset for player 1 exists
-	at org.junit.Assert.fail(Assert.java:89)
-	at org.junit.Assert.assertTrue(Assert.java:42)
-	at tests.AssetTests.testShipAssetExists(AssetTests.java:16)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
-	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
-	at tests.GdxTestRunner.render(GdxTestRunner.java:43)
-	at com.badlogic.gdx.backends.headless.HeadlessApplication.mainLoop(HeadlessApplication.java:128)
-	at com.badlogic.gdx.backends.headless.HeadlessApplication$1.run(HeadlessApplication.java:93)
-</failure>
-  </testcase>
-  <system-out><![CDATA[true
-]]></system-out>
+  <testcase name="testShipAssetExists" classname="tests.AssetTests" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

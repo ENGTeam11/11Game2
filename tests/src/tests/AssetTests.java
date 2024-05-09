@@ -12,7 +12,6 @@ import static org.junit.Assert.assertTrue;
 public class AssetTests {
     @Test
     public void testShipAssetExists() {
-        System.out.println(Gdx.files.internal("").exists());
         assertTrue("The asset for player 1 exists",
                 Gdx.files.internal("playerCharacters/playerCharacter1.png").exists());
     }
