@@ -41,17 +41,31 @@ public class Obstacle {
         obstacleBounds.setPosition(boundsPos);
     }
 
+    public void follow(Vector2 player,float deltaTime){
+        moveTrajectory = getNormalizedVectorDirection(obstaclePos, player);
+        Vector2 moveBy = new Vector2(moveTrajectory.x+(speed*deltaTime),moveTrajectory.y+(speed*deltaTime));
+        obstaclePos = new Vector2(obstaclePos.x + moveBy.x,obstaclePos.y + moveBy.y);
+        obstacleBounds = new Circle(obstaclePos.x+obstacleTexture.getRegionWidth()/2,obstaclePos.y+obstacleTexture.getRegionHeight()/2,obstacleTexture.getRegionWidth()/2);
+    }
+    
+    public Vector2 getNormalizedVectorDirection(Vector2 playerPos, Vector2 mousePos){
+        float directionX = mousePos.x - playerPos.x;
+        float directionY = mousePos.y - playerPos.y;
+        Vector2 directionVector = new Vector2(directionX,directionY);
+        return directionVector.nor();
+    }
+
     protected void checkObstacleIsWithinScreen(){
         if(getPos().y  < 0){
             setDraw(false);
         }
-        if(getPos().y + getTexture().getRegionHeight()*2 >= Gdx.graphics.getBackBufferHeight()){
+        if(getPos().y + getTexture().getRegionHeight() >= Gdx.graphics.getHeight()){
             setDraw(false);
         }
         if(getPos().x < 0){
             setDraw(false);
         }
-        if(getPos().x + getTexture().getRegionWidth()*2 >= Gdx.graphics.getBackBufferWidth()){
+        if(getPos().x + getTexture().getRegionWidth() >= Gdx.graphics.getWidth()){
             setDraw(false);
         }
     }
