@@ -74,12 +74,7 @@ public class Activity {
 
         Activity activity = activities.get(type).get(location);
         System.out.println(activity.complete());
-        if(type.equals("Eat")  ){
-            gameInstance.changeScreen(MenuState.FOODNINJA);
-        }
-        if(type.equals("Study")){
-            gameInstance.changeScreen(MenuState.ACADEMICWEAPON);
-        }
+
         if (type.equals("Sleep")) {
             sleep();
         }

@@ -158,7 +158,7 @@ public class PreferencesScreen implements Screen {
     @Override
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            parent.changeScreen(MenuState.MENU);
+            parent.changeScreen(HeslingtonHustle.MENU);
         }
         // clear the screen ready for next set of images to be drawn
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);

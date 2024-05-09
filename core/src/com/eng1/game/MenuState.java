@@ -6,7 +6,6 @@ public enum MenuState {
     APPLICATION,
     ENDGAME,
     CHARACTER,
-    PAUSE,
     FOODNINJA,
     ACADEMICWEAPON,
 }

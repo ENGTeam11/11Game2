@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eng1.game.HeslingtonHustle;
-import com.eng1.game.MenuState;
 
 /**
  * Represents the preferences screen of the game.
@@ -112,7 +111,7 @@ public class PauseScreen implements Screen {
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(MenuState.MENU);
+                parent.changeScreen(HeslingtonHustle.MENU);
             }
         });
 
@@ -158,7 +157,7 @@ public class PauseScreen implements Screen {
     @Override
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            parent.changeScreen(MenuState.APPLICATION);
+            parent.changeScreen(HeslingtonHustle.APPLICATION);
         }
         // clear the screen ready for next set of images to be drawn
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
