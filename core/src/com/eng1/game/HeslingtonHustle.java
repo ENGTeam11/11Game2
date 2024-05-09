@@ -20,6 +20,7 @@ public class HeslingtonHustle extends Game {
 	private CharacterScreen characterScreen;
 	private FoodNinja foodNinja;
 	private AcademicWeapon academicWeapon;
+	private PauseScreen pauseScreen;
 	
 	@Override
 	public void create() {
