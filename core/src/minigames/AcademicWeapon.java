@@ -170,7 +170,7 @@ public class AcademicWeapon implements Screen{
 
     @Override
     public void resize(int width, int height) {
-    
+        //not neccessary so not implemented
     }
 
     @Override
@@ -192,6 +192,7 @@ public class AcademicWeapon implements Screen{
 
     @Override
     public void dispose() {
+        //releases game resources
         canvas.dispose();
         obstacleManager.clearObstacles();
         player.cleanBullets();
