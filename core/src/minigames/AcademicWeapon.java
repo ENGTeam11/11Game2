@@ -68,8 +68,8 @@ public class AcademicWeapon implements Screen{
         
         //Initializes the text area screen anouncements will be made on
         screenText = new TextArea("",textFieldStyle);
-        screenText.setSize(200,20);
-        screenText.setPosition(Gdx.graphics.getWidth()/2-screenText.getWidth()*2, Gdx.graphics.getHeight()/2 - screenText.getHeight()*2);
+        screenText.setSize(300,20);
+        screenText.setPosition(Gdx.graphics.getWidth()/2-screenText.getWidth()/2, Gdx.graphics.getHeight()/2 -screenText.getHeight()/2);
 
 
         //Initializes the text area responsible for showing the game time
@@ -126,6 +126,7 @@ public class AcademicWeapon implements Screen{
             if(gameDuration >= GAME_LENGTH_SECONDS){
                 miniGState = MinigameState.END;
             }
+            //updates the game state
             update(delta,gameDuration);
         }
         //This if statement is responsible for handling the end of the game 
@@ -143,20 +144,27 @@ public class AcademicWeapon implements Screen{
     }
 
     public void update(float delta,long gameDuration){
+        //updates the player logic
         player.update(delta, (SpriteBatch)canvas.getBatch(),obstacleManager.getObstacles());
+        //draws the player
         player.draw((SpriteBatch)canvas.getBatch());
+        //updates mouse logic
         mouse.update(delta);
+        //takes care of the obstacle logic
         manageObstacles(gameDuration,delta);
     }
 
     public void manageObstacles(long gameDuration,float delta){
-        if(gameDuration % 3 == 0){
+        //spawns an obstacle everytime the game duration is a multiple of 5
+        if(gameDuration % 5 == 0){
             obstacleManager.spawnAcademicWeaponObstacles();
         }
+        //loop for updating the obstacles
         for(Obstacle obstacle : obstacleManager.getObstacles()){
             obstacle.follow(player.getPosition(), delta);
             obstacle.draw((SpriteBatch)canvas.getBatch());
         }
+        //removes obstacles that will not be drawn
         obstacleManager.removeObstacle();
     }
 
@@ -186,6 +194,7 @@ public class AcademicWeapon implements Screen{
     public void dispose() {
         canvas.dispose();
         obstacleManager.clearObstacles();
+        player.cleanBullets();
     }
     
 }

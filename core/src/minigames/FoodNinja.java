@@ -57,8 +57,8 @@ public class FoodNinja implements Screen {
 
         //Sets the text area for the start of the game and end of the game 
         screenText = new TextArea("",textFieldStyle);
-        screenText.setSize(200,20);
-        screenText.setPosition(Gdx.graphics.getWidth()/2-screenText.getWidth()*2, Gdx.graphics.getHeight()/2 - screenText.getHeight()*2);
+        screenText.setSize(300,20);
+        screenText.setPosition(Gdx.graphics.getWidth()/2-screenText.getWidth()/2, Gdx.graphics.getHeight()/2 - screenText.getHeight()/2);
 
         //Sets the text area for the timer of the game
         timer = new TextArea("", textFieldStyle);
@@ -69,14 +69,18 @@ public class FoodNinja implements Screen {
         canvas.addActor(screenText);
         canvas.addActor(timer);
 
+        miniGState = MinigameState.WAIT;
+
         //sets the input processor to the canvas
         Gdx.input.setInputProcessor(canvas);
     }
 
     @Override
     public void render(float delta) {
+        //Clears the screen before drawing each frame
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //begins the drawing on the stage
         canvas.getBatch().begin();
         //Gets the current time from the system clock
         Instant gameTime = Instant.now();
@@ -98,7 +102,9 @@ public class FoodNinja implements Screen {
             if(gameDuration >= GAME_LENGTH_SECONDS){
                 miniGState = MinigameState.END;
             }
+            //updates the game objects
             update(delta, gameDuration);
+            //draws game objects
             draw((SpriteBatch)canvas.getBatch());
         }
         //This if statement is responsible for handling the end of the game 
@@ -115,10 +121,14 @@ public class FoodNinja implements Screen {
     }
 
     public void update(float delta,long gameDuration){
+        //updates the mouse
         mouse.update(delta);
-        if(gameDuration%3 == 0){
+        //spawns obstacles everytime the game duration is a multiple of 5 
+        if(gameDuration%5 == 0){
             obstaclesManager.spawnFoodNinjaObstacles();
         }
+
+        //loop for updating obstacles
         for(Obstacle obstacle : obstaclesManager.getObstacles()){
             if(mouse.getCircleBounds().contains(obstacle.getBounds())){
                 obstacle.setDraw(false);
@@ -131,17 +141,17 @@ public class FoodNinja implements Screen {
 
     @Override
     public void resize(int width, int height) {
-       
+       //not implemented as not needed
     }
 
     @Override
     public void pause() {
-        
+        //not implemented as not needed
     }
 
     @Override
     public void resume() {
-        
+        //not implemented as not needed
     }
 
     @Override
@@ -151,12 +161,14 @@ public class FoodNinja implements Screen {
 
     @Override
     public void dispose() {
+        //releases the unused resources
        canvas.dispose();
        obstaclesManager.clearObstacles();
        Gdx.input.setInputProcessor(null);
     }
 
     public void draw(SpriteBatch spriteBatch){
+        //draws the obstacles 
         obstaclesManager.draw(spriteBatch);
     }
     

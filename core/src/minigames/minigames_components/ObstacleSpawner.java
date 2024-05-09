@@ -53,6 +53,9 @@ public class ObstacleSpawner {
                 X = Gdx.graphics.getBackBufferWidth()-1;
                 Y = generator.nextInt(Gdx.graphics.getBackBufferHeight());
             }
+            if(X ==0){
+                X -= obstacleTextures.get(0).getRegionWidth();
+            }
             int texturePicked = generator.nextInt(obstacleTextures.size());
             Vector2 obstaclePos = new Vector2(X,Y);
             Obstacle obstacle = new Obstacle(obstacleTextures.get(texturePicked),obstaclePos);

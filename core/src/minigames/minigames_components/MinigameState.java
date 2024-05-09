@@ -1,7 +1,7 @@
 package minigames.minigames_components;
 
 public enum MinigameState {
-    START,
-    WAIT,
-    END
+    START,//For game logic
+    WAIT,//For pre game logic
+    END //For end game logi
 }
