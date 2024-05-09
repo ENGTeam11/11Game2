@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eng1.game.HeslingtonHustle;
+import com.eng1.game.MenuState;
 
 /**
  * Represents the main menu screen of the game.
@@ -74,8 +75,12 @@ public class MenuScreen extends ScreenAdapter {
         newGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+<<<<<<< HEAD
                 startNewGame = true;
                 parent.changeScreen(HeslingtonHustle.CHARACTER);
+=======
+                parent.changeScreen(MenuState.CHARACTER);
+>>>>>>> Minigames
             }
         });
 
@@ -83,7 +88,7 @@ public class MenuScreen extends ScreenAdapter {
         preferences.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(HeslingtonHustle.PREFERENCES);
+                parent.changeScreen(MenuState.PREFERENCES);
             }
         });
     }

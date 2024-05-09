@@ -68,6 +68,7 @@ public class Activity {
     }
 
     public static void completeActivity(String activityIdentifier) {
+<<<<<<< HEAD
         String[] parts = activityIdentifier.split(",");
         String type = parts[0];
         String location = parts[1];
@@ -75,6 +76,21 @@ public class Activity {
         Activity activity = activities.get(type).get(location);
         System.out.println(activity.complete());
 
+=======
+        // Takes a string to indicate the activity being completed. i.e. "Relax,Gym"
+        String[] activityLocator = activityIdentifier.split(",");
+        String type = activityLocator[0];
+        String location = activityLocator[1];
+        System.out.println(type);
+        System.out.println(location);
+        System.out.println(activities.get(type).get(location).complete());
+        if(type.equals("Eat")  ){
+            gameInstance.changeScreen(MenuState.FOODNINJA);
+        }
+        if(type.equals("Study")){
+            gameInstance.changeScreen(MenuState.ACADEMICWEAPON);
+        }
+>>>>>>> Minigames
         if (type.equals("Sleep")) {
             sleep();
         }
@@ -88,6 +104,12 @@ public class Activity {
         if (GameStats.getTime() > 2400) {
             return "Insufficient time";
         }
+<<<<<<< HEAD
+=======
+        
+
+        // Increase the relevent trackers
+>>>>>>> Minigames
         this.timesCompletedDay++;
         this.timesCompletedWeek++;
         GameStats.decreaseEnergy(this.energyNeeded);
@@ -116,7 +138,14 @@ public class Activity {
 
         resetDayActivities();
         if (GameStats.getDay() > 7) {
+<<<<<<< HEAD
             gameInstance.changeScreen(HeslingtonHustle.ENDGAME);
+=======
+            // Pass the score and activities completed to EndScreen
+            Map<String, Integer> activitiesCompleted = Activity.countCompletedActivities();
+            int score = calculateDayScore();
+            gameInstance.changeScreen(MenuState.ENDGAME);
+>>>>>>> Minigames
         }
 
 

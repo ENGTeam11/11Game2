@@ -4,6 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import eng1.model.views.*;
+import minigames.AcademicWeapon;
+import minigames.FoodNinja;
 
 /**
  * The main game class responsible for managing screens.
@@ -16,6 +18,7 @@ public class HeslingtonHustle extends Game {
 	private EndScreen endScreen;
 	private AppPreferences preferences;
 	private CharacterScreen characterScreen;
+<<<<<<< HEAD
 	private PauseScreen pauseScreen;
 
 	// Screen constants
@@ -25,6 +28,10 @@ public class HeslingtonHustle extends Game {
 	public final static int ENDGAME = 3;
 	public final static int CHARACTER = 4;
 	public final static int PAUSE = 5;
+=======
+	private FoodNinja foodNinja;
+	private AcademicWeapon academicWeapon;
+>>>>>>> Minigames
 	
 	@Override
 	public void create() {
@@ -47,7 +54,7 @@ public class HeslingtonHustle extends Game {
 	 * @param screen The screen constant indicating the screen to switch to.
 	 *
 	 */
-	public void changeScreen(int screen) {
+	public void changeScreen(MenuState screen) {
 		switch (screen) {
 			case MENU:
 				if (menuScreen == null) menuScreen = new MenuScreen(this);
@@ -69,9 +76,20 @@ public class HeslingtonHustle extends Game {
 				if (characterScreen == null) characterScreen = new CharacterScreen(this);
 				setScreen(characterScreen);
 				break;
+<<<<<<< HEAD
 			case PAUSE:
 				if (pauseScreen == null) pauseScreen = new PauseScreen(this);
 				setScreen(pauseScreen);
+=======
+			case FOODNINJA:
+				if(foodNinja == null) foodNinja = new FoodNinja(this);
+				setScreen(foodNinja);
+				break;
+			case ACADEMICWEAPON:
+				if(academicWeapon == null) academicWeapon = new AcademicWeapon(this);
+				setScreen(academicWeapon);
+				break;
+>>>>>>> Minigames
 		}
 	}
 
@@ -79,7 +97,19 @@ public class HeslingtonHustle extends Game {
 	public void render() {
 		super.render();
 		// Handle input events
+<<<<<<< HEAD
 
 
+=======
+		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+			if (getScreen() == preferencesScreen) {
+				// If currently on preferences screen, switch to the game screen
+				changeScreen(MenuState.APPLICATION);
+			} else {
+				// Otherwise, switch to preferences screen
+				changeScreen(MenuState.PREFERENCES);
+			}
+		}
+>>>>>>> Minigames
 	}
 }

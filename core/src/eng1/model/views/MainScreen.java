@@ -1,6 +1,7 @@
 package eng1.model.views;
 
 import com.eng1.game.HeslingtonHustle;
+import com.eng1.game.MenuState;
 import com.eng1.game.Play;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.*;
@@ -29,7 +30,7 @@ public class MainScreen implements Screen {
             public boolean keyDown(int keycode) {
                 if (keycode == Keys.ESCAPE) {
                     // Navigate to preferences screen or quit game
-                    parent.changeScreen(HeslingtonHustle.PREFERENCES);
+                    parent.changeScreen(MenuState.PREFERENCES);
                     return true; // Key press handled -> navigates to screen
                 }
                 return false; // Key press not handled -> doesn't navigate to screen
@@ -40,9 +41,13 @@ public class MainScreen implements Screen {
     @Override
     public void show() {
         // This method is called when the screen is first shown.
+<<<<<<< HEAD
         if (MenuScreen.isStartNewGame()) {
             play = new Play(parent);
         }
+=======
+        if(play == null) play = new Play(); // Instantiate the Play class
+>>>>>>> Minigames
         parent.setScreen(play); // Switch to the 'Play' screen (where the game is run / rendered)
         
     }
