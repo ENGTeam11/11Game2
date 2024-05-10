@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class MapManager {
@@ -24,10 +25,13 @@ public class MapManager {
     private AssetManager assetManager;
     private ObjectMap<String, Float> mapScales;
     private String currentMapPath;
+    private Vector2 bounds;
+    private float scale;
     
     public MapManager(AssetManager assetManager, OrthographicCamera camera) {
         this.assetManager = assetManager;
         this.camera = camera;
+        bounds = new Vector2();
         this.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeMapScales();
     }
@@ -35,9 +39,9 @@ public class MapManager {
     public void initializeMapScales(){
         mapScales = new ObjectMap<>();
         mapScales.put("maps/home/home.tmx", 3.5f);
-        mapScales.put("maps/gym/gym.tmx", 3.0f);
-        mapScales.put("maps/cs/computer-science-building.tmx", 2.8f);
-        mapScales.put("maps/piazza/piazza.tmx", 2.4f);
+        mapScales.put("maps/gym/gym.tmx", 3.2f);
+        mapScales.put("maps/cs/computer-science-building.tmx", 3.2f);
+        mapScales.put("maps/piazza/piazza.tmx", 3.2f);
     }
 
     public Vector2 findObjectPosition(String layerName, String objectName) {
@@ -65,13 +69,37 @@ public class MapManager {
         }
         currentMap = assetManager.get(mapPath, TiledMap.class);
         currentMapPath = mapPath;
-        float scale = mapScales.get(mapPath, 1.0f);
+        scale = mapScales.get(mapPath, 1.0f);
         mapRenderer = new OrthogonalTiledMapRenderer(currentMap);
-        adjustCamera(scale);
+        adjustCamera();
+        bounds.set(Gdx.graphics.getWidth()/3/scale, Gdx.graphics.getHeight()/3/scale);
     }
-    public void adjustCamera(float scale){
+    public void adjustCamera(){
         camera.zoom = 1 / scale;
         camera.update();
+    }
+
+    public void boundaryCheck(Player player){
+        if (scale != 1){
+            Vector3 position = camera.position;
+            
+            if (position.x > player.getX() + bounds.x){
+                position.x = player.getX() + bounds.x;
+            }
+            else if (position.x < player.getX() - bounds.x){
+                position.x = player.getX() - bounds.x;
+            }
+
+            if (position.y > player.getY() + bounds.y){
+                position.y = player.getY() + bounds.y;
+            }
+            else if (position.y < player.getY() - bounds.y){
+                position.y = player.getY() - bounds.y;
+            }
+
+            camera.position.set(position);
+            camera.update();
+        }   
     }
 
     public boolean inRegion(Vector2 Position, float width, float height, String layerName) {
@@ -90,6 +118,10 @@ public class MapManager {
             }
         }
         return false;
+    }
+
+    public Vector2 GetBounds(){
+        return bounds;
     }
 
     public TiledMap getCurrentMap() {

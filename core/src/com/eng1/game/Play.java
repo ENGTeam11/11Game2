@@ -74,6 +74,7 @@ public class Play implements Screen {
         mapManager.render();
         player.update(delta, mapManager);
         gameUI.render(delta);
+        mapManager.boundaryCheck(player);
         
         renderer.getBatch().begin();
         renderer.getBatch().setProjectionMatrix(camera.combined);
@@ -83,6 +84,7 @@ public class Play implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        System.out.println("resizin");
         float aspectRatio = 16f / 9f;
         float scale = 1f;
         float viewportHeight = height;
@@ -93,8 +95,9 @@ public class Play implements Screen {
             viewportWidth = width;
             viewportHeight = viewportWidth / aspectRatio;
         }
-
+        camera.zoom = 1;
         camera.setToOrtho(false, viewportWidth, viewportHeight);
+        mapManager.adjustCamera();
         camera.update();
         gameUI.resize(width, height);
 
