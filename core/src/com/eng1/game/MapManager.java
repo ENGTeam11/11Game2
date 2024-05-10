@@ -26,11 +26,12 @@ public class MapManager {
     private ObjectMap<String, Float> mapScales;
     private String currentMapPath;
     private Vector2 bounds;
-    private float scale;
+    private float scale, resScale;
     
     public MapManager(AssetManager assetManager, OrthographicCamera camera) {
         this.assetManager = assetManager;
         this.camera = camera;
+        resScale = 1;
         bounds = new Vector2();
         this.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeMapScales();
@@ -46,13 +47,11 @@ public class MapManager {
 
     public Vector2 findObjectPosition(String layerName, String objectName) {
         MapLayer layer = currentMap.getLayers().get(layerName);
-        float scale = 1;//mapScales.get(currentMapPath, 1.0f);
         if (layer != null) {
             for (MapObject object : layer.getObjects()) {
                 if (objectName.equals(object.getName()) && object instanceof RectangleMapObject) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    Rectangle scaledRect = new Rectangle(rect.x * scale, rect.y * scale, rect.width * scale, rect.height * scale);
-                    return new Vector2(scaledRect.x , scaledRect.y); // Assuming the bottom-left corner as the reference
+                    return new Vector2(rect.x , rect.y); // Assuming the bottom-left corner as the reference
                 }
             }
         }
@@ -75,8 +74,12 @@ public class MapManager {
         bounds.set(Gdx.graphics.getWidth()/3/scale, Gdx.graphics.getHeight()/3/scale);
     }
     public void adjustCamera(){
-        camera.zoom = 1 / scale;
+        camera.zoom = resScale / scale;
         camera.update();
+    }
+
+    public void setResScale(float resScale){
+        this.resScale = resScale;
     }
 
     public void boundaryCheck(Player player){
