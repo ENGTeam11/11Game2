@@ -84,7 +84,6 @@ public class Play implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        System.out.println("resizin");
         float aspectRatio = 16f / 9f;
         float scale = 1f;
         float viewportHeight = height;
