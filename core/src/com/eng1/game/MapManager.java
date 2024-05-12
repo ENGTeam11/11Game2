@@ -83,8 +83,9 @@ public class MapManager {
     }
 
     public void boundaryCheck(Player player){
+        Vector3 position = camera.position;
         if (scale != 1){
-            Vector3 position = camera.position;
+            
             
             if (position.x > player.getX() + bounds.x){
                 position.x = player.getX() + bounds.x;
@@ -103,6 +104,11 @@ public class MapManager {
             camera.position.set(position);
             camera.update();
         }   
+
+        else{
+            position.x = Play.MAPWIDTH / 2;
+            position.y = Play.MAPHEIGHT / 2;
+        }
     }
 
     public boolean inRegion(Vector2 Position, float width, float height, String layerName) {
