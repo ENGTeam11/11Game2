@@ -13,6 +13,9 @@ import eng1.model.views.MenuScreen;
 
 
 public class Play implements Screen {
+    static final int MAPHEIGHT = 1080;
+    static final int MAPWIDTH = 1920;
+    
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer renderer;
     private MapManager mapManager;
@@ -74,6 +77,7 @@ public class Play implements Screen {
         mapManager.render();
         player.update(delta, mapManager);
         gameUI.render(delta);
+        mapManager.boundaryCheck(player);
         
         renderer.getBatch().begin();
         renderer.getBatch().setProjectionMatrix(camera.combined);
@@ -88,13 +92,18 @@ public class Play implements Screen {
         float viewportHeight = height;
         float viewportWidth = viewportHeight * aspectRatio;
 
+        float resScale = MAPHEIGHT/viewportHeight;
+        mapManager.setResScale(resScale);
+
         if (viewportWidth > width) {
             scale = width / viewportWidth;
             viewportWidth = width;
             viewportHeight = viewportWidth / aspectRatio;
         }
-
+        camera.zoom = 1;
         camera.setToOrtho(false, viewportWidth, viewportHeight);
+        camera.position.set(MAPWIDTH / 2f, MAPHEIGHT / 2f, 0);
+        mapManager.adjustCamera();
         camera.update();
         gameUI.resize(width, height);
 

@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class MapManager {
@@ -24,10 +25,14 @@ public class MapManager {
     private AssetManager assetManager;
     private ObjectMap<String, Float> mapScales;
     private String currentMapPath;
+    private Vector2 bounds;
+    private float scale, resScale;
     
     public MapManager(AssetManager assetManager, OrthographicCamera camera) {
         this.assetManager = assetManager;
         this.camera = camera;
+        resScale = 1;
+        bounds = new Vector2();
         this.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         initializeMapScales();
     }
@@ -35,20 +40,18 @@ public class MapManager {
     public void initializeMapScales(){
         mapScales = new ObjectMap<>();
         mapScales.put("maps/home/home.tmx", 3.5f);
-        mapScales.put("maps/gym/gym.tmx", 3.0f);
-        mapScales.put("maps/cs/computer-science-building.tmx", 2.8f);
-        mapScales.put("maps/piazza/piazza.tmx", 2.4f);
+        mapScales.put("maps/gym/gym.tmx", 3.2f);
+        mapScales.put("maps/cs/computer-science-building.tmx", 3.2f);
+        mapScales.put("maps/piazza/piazza.tmx", 3.2f);
     }
 
     public Vector2 findObjectPosition(String layerName, String objectName) {
         MapLayer layer = currentMap.getLayers().get(layerName);
-        float scale = 1;//mapScales.get(currentMapPath, 1.0f);
         if (layer != null) {
             for (MapObject object : layer.getObjects()) {
                 if (objectName.equals(object.getName()) && object instanceof RectangleMapObject) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    Rectangle scaledRect = new Rectangle(rect.x * scale, rect.y * scale, rect.width * scale, rect.height * scale);
-                    return new Vector2(scaledRect.x , scaledRect.y); // Assuming the bottom-left corner as the reference
+                    return new Vector2(rect.x , rect.y); // Assuming the bottom-left corner as the reference
                 }
             }
         }
@@ -65,13 +68,47 @@ public class MapManager {
         }
         currentMap = assetManager.get(mapPath, TiledMap.class);
         currentMapPath = mapPath;
-        float scale = mapScales.get(mapPath, 1.0f);
+        scale = mapScales.get(mapPath, 1.0f);
         mapRenderer = new OrthogonalTiledMapRenderer(currentMap);
-        adjustCamera(scale);
+        adjustCamera();
+        bounds.set(Gdx.graphics.getWidth()/3/scale, Gdx.graphics.getHeight()/3/scale);
     }
-    public void adjustCamera(float scale){
-        camera.zoom = 1 / scale;
+    public void adjustCamera(){
+        camera.zoom = resScale / scale;
         camera.update();
+    }
+
+    public void setResScale(float resScale){
+        this.resScale = resScale;
+    }
+
+    public void boundaryCheck(Player player){
+        Vector3 position = camera.position;
+        if (scale != 1){
+            
+            
+            if (position.x > player.getX() + bounds.x){
+                position.x = player.getX() + bounds.x;
+            }
+            else if (position.x < player.getX() - bounds.x){
+                position.x = player.getX() - bounds.x;
+            }
+
+            if (position.y > player.getY() + bounds.y){
+                position.y = player.getY() + bounds.y;
+            }
+            else if (position.y < player.getY() - bounds.y){
+                position.y = player.getY() - bounds.y;
+            }
+
+            camera.position.set(position);
+            camera.update();
+        }   
+
+        else{
+            position.x = Play.MAPWIDTH / 2;
+            position.y = Play.MAPHEIGHT / 2;
+        }
     }
 
     public boolean inRegion(Vector2 Position, float width, float height, String layerName) {
@@ -90,6 +127,10 @@ public class MapManager {
             }
         }
         return false;
+    }
+
+    public Vector2 GetBounds(){
+        return bounds;
     }
 
     public TiledMap getCurrentMap() {
