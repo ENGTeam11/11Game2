@@ -15,6 +15,7 @@ import eng1.model.views.MenuScreen;
 public class Play implements Screen {
     static final int MAPHEIGHT = 1080;
     static final int MAPWIDTH = 1920;
+    
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer renderer;
     private MapManager mapManager;
