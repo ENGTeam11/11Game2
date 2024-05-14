@@ -85,6 +85,11 @@ public class CharacterScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
     }
 
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+    }
+
     private void setupCharacterButton(TextButton button, String imagePath, final String characterName) {
         Texture characterTexture = new Texture(Gdx.files.internal(imagePath));
         Image characterImage = new Image(new TextureRegionDrawable(new TextureRegion(characterTexture)));
