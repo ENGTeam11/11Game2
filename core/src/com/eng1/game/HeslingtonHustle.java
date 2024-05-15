@@ -69,6 +69,7 @@ public class HeslingtonHustle extends Game {
 			case PAUSE:
 				if (pauseScreen == null) pauseScreen = new PauseScreen(this);
 				setScreen(pauseScreen);
+				break;
 			case FOODNINJA:
 				if(foodNinja == null) foodNinja = new FoodNinja(this);
 				setScreen(foodNinja);
