@@ -1,7 +1,8 @@
 package eng1.model.views;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,9 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.eng1.game.HeslingtonHustle;
-
-import com.eng1.game.Activity;
+import com.eng1.game.*;
 
 import java.util.Map;
 
@@ -27,12 +26,9 @@ public class EndScreen implements Screen {
     private Stage stage;
     private Label titleLabel;
     private Label scoreLabel;
+    private Label playerNameLabel;
 
     private static Map<String, Map<String, Activity>> activities; // Map of the activity types
-
-
-
-
 
     /**
      * Constructor for the EndScreen class.
@@ -60,12 +56,13 @@ public class EndScreen implements Screen {
 
         // Add labels
         titleLabel = new Label("Heslington Hustle", skin);
-        scoreLabel = new Label("Score: " + Activity.getFinalScore(), skin); // Retrieve the final score from Activity
-
-
+        playerNameLabel = new Label("Player: " + GameStats.getPlayerName(), skin); // Retrieve the player's name
+        scoreLabel = new Label("Score: " + GameStats.getScore(), skin); // Retrieve the final score from GameStats
 
         // Add actors to the table
         table.add(titleLabel).colspan(2);
+        table.row().pad(10, 0, 0, 10);
+        table.add(playerNameLabel).colspan(2);
         table.row().pad(10, 0, 0, 10);
 
         // Display completed activities
@@ -76,21 +73,40 @@ public class EndScreen implements Screen {
         }
         table.row().pad(10, 0, 0, 10);
 
-        table.add(scoreLabel).row();
+        table.add(scoreLabel).colspan(2).row();
 
-        // quit game button
+        // Main menu button
+        final TextButton mainMenuButton = new TextButton("Main Menu", skin);
+        mainMenuButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                saveScore(); // Save the score before returning to the main menu
+                parent.changeScreen(MenuState.MENU);
+            }
+        });
+
+        // Quit game button
         final TextButton quitButton = new TextButton("Quit", skin);
         quitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                saveScore(); // Save the score before quitting
                 Gdx.app.exit();
             }
         });
 
+
         table.row().pad(10, 0, 0, 10);
-        table.add(quitButton).colspan(50);
+        table.add(mainMenuButton).padRight(10);
+        table.add(quitButton);
     }
 
+    private void saveScore() {
+        java.util.List<LeaderboardEntry> leaderboardEntries = LeaderboardManager.loadScores();
+        LeaderboardEntry newEntry = new LeaderboardEntry(GameStats.getPlayerName(), GameStats.getScore());
+        leaderboardEntries.add(newEntry);
+        LeaderboardManager.saveScores(leaderboardEntries);
+    }
 
     @Override
     public void render(float delta) {
@@ -127,7 +143,7 @@ public class EndScreen implements Screen {
 
     @Override
     public void dispose() {
-        // Not needed
+        stage.dispose();
     }
-
 }
+

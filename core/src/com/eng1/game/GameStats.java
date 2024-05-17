@@ -11,6 +11,7 @@ public class GameStats {
     private static final int MINUTES_PER_HOUR = 60;
     private static final int HOURS_PER_DAY = 24;
     private static float elapsedTime = 0; // Time accumulator
+    private static String playerName;
 
 
     public static void initializeGameTime(){
@@ -92,5 +93,11 @@ public class GameStats {
 
     public static void setDay(int newDay) {
         GameStats.day = newDay;
+    }
+    public static String getPlayerName() {
+        return playerName;
+    }
+    public static void setPlayerName(String playerName) {
+        GameStats.playerName = playerName;
     }
 }
