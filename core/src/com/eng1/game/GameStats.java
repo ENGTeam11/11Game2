@@ -1,5 +1,6 @@
 package com.eng1.game;
 
+import com.badlogic.gdx.utils.ObjectMap;
 
 public class GameStats {
     private static int energy = 100;
@@ -11,6 +12,9 @@ public class GameStats {
     private static final int MINUTES_PER_HOUR = 60;
     private static final int HOURS_PER_DAY = 24;
     private static float elapsedTime = 0; // Time accumulator
+    private static ObjectMap<String, Integer> objectives = new ObjectMap<>();
+    private static ObjectMap<String, Integer> streaks = new ObjectMap<>(); //activity streaks for how long they have been completed for
+    private static boolean walkedToday = false;
 
 
     public static void initializeGameTime(){
@@ -19,12 +23,58 @@ public class GameStats {
         minute = 0;
     }
 
+    public static void initialiseStreaks(){
+        objectives.put("walker", 0);
+        objectives.put("studious", 0);
+        objectives.put("relaxed", 0);
+        objectives.put("wellFed", 0);
+
+        streaks.put("walker", 0);
+        streaks.put("studious", 0);
+        streaks.put("relaxed", 0);
+        streaks.put("wellFed", 0);
+    } 
+
     public static int getEnergy() {
         return energy;
     }
 
     public static void setEnergy(int energy) {
         GameStats.energy = energy;
+    }
+
+
+    public static void setWalked(boolean walked){
+        walkedToday = walked;
+    }
+
+    public static boolean getWalked(){
+        return walkedToday;
+    }
+
+    public static void updateStreaks(String streak, boolean completed){
+        if (completed){
+            objectives.put(streak, objectives.get(streak)+1);
+            streaks.put(streak, streaks.get(streak)+1);
+        }
+        else {
+            streaks.put(streak, 0);
+        }
+    }
+
+    public static int getStreak(String type){
+        if (type == "Study"){
+            return streaks.get("studious");
+        }
+        else if (type == "Relax"){
+            return streaks.get("relaxed");
+        }
+        else if (type == "Eat"){
+            return streaks.get("wellFed");
+        }
+        else{
+            return 0;
+        }
     }
 
     public static void decreaseEnergy(int decreaseAmount) {
