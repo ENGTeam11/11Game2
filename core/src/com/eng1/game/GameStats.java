@@ -1,5 +1,6 @@
 package com.eng1.game;
 
+import com.badlogic.gdx.utils.ObjectMap;
 
 public class GameStats {
     private static int energy = 100;
@@ -11,7 +12,11 @@ public class GameStats {
     private static final int MINUTES_PER_HOUR = 60;
     private static final int HOURS_PER_DAY = 24;
     private static float elapsedTime = 0; // Time accumulator
+    private static ObjectMap<String, Integer> objectives = new ObjectMap<>();
+    private static ObjectMap<String, Integer> streaks = new ObjectMap<>(); //activity streaks for how long they have been completed for
+    private static boolean walkedToday = false;
     private static String playerName;
+
 
 
     public static void initializeGameTime(){
@@ -20,12 +25,58 @@ public class GameStats {
         minute = 0;
     }
 
+    public static void initialiseStreaks(){
+        objectives.put("Walker", 0);
+        objectives.put("Studious", 0);
+        objectives.put("Relaxed", 0);
+        objectives.put("Well Fed", 0);
+
+        streaks.put("Walker", 0);
+        streaks.put("Studious", 0);
+        streaks.put("Relaxed", 0);
+        streaks.put("Well Fed", 0);
+    } 
+
     public static int getEnergy() {
         return energy;
     }
 
     public static void setEnergy(int energy) {
         GameStats.energy = energy;
+    }
+
+
+    public static void setWalked(boolean walked){
+        walkedToday = walked;
+    }
+
+    public static boolean getWalked(){
+        return walkedToday;
+    }
+
+    public static void updateStreaks(String streak, boolean completed){
+        if (completed){
+            objectives.put(streak, objectives.get(streak)+1);
+            streaks.put(streak, streaks.get(streak)+1);
+        }
+        else {
+            streaks.put(streak, 0);
+        }
+    }
+
+    public static int getStreak(String type){
+        if (type == "Study"){
+            return streaks.get("Studious");
+        }
+        else if (type == "Relax"){
+            return streaks.get("Relaxed");
+        }
+        else if (type == "Eat"){
+            return streaks.get("Well Fed");
+        }
+        else{
+            return 0;
+        }
     }
 
     public static void decreaseEnergy(int decreaseAmount) {
@@ -73,6 +124,10 @@ public class GameStats {
                 newDay();
             }
         }
+    }
+
+    public static ObjectMap<String, Integer> getObjectives(){
+        return objectives;
     }
 
     public static int getScore() {
