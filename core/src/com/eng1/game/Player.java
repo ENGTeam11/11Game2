@@ -29,6 +29,10 @@ public class Player extends Sprite implements InputProcessor {
     private Animation<TextureRegion> runDown;
     private static final float FRAME_TIME = 1 / 5f; //5 fps
 
+    public Player(){
+
+    }
+
     public Player(Sprite sprite, PlayerTracker playerTracker, MapManager mapManager) {
         super(sprite.getTexture());
         this.setScale(3.0f);
@@ -45,7 +49,7 @@ public class Player extends Sprite implements InputProcessor {
 //        walkAnimation = new Animation<TextureRegion>(0.1f, walkFrames, Animation.PlayMode.LOOP);
 
         // animations my self
-        TextureAtlas allAnimations = new TextureAtlas(Gdx.files.internal("allAnimationsAtlas.atlas"));
+        TextureAtlas allAnimations = new TextureAtlas(Gdx.files.internal("playerCharacters/allAnimationsAtlas.atlas"));
 
         idle = new Animation<>(FRAME_TIME, allAnimations.findRegions("down_idle"));
         idle.setPlayMode(Animation.PlayMode.LOOP);
