@@ -15,6 +15,8 @@ public class GameStats {
     private static ObjectMap<String, Integer> objectives = new ObjectMap<>();
     private static ObjectMap<String, Integer> streaks = new ObjectMap<>(); //activity streaks for how long they have been completed for
     private static boolean walkedToday = false;
+    private static String playerName;
+
 
 
     public static void initializeGameTime(){
@@ -146,5 +148,11 @@ public class GameStats {
 
     public static void setDay(int newDay) {
         GameStats.day = newDay;
+    }
+    public static String getPlayerName() {
+        return playerName;
+    }
+    public static void setPlayerName(String playerName) {
+        GameStats.playerName = playerName;
     }
 }

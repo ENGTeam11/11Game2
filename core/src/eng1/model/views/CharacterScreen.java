@@ -12,10 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.eng1.game.HeslingtonHustle;
-import com.eng1.game.LeaderboardEntry;
-import com.eng1.game.MenuState;
-import com.eng1.game.Play;
+import com.eng1.game.*;
 
 public class CharacterScreen extends ScreenAdapter {
     private HeslingtonHustle parent;
@@ -62,7 +59,7 @@ public class CharacterScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (!playerNameField.getText().isEmpty()) {
-                    LeaderboardEntry.setPlayerName(playerNameField.getText());
+                    GameStats.setPlayerName(playerNameField.getText());
                     parent.changeScreen(MenuState.APPLICATION);
                 } else {
                     playerNameField.setMessageText("Please enter a name!");
