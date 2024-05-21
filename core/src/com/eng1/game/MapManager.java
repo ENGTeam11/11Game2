@@ -72,7 +72,8 @@ public class MapManager {
         mapRenderer = new OrthogonalTiledMapRenderer(currentMap);
         adjustCamera();
         bounds.set(Gdx.graphics.getWidth()/3/scale, Gdx.graphics.getHeight()/3/scale);
-        if (mapPath == "maps/map7/map7.tmx"){
+        System.out.println(currentMapPath);
+        if (currentMapPath.equals("maps/map7/map7.tmx")){
             GameStats.setWalked(true);
         }
     }

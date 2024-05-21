@@ -142,17 +142,18 @@ public class Activity {
         if (totalRelax >= 2) {relaxed = true;}
         if (totalEat >= 3) {wellFed = true;}
 
-        GameStats.updateStreaks("relaxed", relaxed);
-        GameStats.updateStreaks("studious", studious);
-        GameStats.updateStreaks("wellFed", wellFed);
-        GameStats.updateStreaks("walker", GameStats.getWalked());
+        GameStats.updateStreaks("Relaxed", relaxed);
+        GameStats.updateStreaks("Studious", studious);
+        GameStats.updateStreaks("Well Fed", wellFed);
+        GameStats.updateStreaks("Walker", GameStats.getWalked());
         GameStats.setWalked(false);
-        
+
         resetDayActivities();
         if (GameStats.getDay() > 7) {
             // Pass the score and activities completed to EndScreen
             Map<String, Integer> activitiesCompleted = Activity.countCompletedActivities();
             int score = calculateDayScore();
+            setFinalScore(GameStats.getScore());
             gameInstance.changeScreen(MenuState.ENDGAME);
 
             

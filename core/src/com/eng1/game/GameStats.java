@@ -24,15 +24,15 @@ public class GameStats {
     }
 
     public static void initialiseStreaks(){
-        objectives.put("walker", 0);
-        objectives.put("studious", 0);
-        objectives.put("relaxed", 0);
-        objectives.put("wellFed", 0);
+        objectives.put("Walker", 0);
+        objectives.put("Studious", 0);
+        objectives.put("Relaxed", 0);
+        objectives.put("Well Fed", 0);
 
-        streaks.put("walker", 0);
-        streaks.put("studious", 0);
-        streaks.put("relaxed", 0);
-        streaks.put("wellFed", 0);
+        streaks.put("Walker", 0);
+        streaks.put("Studious", 0);
+        streaks.put("Relaxed", 0);
+        streaks.put("Well Fed", 0);
     } 
 
     public static int getEnergy() {
@@ -64,13 +64,13 @@ public class GameStats {
 
     public static int getStreak(String type){
         if (type == "Study"){
-            return streaks.get("studious");
+            return streaks.get("Studious");
         }
         else if (type == "Relax"){
-            return streaks.get("relaxed");
+            return streaks.get("Relaxed");
         }
         else if (type == "Eat"){
-            return streaks.get("wellFed");
+            return streaks.get("Well Fed");
         }
         else{
             return 0;
@@ -122,6 +122,10 @@ public class GameStats {
                 newDay();
             }
         }
+    }
+
+    public static ObjectMap<String, Integer> getObjectives(){
+        return objectives;
     }
 
     public static int getScore() {
