@@ -192,7 +192,7 @@ public class Player extends Sprite implements InputProcessor {
         }
 
         TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
-        batch.draw(currentFrame, getX(), getY(), getTexture().getWidth()*getScaleX(), getTexture().getHeight()*getScaleY());
+        batch.draw(currentFrame, getX(), getY(), currentFrame.getRegionWidth() * getScaleX(), currentFrame.getRegionHeight() * getScaleY());
     }
 
     @Override
