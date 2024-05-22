@@ -33,8 +33,7 @@ public class Player extends Sprite implements InputProcessor {
 
     }
 
-    public Player(Sprite sprite, PlayerTracker playerTracker, MapManager mapManager) {
-        super(sprite.getTexture());
+    public Player(PlayerTracker playerTracker, MapManager mapManager) {
         this.setScale(3.0f);
         scale = mapManager.getCurrentScale();
         this.playerTracker = playerTracker;
@@ -42,6 +41,8 @@ public class Player extends Sprite implements InputProcessor {
         if (spawnPoint != null) {
             setPosition(spawnPoint.x, spawnPoint.y);
         }
+
+        String characterName = Play.getSelectedCharacter();
 
         // Load the texture atlas and create the animation
 //        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("allAnimationsAtlas.atlas"));

@@ -36,7 +36,7 @@ public class Play implements Screen {
         mapManager = new MapManager(assetManager, camera);
         mapManager.loadMap("maps/map1/map1.tmx");
         playerTracker = new PlayerTracker(mapManager);
-        player = new Player(new Sprite(new Texture("playerCharacters/playerCharacter1.png")), playerTracker, mapManager);
+        player = new Player(playerTracker, mapManager);
         playerTracker.setPlayer(player);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         gameUI = new GameUI(skin);
@@ -48,8 +48,11 @@ public class Play implements Screen {
 
     }
 
-    public static void setSelectedCharacter(String character) {
-        selectedCharacter = character;
+    public static void setSelectedCharacter(String characterName) {
+        selectedCharacter = characterName;
+    }
+    public static String getSelectedCharacter() {
+        return selectedCharacter;
     }
 
     @Override
