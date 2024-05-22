@@ -42,6 +42,7 @@ public class Play implements Screen {
         gameUI = new GameUI(skin);
         gameStats = new GameStats();
         GameStats.initializeGameTime();
+        GameStats.initialiseStreaks();
 
         MenuScreen.setStartNewGame(false); // Set start new game to false, so a new instance is not created everytime
 

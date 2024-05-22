@@ -11,8 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eng1.game.*;
+
 
 import java.util.Map;
 
@@ -64,13 +66,32 @@ public class EndScreen implements Screen {
         table.row().pad(10, 0, 0, 10);
         table.add(playerNameLabel).colspan(2);
         table.row().pad(10, 0, 0, 10);
+        table.row();
+        table.row();
+
 
         // Display completed activities
+        table.add(new Label("Activities", skin)).left().pad(10);
+        table.row();
         Map<String, Integer> completedActivities = Activity.countCompletedActivities();
         for (String type : completedActivities.keySet()) {
             table.add(new Label(type + ": " + completedActivities.get(type), skin)).left().pad(10);
-            table.row();
+            //table.row();
         }
+        table.row();
+        table.row();
+        table.row();
+        table.row();
+        
+        table.add(new Label("Medals Earned", skin)).left().pad(10);
+        table.row();
+        ObjectMap<String, Integer> objectives = GameStats.getObjectives();
+        for (String medal : objectives.keys()){
+            table.add(new Label(medal + ": " + objectives.get(medal), skin)).left().pad(10);
+        }
+        table.row();
+        table.row();
+        table.row();
         table.row().pad(10, 0, 0, 10);
 
         table.add(scoreLabel).colspan(2).row();

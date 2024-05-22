@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Interpolation;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.eng1.game.HeslingtonHustle;
 
@@ -52,16 +53,16 @@ public class Activity {
 
         // Add activties to their activity type
         // Study: CompSci Building
-        activities.get("Study").put("CompSci", new Activity(180, 30, 0));
+        activities.get("Study").put("CompSci", new Activity(180, 30, 20));
 
         // Relax: Gym
-        activities.get("Relax").put("Gym", new Activity(60, 20, 0));
-        activities.get("Relax").put("Map1", new Activity(60, 10, 0));
-        activities.get("Relax").put("Basketball", new Activity(60, 250, 0));
-        activities.get("Relax").put("Football", new Activity(90, 30, 0));
+        activities.get("Relax").put("Gym", new Activity(60, 20, 10));
+        activities.get("Relax").put("Map1", new Activity(60, 10, 3));
+        activities.get("Relax").put("Basketball", new Activity(60, 25, 15));
+        activities.get("Relax").put("Football", new Activity(90, 30, 17));
 
         // Eat: Piazza Building
-        activities.get("Eat").put("Piazza", new Activity(60, 10, 0));
+        activities.get("Eat").put("Piazza", new Activity(60, 10, 13));
 
         // Sleep: Home
         activities.get("Sleep").put("Home", new Activity(0,0, 0));
@@ -73,7 +74,7 @@ public class Activity {
         String location = parts[1];
 
         Activity activity = activities.get(type).get(location);
-        activity.complete();
+        activity.complete(type);
         if(type.equals("Eat")  ){
             gameInstance.changeScreen(MenuState.FOODNINJA);
         }
@@ -88,7 +89,7 @@ public class Activity {
         }
     }
 
-    public String complete(){
+    public String complete(String type){
         if (GameStats.getEnergy() < energyNeeded) {
             return "Insufficient energy";
         }
@@ -99,7 +100,11 @@ public class Activity {
         this.timesCompletedDay++;
         this.timesCompletedWeek++;
         GameStats.decreaseEnergy(this.energyNeeded);
-        GameStats.increaseScore(reward);
+        int score = Math.round((float)(reward * (1 + 0.2*GameStats.getStreak(type))));
+        if(GameStats.getWalked()){
+            score += 1;
+        }
+        GameStats.increaseScore(score);
 
         return "Activity Completed";
 
@@ -113,6 +118,13 @@ public class Activity {
     }
 
 
+    public static int getTotalComplete(String activityType){
+        int total = 0;
+        for (Entry<String, Activity> set : activities.get(activityType).entrySet()) {
+            total += set.getValue().timesCompletedDay;
+        }
+        return total;
+    }
 
     public static void sleep() {
         // Debugging
@@ -121,13 +133,33 @@ public class Activity {
         // ---
 
         GameStats.newDay();
+        
+        boolean studious = false;
+        boolean wellFed = false;
+        boolean relaxed = false;
+        int totalRelax = getTotalComplete("Relax");
+        int totalStudy = getTotalComplete("Study");
+        int totalEat = getTotalComplete("Eat");
+
+        if (totalStudy >= 2) {studious = true;}
+        if (totalRelax >= 2) {relaxed = true;}
+        if (totalEat >= 3) {wellFed = true;}
+
+        GameStats.updateStreaks("Relaxed", relaxed);
+        GameStats.updateStreaks("Studious", studious);
+        GameStats.updateStreaks("Well Fed", wellFed);
+        GameStats.updateStreaks("Walker", GameStats.getWalked());
+        GameStats.setWalked(false);
 
         resetDayActivities();
         if (GameStats.getDay() > 7) {
             // Pass the score and activities completed to EndScreen
             Map<String, Integer> activitiesCompleted = Activity.countCompletedActivities();
             int score = calculateDayScore();
+            setFinalScore(GameStats.getScore());
             gameInstance.changeScreen(MenuState.ENDGAME);
+
+            
         }
 
 

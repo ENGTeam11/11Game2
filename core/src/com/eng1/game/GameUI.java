@@ -16,13 +16,14 @@ public class GameUI {
     private Stage stage;
     private Skin skin;
     private Dialog controlsDialog;
-    private Label energyLabel, timeLabel, scoreLabel, dayLabel;
-    private Table statsTable;
+    private Label energyLabel, timeLabel, scoreLabel, dayLabel, studyLabel, relaxLabel, eatLabel, walkLabel;
+    private Table statsTable, streaksTable;
 
     public GameUI(Skin skin) {
         stage = new Stage(new ScreenViewport());
         this.skin = skin;
         setupStatsDialog();
+        setupStreaksDialog();
         setupControlsDialog();
 
     }
@@ -66,6 +67,38 @@ public class GameUI {
         wrapperTable.add(statsTable);
         stage.addActor(wrapperTable);
     }
+
+    private void setupStreaksDialog() {
+        Table streakWrapperTable = new Table();
+        streakWrapperTable.setFillParent(true);
+        streakWrapperTable.top().left();
+
+        streaksTable = new Table(skin);
+        float tableWidth = Gdx.graphics.getWidth() * 0.20f;
+        float tableHeight = Gdx.graphics.getHeight() * 0.20f;
+
+        statsTable.setBackground(skin.getDrawable("default-pane"));
+        statsTable.pad(10);
+
+        streaksTable.setBackground(skin.getDrawable("default-pane"));
+        streaksTable.pad(10);
+
+        studyLabel = new Label("Studious: " + GameStats.getStreak("Studious"), skin);
+        relaxLabel = new Label("Relaxed: " + GameStats.getStreak("Relaxed"), skin);
+        eatLabel = new Label("Well Fed: " + GameStats.getStreak("Well Fed"), skin);
+        walkLabel = new Label("Walk Bonus: " + walkstatus(), skin);
+
+        streaksTable.add("Current streaks").expandX().fillX().row();
+        streaksTable.add(studyLabel).expandX().fillX().row();
+        streaksTable.add(relaxLabel).expandX().fillX().row();
+        streaksTable.add(eatLabel).expandX().fillX().row();
+        streaksTable.add(walkLabel).expandX().fillX().row();
+
+        streaksTable.setSize(tableWidth, tableHeight);
+        streakWrapperTable.add(streaksTable);
+        stage.addActor(streakWrapperTable);
+    }
+
     public void updateStats(){
         dayLabel.setText("Day: " + GameStats.getDay());
         timeLabel.setText("Time: " + GameStats.getFormattedTime());
@@ -76,8 +109,23 @@ public class GameUI {
 
     }
 
+    public void updateStreakUI(){
+        studyLabel.setText("Studious: " + GameStats.getStreak("Study"));
+        relaxLabel.setText("Relaxed: " + GameStats.getStreak("Relax"));
+        eatLabel.setText("Well Fed: " + GameStats.getStreak("Eat"));
+        walkLabel.setText("Walk Bonus: " + walkstatus());
+    }
+
+    private String walkstatus(){
+        if (GameStats.getWalked()){
+            return "Active";
+        }
+        return "Not active";
+    }
+
     public void render(float delta) {
         updateStats();
+        updateStreakUI();
         stage.act(delta);
         stage.draw();
     }
