@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import eng1.model.views.*;
 import minigames.AcademicWeapon;
+import minigames.BasketBall;
 import minigames.FoodNinja;
 
 /**
@@ -22,6 +23,7 @@ public class HeslingtonHustle extends Game {
 	private AcademicWeapon academicWeapon;
 	private PauseScreen pauseScreen;
 	private LeaderboardScreen leaderboardScreen;
+	private BasketBall basketBall;
 	
 	@Override
 	public void create() {
@@ -81,6 +83,10 @@ public class HeslingtonHustle extends Game {
 			case LEADERBOARD:
 				if (leaderboardScreen == null) leaderboardScreen = new LeaderboardScreen(this);
 				setScreen(leaderboardScreen);
+				break;
+			case BASKETBALL:
+				if (basketBall == null) basketBall = new BasketBall(this);
+				setScreen(basketBall);
 				break;
  		}
 	}

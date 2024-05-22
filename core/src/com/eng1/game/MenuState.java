@@ -10,4 +10,5 @@ public enum MenuState {
     FOODNINJA,
     ACADEMICWEAPON,
     LEADERBOARD,
+    BASKETBALL,
 }
