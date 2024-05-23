@@ -39,35 +39,6 @@ allprojects {
     }
 }
 
-subprojects {
-    apply plugin: "java"
-    apply plugin: "jacoco"
-
-    dependencies {
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-    }
-
-    test {
-        useJUnitPlatform()
-        finalizedBy jacocoTestReport
-    }
-
-    jacoco {
-        toolVersion = "0.8.7"
-    }
-
-    jacocoTestReport {
-        dependsOn test
-        reports {
-            xml.required = true
-            csv.required = false
-            html.required = true
-            html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
-        }
-    }
-}
-
 project(":desktop") {
     apply plugin: "java-library"
 
