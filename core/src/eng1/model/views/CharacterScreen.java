@@ -22,6 +22,8 @@ public class CharacterScreen extends ScreenAdapter {
     private TextButton startGameButton;
     private Label titleLabel;
     private TextField playerNameField;
+    private Label errorLabel;
+    private String selectedCharacter;
 
     public CharacterScreen(HeslingtonHustle game) {
         parent = game;
@@ -59,13 +61,22 @@ public class CharacterScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (!playerNameField.getText().isEmpty()) {
-                    GameStats.setPlayerName(playerNameField.getText());
-                    parent.changeScreen(MenuState.APPLICATION);
+                    if (selectedCharacter != null) {
+                        GameStats.setPlayerName(playerNameField.getText());
+                        Play.setSelectedCharacter(selectedCharacter);
+                        parent.changeScreen(MenuState.APPLICATION);
+                    } else {
+                        errorLabel.setText("Please select a character!");
+                    }
                 } else {
                     playerNameField.setMessageText("Please enter a name!");
                 }
             }
         });
+
+        // Error label
+        errorLabel = new Label("", skin);
+        errorLabel.setColor(1, 0, 0, 1); // Red color for error message
 
         // Layout
         table.add(titleLabel).colspan(3).padBottom(20);
@@ -77,6 +88,8 @@ public class CharacterScreen extends ScreenAdapter {
         table.add(character3Button);
         table.row().padTop(20);
         table.add(startGameButton).colspan(3).fillX();
+        table.row().padTop(10);
+        table.add(errorLabel).colspan(3).center();
 
         // Set the input processor
         Gdx.input.setInputProcessor(stage);
@@ -98,8 +111,9 @@ public class CharacterScreen extends ScreenAdapter {
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Play.setSelectedCharacter(characterName);
+                selectedCharacter = characterName;
                 highlightSelectedButton(button);
+                errorLabel.setText(""); // Clear error message if any
             }
         });
     }
