@@ -68,6 +68,10 @@ public class Activity {
         activities.get("Sleep").put("Home", new Activity(0,0, 0));
     }
 
+    /**
+     * calls the Complete method for the object derived from the activityIdentifier parameter. Also starts appropriate minigames for the activity type or sleeps the game. 
+     * @param activityIdentifier a String consisting of the type of activity ie study relax etc, followed by the location of the activity. the two are split by a comma
+     */
     public static void completeActivity(String activityIdentifier) {
         String[] parts = activityIdentifier.split(",");
         String type = parts[0];
@@ -88,7 +92,14 @@ public class Activity {
             sleep();
         }
     }
-
+    
+    /**
+     * Checks whether the player has sufficient energy and time to complete the activity. 
+     * If so it will increment the activities times completed attributes, subtract the energy cost from the players energy, and move time forwards and increase the score by the appropriate amounts
+     *
+     * @param type the type of activity being completed, so that the appropriate streak can be used to calculate the score
+     * @return a string notifying of the methods successful completion if it was successful, or the reason why it wasnt successful
+     */
     public String complete(String type){
         if (GameStats.getEnergy() < energyNeeded) {
             return "Insufficient energy";
@@ -100,9 +111,9 @@ public class Activity {
         this.timesCompletedDay++;
         this.timesCompletedWeek++;
         GameStats.decreaseEnergy(this.energyNeeded);
-        int score = Math.round((float)(reward * (1 + 0.2*GameStats.getStreak(type))));
-        if(GameStats.getWalked()){
-            score += 1;
+        int score = Math.round((float)(reward * (1 + 0.2*GameStats.getStreak(type)))); //calculates the score based on the current streak for medals related to activity type
+        if(GameStats.getWalked()){ 
+            score += 1; //ads a bonus point if the player has walked into the city (to map 7) that day
         }
         GameStats.increaseScore(score);
 
@@ -117,15 +128,22 @@ public class Activity {
 
     }
 
-
-    public static int getTotalComplete(String activityType){
+    /**
+     * fetches the total number of times a certain activity type was performed in a day
+     * @param activityType a string for the type of activity being checked
+     * @return an integer for the total number completed that day
+     */
+    public static int getTotalCompleteDay(String activityType){
         int total = 0;
         for (Entry<String, Activity> set : activities.get(activityType).entrySet()) {
             total += set.getValue().timesCompletedDay;
         }
         return total;
     }
-
+    
+    /**
+     * Progresses time to 8am the following day, resets player energy and daily values as well as updating all of the players streaks for the next day
+     */
     public static void sleep() {
         // Debugging
         // ---
@@ -134,17 +152,19 @@ public class Activity {
 
         GameStats.newDay();
         
+        //checking whether the quota for the streak medals have been reached that day
         boolean studious = false;
         boolean wellFed = false;
         boolean relaxed = false;
-        int totalRelax = getTotalComplete("Relax");
-        int totalStudy = getTotalComplete("Study");
-        int totalEat = getTotalComplete("Eat");
-
+        int totalRelax = getTotalCompleteDay("Relax");
+        int totalStudy = getTotalCompleteDay("Study");
+        int totalEat = getTotalCompleteDay("Eat");
+        //setting the streaks to true if their quota is met
         if (totalStudy >= 2) {studious = true;}
         if (totalRelax >= 2) {relaxed = true;}
         if (totalEat >= 3) {wellFed = true;}
 
+        //updating streaks based on whether or not they were met
         GameStats.updateStreaks("Relaxed", relaxed);
         GameStats.updateStreaks("Studious", studious);
         GameStats.updateStreaks("Well Fed", wellFed);
@@ -153,9 +173,8 @@ public class Activity {
 
         resetDayActivities();
         if (GameStats.getDay() > 7) {
-            // Pass the score and activities completed to EndScreen
+            // Pass the score, activities completed and medals to EndScreen
             Map<String, Integer> activitiesCompleted = Activity.countCompletedActivities();
-            int score = calculateDayScore();
             setFinalScore(GameStats.getScore());
             gameInstance.changeScreen(MenuState.ENDGAME);
 
@@ -165,6 +184,10 @@ public class Activity {
 
     }
 
+    /**
+     * Count the completed activites for each type of activity
+     * @return a hashmap with labels of the activity type, followed with the amount of times they were performed
+     */
     public static Map<String, Integer> countCompletedActivities() {
         // Count the completed activites for the end screen
         Map<String, Integer> counts = new HashMap<>();
@@ -197,6 +220,9 @@ public class Activity {
         finalScore = score;
     }
 
+    /**
+     * resets the timesCompletedDay attribute for all activities
+     */
     private static void resetDayActivities() {
         for (Map<String, Activity> typeActivities : activities.values()) {
             for (Activity activity : typeActivities.values()) {

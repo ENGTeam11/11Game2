@@ -7,9 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 
 public class Player extends Sprite implements InputProcessor {
@@ -21,7 +18,7 @@ public class Player extends Sprite implements InputProcessor {
     private boolean interacting = false;
 
     // Animations
-    private float stateTime;
+    private float stateTime; //time since last animation frame change
     private Animation<TextureRegion> idle;
     private Animation<TextureRegion> runRight;
     private Animation<TextureRegion> runLeft;
@@ -73,20 +70,29 @@ public class Player extends Sprite implements InputProcessor {
 
         stateTime = 0f;
     }
+
+    /**
+     * updates player position according to movement and time since last update.
+     * also checks if they are interacting with an activity
+     * @param delta time since last render
+     * @param mapManager the world map
+     */
     public void update(float delta, MapManager mapManager) {
         stateTime += delta;
 
+        //changing players position
         movementscheck();
         float newX = getX() + velocity.x * delta;
-        if (mapManager.inRegion(new Vector2(newX, getY()), getWidth(), getHeight(), "collisions")) {
+        if (mapManager.inRegion(new Vector2(newX, getY()), getWidth(), getHeight(), "collisions")) { // checks if player has hit a collision layer and prevents movement if so
             newX = getX();
         }
         float newY = getY() + velocity.y * delta;
-        if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "collisions")) {
+        if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "collisions")) { // checks if player has hit a collision layer and prevents movement if so
             newY = getY();  
         }
         setPosition(newX, newY);
 
+        //checking for activity interactions
         if (interacting){
             if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "activities")){
                 interacting = false;
@@ -94,16 +100,20 @@ public class Player extends Sprite implements InputProcessor {
             }
         }
 
-
+        //chacks if player is standing on a map transfer tile
         if (playerTracker != null) {
             playerTracker.checkPlayerTile(newX, newY);
         }
 
-
+        //scales player according to map scale
         scale = mapManager.getCurrentScale();
         this.setScale(3.0f / scale);
     }
 
+    
+    /**
+     * checks what the players movement should be based on input keys
+     */
     public void movementscheck(){
         if(up && !down){
             velocity.y = speed / scale;
@@ -176,6 +186,10 @@ public class Player extends Sprite implements InputProcessor {
     }
 
     @Override
+    /**
+     * draws the player on screen
+     * @param batch the drawing batch for the render function calling this one
+     */
     public void draw(Batch batch){
         Animation<TextureRegion> animation = idle;
         if (up){
