@@ -78,18 +78,20 @@ public class Activity {
         String location = parts[1];
 
         Activity activity = activities.get(type).get(location);
-        activity.complete(type);
-        if(type.equals("Eat")  ){
-            gameInstance.changeScreen(MenuState.FOODNINJA);
-        }
-        if(type.equals("Study")){
-            gameInstance.changeScreen(MenuState.ACADEMICWEAPON);
-        }
-        if (type.equals("Relax")) {
-            gameInstance.changeScreen(MenuState.BASKETBALL);
-        }
-        if (type.equals("Sleep")) {
-            sleep();
+        String complete = activity.complete(type);
+        if (complete.equals("Activity Completed")) {
+            if(type.equals("Eat")  ){
+                gameInstance.changeScreen(MenuState.FOODNINJA);
+            }
+            if(type.equals("Study")){
+                gameInstance.changeScreen(MenuState.ACADEMICWEAPON);
+            }
+            if (type.equals("Relax")) {
+                gameInstance.changeScreen(MenuState.BASKETBALL);
+            }
+            if (type.equals("Sleep")) {
+                sleep();
+            }
         }
     }
     
