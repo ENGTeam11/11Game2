@@ -3,9 +3,11 @@ package com.eng1.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
 
 public class Player extends Sprite implements InputProcessor {
     private Vector2 velocity = new Vector2();
@@ -14,9 +16,30 @@ public class Player extends Sprite implements InputProcessor {
     private boolean up, down, left, right;
     private PlayerTracker playerTracker;
     private boolean interacting = false;
+    private Play playScreen;
 
-    public Player(Sprite sprite, PlayerTracker playerTracker, MapManager mapManager) {
-        super(sprite.getTexture());
+    // Animations
+    private float stateTime; //time since last animation frame change
+    private Animation<TextureRegion> idle;
+    private Animation<TextureRegion> runRight;
+    private Animation<TextureRegion> runLeft;
+    private Animation<TextureRegion> runUp;
+    private Animation<TextureRegion> runDown;
+    private static final float FRAME_TIME = 1 / 5f; //5 fps
+
+    private String adamAtlas;
+    private String bobAtlas;
+    private String ameliaAtlas;
+
+
+
+    public Player(){
+
+    }
+
+
+    public Player(Play playScreen, PlayerTracker playerTracker, MapManager mapManager) {
+        this.playScreen = playScreen;
         this.setScale(3.0f);
         scale = mapManager.getCurrentScale();
         this.playerTracker = playerTracker;
@@ -24,21 +47,72 @@ public class Player extends Sprite implements InputProcessor {
         if (spawnPoint != null) {
             setPosition(spawnPoint.x, spawnPoint.y);
         }
-        Gdx.input.setInputProcessor(this);
-    }
-    public void update(float delta, MapManager mapManager) {
 
+        String characterName = Play.getSelectedCharacter();
+        String atlasFileName = getSelectedAtlas(characterName);
+
+        // animations
+        TextureAtlas allAnimations = new TextureAtlas(Gdx.files.internal(atlasFileName));
+
+        idle = new Animation<>(FRAME_TIME, allAnimations.findRegions("idleDown"));
+        idle.setPlayMode(Animation.PlayMode.LOOP);
+
+        //run right TextureAtlas
+        runRight = new Animation<>(FRAME_TIME, allAnimations.findRegions("runRight"));
+        runRight.setPlayMode(Animation.PlayMode.LOOP);
+
+        //run left animation
+        runLeft = new Animation<>(FRAME_TIME, allAnimations.findRegions("runLeft"));
+        runLeft.setPlayMode(Animation.PlayMode.LOOP);
+
+        //run up animation
+        runUp = new Animation<>(FRAME_TIME, allAnimations.findRegions("runUp"));
+        runUp.setPlayMode(Animation.PlayMode.LOOP);
+
+        //run down animation
+        runDown = new Animation<>(FRAME_TIME, allAnimations.findRegions("runDown"));
+        runDown.setPlayMode(Animation.PlayMode.LOOP);
+
+        stateTime = 0f;
+    }
+
+    private String getSelectedAtlas(String characterName){
+        switch(characterName.toLowerCase()){
+            case "character1":
+                return "playerCharacters/adamAtlas.atlas";
+            case "character2":
+                return "playerCharacters/ameliaAtlas.atlas";
+            case "character3":
+                return "playerCharacters/bobAtlas.atlas";
+            default:
+                return "playerCharacters/allAnimationsAtlas.atlas";
+        }
+
+    }
+
+
+    /**
+     * updates player position according to movement and time since last update.
+     * also checks if they are interacting with an activity
+     * @param delta time since last render
+     * @param mapManager the world map
+     */
+    public void update(float delta, MapManager mapManager) {
+        stateTime += delta;
+
+        //changing players position
         movementscheck();
         float newX = getX() + velocity.x * delta;
-        if (mapManager.inRegion(new Vector2(newX, getY()), getWidth(), getHeight(), "collisions")) {
+        if (mapManager.inRegion(new Vector2(newX, getY()), getWidth(), getHeight(), "collisions")) { // checks if player has hit a collision layer and prevents movement if so
             newX = getX();
         }
         float newY = getY() + velocity.y * delta;
-        if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "collisions")) {
+        if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "collisions")) { // checks if player has hit a collision layer and prevents movement if so
             newY = getY();  
         }
         setPosition(newX, newY);
 
+        //checking for activity interactions
         if (interacting){
             if (mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "activities")){
                 interacting = false;
@@ -46,15 +120,21 @@ public class Player extends Sprite implements InputProcessor {
             }
         }
 
-
+        //checks if player is standing on a map transfer tile
+        playScreen.showInteractPrompt = mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "activities");
         if (playerTracker != null) {
             playerTracker.checkPlayerTile(newX, newY);
         }
-        
+
+        //scales player according to map scale
         scale = mapManager.getCurrentScale();
         this.setScale(3.0f / scale);
     }
 
+    
+    /**
+     * checks what the players movement should be based on input keys
+     */
     public void movementscheck(){
         if(up && !down){
             velocity.y = speed / scale;
@@ -127,8 +207,27 @@ public class Player extends Sprite implements InputProcessor {
     }
 
     @Override
+    /**
+     * draws the player on screen
+     * @param batch the drawing batch for the render function calling this one
+     */
     public void draw(Batch batch){
-        batch.draw(getTexture(), getX(), getY(), getTexture().getWidth()*getScaleX(), getTexture().getHeight()*getScaleY());
+        Animation<TextureRegion> animation = idle;
+        if (up){
+            animation = runUp;
+        }
+        if (down){
+            animation = runDown;
+        }
+        if (left){
+            animation = runLeft;
+        }
+        if (right){
+            animation = runRight;
+        }
+
+        TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
+        batch.draw(currentFrame, getX(), getY(), currentFrame.getRegionWidth() * getScaleX(), currentFrame.getRegionHeight() * getScaleY());
     }
 
     @Override

@@ -3,6 +3,7 @@ package eng1.model.views;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eng1.game.HeslingtonHustle;
+import com.eng1.game.MenuState;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
@@ -33,7 +34,7 @@ public class LoadingScreen implements Screen {
      */
     @Override
     public void render(float delta) {
-        parent.changeScreen(HeslingtonHustle.MENU);
+        parent.changeScreen(MenuState.MENU);
 
     }
 

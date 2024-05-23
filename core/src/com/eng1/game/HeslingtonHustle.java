@@ -3,12 +3,18 @@ package com.eng1.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import eng1.model.views.*;
+import minigames.AcademicWeapon;
+import minigames.BasketBall;
+import minigames.FoodNinja;
 
 /**
  * The main game class responsible for managing screens.
  */
 public class HeslingtonHustle extends Game {
+	private Music backgroundMusic;
+
 	private LoadingScreen loadingScreen;
 	private PreferencesScreen preferencesScreen;
 	private MenuScreen menuScreen;
@@ -16,15 +22,11 @@ public class HeslingtonHustle extends Game {
 	private EndScreen endScreen;
 	private AppPreferences preferences;
 	private CharacterScreen characterScreen;
+	private FoodNinja foodNinja;
+	private AcademicWeapon academicWeapon;
 	private PauseScreen pauseScreen;
-
-	// Screen constants
-	public final static int MENU = 0;
-	public final static int PREFERENCES = 1;
-	public final static int APPLICATION = 2;
-	public final static int ENDGAME = 3;
-	public final static int CHARACTER = 4;
-	public final static int PAUSE = 5;
+	private LeaderboardScreen leaderboardScreen;
+	private BasketBall basketBall;
 	
 	@Override
 	public void create() {
@@ -32,6 +34,13 @@ public class HeslingtonHustle extends Game {
 		setScreen(loadingScreen);
 		preferences = new AppPreferences();
 		Activity.setGameInstance(this); // Set the game instance in Activity
+
+		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/mixkit-kidding-around-9.mp3"));
+		backgroundMusic.setLooping(true);
+		backgroundMusic.setVolume(preferences.getMusicVolume());
+		if (preferences.isMusicEnabled()) {
+			backgroundMusic.play();
+		}
 	}
 
 	/**
@@ -47,7 +56,7 @@ public class HeslingtonHustle extends Game {
 	 * @param screen The screen constant indicating the screen to switch to.
 	 *
 	 */
-	public void changeScreen(int screen) {
+	public void changeScreen(MenuState screen) {
 		switch (screen) {
 			case MENU:
 				if (menuScreen == null) menuScreen = new MenuScreen(this);
@@ -72,7 +81,24 @@ public class HeslingtonHustle extends Game {
 			case PAUSE:
 				if (pauseScreen == null) pauseScreen = new PauseScreen(this);
 				setScreen(pauseScreen);
-		}
+				break;
+			case FOODNINJA:
+				if(foodNinja == null) foodNinja = new FoodNinja(this);
+				setScreen(foodNinja);
+				break;
+			case ACADEMICWEAPON:
+				if(academicWeapon == null) academicWeapon = new AcademicWeapon(this);
+				setScreen(academicWeapon);
+				break;
+			case LEADERBOARD:
+				if (leaderboardScreen == null) leaderboardScreen = new LeaderboardScreen(this);
+				setScreen(leaderboardScreen);
+				break;
+			case BASKETBALL:
+				if (basketBall == null) basketBall = new BasketBall(this);
+				setScreen(basketBall);
+				break;
+ 		}
 	}
 
 	@Override
@@ -81,5 +107,11 @@ public class HeslingtonHustle extends Game {
 		// Handle input events
 
 
+	}
+	public Music getBackgroundMusic() {
+		return backgroundMusic;
+	}
+	public void resetgame(){
+		mainScreen = new MainScreen(this);
 	}
 }

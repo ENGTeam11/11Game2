@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.eng1.game.HeslingtonHustle;
+import com.eng1.game.MenuState;
 
 /**
  * Represents the preferences screen of the game.
@@ -65,6 +66,7 @@ public class PauseScreen implements Screen {
             @Override
             public boolean handle(Event event) {
                 parent.getPreferences().setMusicVolume(volumeMusicSlider.getValue());
+                parent.getBackgroundMusic().setVolume(volumeMusicSlider.getValue());
                 // updateVolumeLabel();
                 return false;
             }
@@ -90,6 +92,11 @@ public class PauseScreen implements Screen {
             public boolean handle(Event event) {
                 boolean enabled = musicCheckbox.isChecked();
                 parent.getPreferences().setMusicEnabled(enabled);
+                if (enabled) {
+                    parent.getBackgroundMusic().play();
+                } else {
+                    parent.getBackgroundMusic().pause();
+                }
                 return false;
             }
         });
@@ -111,7 +118,7 @@ public class PauseScreen implements Screen {
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.changeScreen(HeslingtonHustle.MENU);
+                parent.changeScreen(MenuState.MENU);
             }
         });
 
@@ -157,7 +164,7 @@ public class PauseScreen implements Screen {
     @Override
     public void render(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            parent.changeScreen(HeslingtonHustle.APPLICATION);
+            parent.changeScreen(MenuState.APPLICATION);
         }
         // clear the screen ready for next set of images to be drawn
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);

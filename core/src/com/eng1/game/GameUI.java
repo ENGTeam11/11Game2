@@ -16,17 +16,20 @@ public class GameUI {
     private Stage stage;
     private Skin skin;
     private Dialog controlsDialog;
-    private Label energyLabel, timeLabel, scoreLabel, dayLabel;
-    private Table statsTable;
+    private Label energyLabel, timeLabel, scoreLabel, dayLabel, studyLabel, relaxLabel, eatLabel, walkLabel;
+    private Table statsTable, streaksTable;
 
     public GameUI(Skin skin) {
         stage = new Stage(new ScreenViewport());
         this.skin = skin;
         setupStatsDialog();
+        setupStreaksDialog();
         setupControlsDialog();
 
     }
-
+    /**
+     * prepares the controls display pop up
+     */
     private void setupControlsDialog() {
         controlsDialog = new Dialog("HOW TO PLAY", skin);
         controlsDialog.text("Use WASD to move around and E to interact!");
@@ -38,6 +41,9 @@ public class GameUI {
         controlsDialog.setPosition((stage.getWidth() - controlsDialog.getWidth()) / 2, (stage.getHeight() - controlsDialog.getHeight()) / 2);
 
     }
+    /**
+     * prepares the stats display 
+     */
     private void setupStatsDialog() {
         Table wrapperTable = new Table();
         wrapperTable.setFillParent(true);
@@ -53,28 +59,91 @@ public class GameUI {
         timeLabel = new Label("Time: " + GameStats.getFormattedTime(), skin);
         dayLabel = new Label("Day: " + GameStats.getDay(), skin);
         scoreLabel = new Label("Score: " + GameStats.getScore(), skin);
+        energyLabel = new Label("Energy: " + GameStats.getEnergy(), skin );
         
 
         statsTable.add(dayLabel).expandX().fillX().row();
         statsTable.add(timeLabel).expandX().fillX().row();
         statsTable.add(scoreLabel).expandX().fillX().row();
+        statsTable.add(energyLabel).expand().fillX().row();
         
 
         statsTable.setSize(tableWidth, tableHeight);
         wrapperTable.add(statsTable);
         stage.addActor(wrapperTable);
     }
+    /**
+     * prepares the streaks display 
+     */
+    private void setupStreaksDialog() {
+        Table streakWrapperTable = new Table();
+        streakWrapperTable.setFillParent(true);
+        streakWrapperTable.top().left();
+
+        streaksTable = new Table(skin);
+        float tableWidth = Gdx.graphics.getWidth() * 0.20f;
+        float tableHeight = Gdx.graphics.getHeight() * 0.20f;
+
+        statsTable.setBackground(skin.getDrawable("default-pane"));
+        statsTable.pad(10);
+
+        streaksTable.setBackground(skin.getDrawable("default-pane"));
+        streaksTable.pad(10);
+
+        studyLabel = new Label("Studious: " + GameStats.getStreak("Studious"), skin);
+        relaxLabel = new Label("Relaxed: " + GameStats.getStreak("Relaxed"), skin);
+        eatLabel = new Label("Well Fed: " + GameStats.getStreak("Well Fed"), skin);
+        walkLabel = new Label("Walk Bonus: " + walkstatus(), skin);
+
+        streaksTable.add("Current streaks").expandX().fillX().row();
+        streaksTable.add(studyLabel).expandX().fillX().row();
+        streaksTable.add(relaxLabel).expandX().fillX().row();
+        streaksTable.add(eatLabel).expandX().fillX().row();
+        streaksTable.add(walkLabel).expandX().fillX().row();
+
+        streaksTable.setSize(tableWidth, tableHeight);
+        streakWrapperTable.add(streaksTable);
+        stage.addActor(streakWrapperTable);
+    }
+
+    /**
+     * updates the values within the stats display
+     */
     public void updateStats(){
         dayLabel.setText("Day: " + GameStats.getDay());
         timeLabel.setText("Time: " + GameStats.getFormattedTime());
         scoreLabel.setText("Score: " + GameStats.getScore());
-        
-
-
+        energyLabel.setText("Energy: " + GameStats.getEnergy());
     }
 
+    /**
+     * updates the values within the streaks display
+     */
+    public void updateStreakUI(){
+        studyLabel.setText("Studious: " + GameStats.getStreak("Study"));
+        relaxLabel.setText("Relaxed: " + GameStats.getStreak("Relax"));
+        eatLabel.setText("Well Fed: " + GameStats.getStreak("Eat"));
+        walkLabel.setText("Walk Bonus: " + walkstatus());
+    }
+
+    /**
+     * returns a certain string depending on wether GameStats.walked is true
+     * @return "Active" string if true "Not active" if not
+     */
+    private String walkstatus(){
+        if (GameStats.getWalked()){
+            return "Active";
+        }
+        return "Not active";
+    }
+
+    /**
+     * runs the ui update attributes and displays the ui on screen
+     * @param delta the time since last render
+     */
     public void render(float delta) {
         updateStats();
+        updateStreakUI();
         stage.act(delta);
         stage.draw();
     }
