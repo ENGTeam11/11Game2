@@ -49,9 +49,9 @@ public class CharacterScreen extends ScreenAdapter {
         character3Button = new TextButton("", skin);
 
         // Setup character images
-        setupCharacterButton(character1Button, "playerCharacters/playerCharacter1.png", "Character1");
-        setupCharacterButton(character2Button, "playerCharacters/playerCharacter2.png", "Character2");
-        setupCharacterButton(character3Button, "playerCharacters/playerCharacter3.png", "Character3");
+        setupCharacterButton(character1Button, "playerCharacters/adam.png", "Character1");
+        setupCharacterButton(character2Button, "playerCharacters/amelia.png", "Character2");
+        setupCharacterButton(character3Button, "playerCharacters/bob.png", "Character3");
 
         // Start Game button
         startGameButton = new TextButton("Start Game!", skin);
