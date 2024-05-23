@@ -16,6 +16,7 @@ public class Player extends Sprite implements InputProcessor {
     private boolean up, down, left, right;
     private PlayerTracker playerTracker;
     private boolean interacting = false;
+    private Play playScreen;
 
     // Animations
     private float stateTime; //time since last animation frame change
@@ -30,7 +31,8 @@ public class Player extends Sprite implements InputProcessor {
 
     }
 
-    public Player(PlayerTracker playerTracker, MapManager mapManager) {
+    public Player(Play playScreen, PlayerTracker playerTracker, MapManager mapManager) {
+        this.playScreen = playScreen;
         this.setScale(3.0f);
         scale = mapManager.getCurrentScale();
         this.playerTracker = playerTracker;
@@ -100,7 +102,8 @@ public class Player extends Sprite implements InputProcessor {
             }
         }
 
-        //chacks if player is standing on a map transfer tile
+        //checks if player is standing on a map transfer tile
+        playScreen.showInteractPrompt = mapManager.inRegion(new Vector2(newX, newY), getWidth(), getHeight(), "activities");
         if (playerTracker != null) {
             playerTracker.checkPlayerTile(newX, newY);
         }
