@@ -111,4 +111,7 @@ public class HeslingtonHustle extends Game {
 	public Music getBackgroundMusic() {
 		return backgroundMusic;
 	}
+	public void resetgame(){
+		mainScreen = new MainScreen(this);
+	}
 }

@@ -37,6 +37,7 @@ public class MenuScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+        parent.resetgame();
         Gdx.input.setInputProcessor(stage); // Set the input processor to the stage
 
         // Create a table that fills the screen. Everything else will go inside this table.

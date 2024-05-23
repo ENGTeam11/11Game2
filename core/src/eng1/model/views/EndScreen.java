@@ -102,6 +102,7 @@ public class EndScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 saveScore(); // Save the score before returning to the main menu
+                GameStats.resetScore(); // resets the score for next game
                 parent.changeScreen(MenuState.MENU);
             }
         });

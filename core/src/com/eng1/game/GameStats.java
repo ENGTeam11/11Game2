@@ -25,6 +25,10 @@ public class GameStats {
         minute = 0;
     }
 
+    public static void resetScore(){
+        score = 0;
+    }
+
     /**
      * adds the medal types to the objectives and streaks hashmaps
      */
