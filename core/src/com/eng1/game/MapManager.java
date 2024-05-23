@@ -78,7 +78,7 @@ public class MapManager {
         }
         //checks that the new map has been loaded before and loads it if not
         if (!assetManager.isLoaded(mapPath)) {
-            System.out.println("Loading" + mapPath);
+
             assetManager.load(mapPath, TiledMap.class);
             assetManager.finishLoading();
         }
@@ -92,7 +92,7 @@ public class MapManager {
         adjustCamera();
         bounds.set(Gdx.graphics.getWidth()/3/scale, Gdx.graphics.getHeight()/3/scale);
         //checks if the map loaded is map 7 to activate the walk stat
-        System.out.println(currentMapPath);
+
         if (currentMapPath.equals("maps/map7/map7.tmx")){
             GameStats.setWalked(true);
         }
