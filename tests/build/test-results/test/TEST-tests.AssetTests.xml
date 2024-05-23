@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="tests.AssetTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-05-16T12:13:43" hostname="DOM_PC" time="0.068">
+<testsuite name="tests.AssetTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-05-23T08:28:11" hostname="DOM_PC" time="0.065">
   <properties/>
-  <testcase name="testMapAssetsExist" classname="tests.AssetTests" time="0.032"/>
+  <testcase name="testMapAssetsExist" classname="tests.AssetTests" time="0.03"/>
   <testcase name="testUIskinAssetExists" classname="tests.AssetTests" time="0.001"/>
   <testcase name="testCharacterAssetsExist" classname="tests.AssetTests" time="0.001"/>
   <system-out><![CDATA[]]></system-out>

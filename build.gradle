@@ -77,7 +77,7 @@ project(":tests") {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
 
         testImplementation 'junit:junit:4.+'
-        implementation 'org.mockito:mockito-core:5.11.0'
+        testImplementation 'org.mockito:mockito-core:5.11.0'
 
         testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
