@@ -21,7 +21,7 @@ public class Play implements Screen {
     private MapManager mapManager;
     private Player player;
     private BitmapFont displayDateTime;
-    public static String selectedCharacter;
+    public static String selectedCharacter; //the name of the selected character, used for player sprite selecting
     private PlayerTracker playerTracker;
     private GameUI gameUI;
     private Skin skin;
@@ -61,6 +61,9 @@ public class Play implements Screen {
     }
 
     @Override
+    /**
+     * sets up the necessary features when the screen is switched to
+     */
     public void show() {
         Gdx.input.setInputProcessor(player);
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -74,7 +77,12 @@ public class Play implements Screen {
     
 
     @Override
+    /**
+     * updates draws the play screen
+     * @param delta the time since the last render
+     */
     public void render(float delta) {
+        //checks if player has paused game
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             heslingtonHustle.changeScreen(MenuState.PAUSE);
         }
@@ -82,11 +90,11 @@ public class Play implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camera.update();
 
-        GameStats.initializeGameTimeFlow(delta);
+        GameStats.initializeGameTimeFlow(delta); //updates in game clock
         mapManager.render();
         player.update(delta, mapManager);
         gameUI.render(delta);
-        mapManager.boundaryCheck(player);
+        mapManager.boundaryCheck(player); // checks the player has not left the camera boundaries
         
         renderer.getBatch().begin();
         renderer.getBatch().setProjectionMatrix(camera.combined);
@@ -107,8 +115,7 @@ public class Play implements Screen {
         float scale = 1f;
         float viewportHeight = height;
         float viewportWidth = viewportHeight * aspectRatio;
-
-        float resScale = MAPHEIGHT/viewportHeight;
+        float resScale = MAPHEIGHT/viewportHeight;//sets the scale to be proportional to the resolution of the screen 
         mapManager.setResScale(resScale);
 
         if (viewportWidth > width) {

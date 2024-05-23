@@ -11,17 +11,25 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LeaderboardManager {
-    private static final String LEADERBOARD_FILE = "leaderboard.txt";
+    private static final String LEADERBOARD_FILE = "leaderboard.txt"; //the name of the file used to store the leaderboard
 
+    /**
+     * returns the current directory the game is in on the system
+     * @return the directory path as a string
+     */
     private static File getJarDirectory() {
         try {
-            String path = LeaderboardManager.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            String path = LeaderboardManager.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath(); //the path that the manager class is located in
             return new File(path).getParentFile();
         } catch (Exception e) {
             throw new RuntimeException("Failed to determine JAR directory", e);
         }
     }
 
+    /**
+     * returns the absolute directory that the leaderboard file is located in
+     * @return absolute filehandle of the leaderboard
+     */
     private static FileHandle getLeaderboardFileHandle() {
         File jarDir = getJarDirectory();
         File leaderboardFile = new File(jarDir, LEADERBOARD_FILE);

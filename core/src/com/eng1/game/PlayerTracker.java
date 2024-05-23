@@ -25,11 +25,11 @@ public class PlayerTracker {
         this.player = player;
     }
 
-    public void update(float delta) {
-        // checkPlayerTile();
-
-    }
-
+    /**
+     * checks if the player is standing on a map transport tile and sends them to the new map and spawn according to the tile
+     * @param playerX players x position
+     * @param playerY players y position
+     */
     public void checkPlayerTile(float playerX, float playerY) {
         TiledMapTileLayer layer = (TiledMapTileLayer) mapManager.getCurrentMap().getLayers().get("map_change");
         TiledMapTileLayer.Cell cell = layer.getCell((int) (playerX / layer.getTileWidth()), (int) (playerY / layer.getTileHeight()));
@@ -44,7 +44,13 @@ public class PlayerTracker {
             }
         }
     }
-
+    /**
+     * checks if the player is currently stood on an activity layer object and if so returns the name of the object
+     * @param Position vector position of the player
+     * @param width the player's width
+     * @param height the player's height
+     * @return a String of the collided objects name. null if not colliding with any
+     */
     public String checkPlayerActivity(Vector2 Position, float width, float height) {
         MapLayer ObjectLayer = mapManager.getCurrentMap().getLayers().get("activities");
         Rectangle playerBounds = new Rectangle(Position.x, Position.y, width, height);

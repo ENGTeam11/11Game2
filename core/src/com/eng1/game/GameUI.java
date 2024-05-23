@@ -27,7 +27,9 @@ public class GameUI {
         setupControlsDialog();
 
     }
-
+    /**
+     * prepares the controls display pop up
+     */
     private void setupControlsDialog() {
         controlsDialog = new Dialog("HOW TO PLAY", skin);
         controlsDialog.text("Use WASD to move around and E to interact!");
@@ -39,6 +41,9 @@ public class GameUI {
         controlsDialog.setPosition((stage.getWidth() - controlsDialog.getWidth()) / 2, (stage.getHeight() - controlsDialog.getHeight()) / 2);
 
     }
+    /**
+     * prepares the stats display 
+     */
     private void setupStatsDialog() {
         Table wrapperTable = new Table();
         wrapperTable.setFillParent(true);
@@ -67,7 +72,9 @@ public class GameUI {
         wrapperTable.add(statsTable);
         stage.addActor(wrapperTable);
     }
-
+    /**
+     * prepares the streaks display 
+     */
     private void setupStreaksDialog() {
         Table streakWrapperTable = new Table();
         streakWrapperTable.setFillParent(true);
@@ -99,16 +106,19 @@ public class GameUI {
         stage.addActor(streakWrapperTable);
     }
 
+    /**
+     * updates the values within the stats display
+     */
     public void updateStats(){
         dayLabel.setText("Day: " + GameStats.getDay());
         timeLabel.setText("Time: " + GameStats.getFormattedTime());
         scoreLabel.setText("Score: " + GameStats.getScore());
         energyLabel.setText("Energy: " + GameStats.getEnergy());
-        
-
-
     }
 
+    /**
+     * updates the values within the streaks display
+     */
     public void updateStreakUI(){
         studyLabel.setText("Studious: " + GameStats.getStreak("Study"));
         relaxLabel.setText("Relaxed: " + GameStats.getStreak("Relax"));
@@ -116,6 +126,10 @@ public class GameUI {
         walkLabel.setText("Walk Bonus: " + walkstatus());
     }
 
+    /**
+     * returns a certain string depending on wether GameStats.walked is true
+     * @return "Active" string if true "Not active" if not
+     */
     private String walkstatus(){
         if (GameStats.getWalked()){
             return "Active";
@@ -123,6 +137,10 @@ public class GameUI {
         return "Not active";
     }
 
+    /**
+     * runs the ui update attributes and displays the ui on screen
+     * @param delta the time since last render
+     */
     public void render(float delta) {
         updateStats();
         updateStreakUI();
