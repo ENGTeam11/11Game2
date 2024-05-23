@@ -27,9 +27,16 @@ public class Player extends Sprite implements InputProcessor {
     private Animation<TextureRegion> runDown;
     private static final float FRAME_TIME = 1 / 5f; //5 fps
 
+    private String adamAtlas;
+    private String bobAtlas;
+    private String ameliaAtlas;
+
+
+
     public Player(){
 
     }
+
 
     public Player(Play playScreen, PlayerTracker playerTracker, MapManager mapManager) {
         this.playScreen = playScreen;
@@ -42,36 +49,47 @@ public class Player extends Sprite implements InputProcessor {
         }
 
         String characterName = Play.getSelectedCharacter();
+        String atlasFileName = getSelectedAtlas(characterName);
 
-        // Load the texture atlas and create the animation
-//        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("allAnimationsAtlas.atlas"));
-//        Array<TextureAtlas.AtlasRegion> walkFrames = atlas.findRegions("left_walk");
-//        walkAnimation = new Animation<TextureRegion>(0.1f, walkFrames, Animation.PlayMode.LOOP);
+        // animations
+        TextureAtlas allAnimations = new TextureAtlas(Gdx.files.internal(atlasFileName));
 
-        // animations my self
-        TextureAtlas allAnimations = new TextureAtlas(Gdx.files.internal("playerCharacters/allAnimationsAtlas.atlas"));
-
-        idle = new Animation<>(FRAME_TIME, allAnimations.findRegions("down_idle"));
+        idle = new Animation<>(FRAME_TIME, allAnimations.findRegions("idleDown"));
         idle.setPlayMode(Animation.PlayMode.LOOP);
 
         //run right TextureAtlas
-        runRight = new Animation<>(FRAME_TIME, allAnimations.findRegions("right_walk"));
+        runRight = new Animation<>(FRAME_TIME, allAnimations.findRegions("runRight"));
         runRight.setPlayMode(Animation.PlayMode.LOOP);
 
         //run left animation
-        runLeft = new Animation<>(FRAME_TIME, allAnimations.findRegions("left_walk"));
+        runLeft = new Animation<>(FRAME_TIME, allAnimations.findRegions("runLeft"));
         runLeft.setPlayMode(Animation.PlayMode.LOOP);
 
         //run up animation
-        runUp = new Animation<>(FRAME_TIME, allAnimations.findRegions("up_walk"));
+        runUp = new Animation<>(FRAME_TIME, allAnimations.findRegions("runUp"));
         runUp.setPlayMode(Animation.PlayMode.LOOP);
 
         //run down animation
-        runDown = new Animation<>(FRAME_TIME, allAnimations.findRegions("down_walk"));
+        runDown = new Animation<>(FRAME_TIME, allAnimations.findRegions("runDown"));
         runDown.setPlayMode(Animation.PlayMode.LOOP);
 
         stateTime = 0f;
     }
+
+    private String getSelectedAtlas(String characterName){
+        switch(characterName.toLowerCase()){
+            case "character1":
+                return "playerCharacters/AdamAtlas.atlas";
+            case "character2":
+                return "playerCharacters/AmeliaAtlas.atlas";
+            case "character3":
+                return "playerCharacters/BobAtlas.atlas";
+            default:
+                return "playerCharacters/allAnimationsAtlas.atlas";
+        }
+
+    }
+
 
     /**
      * updates player position according to movement and time since last update.

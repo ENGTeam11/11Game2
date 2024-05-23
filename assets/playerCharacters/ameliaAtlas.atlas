@@ -1,0 +1,147 @@
+ameliaAtlas.png
+size: 128,256
+repeat: none
+idle
+  bounds: 56, 70, 16, 32
+  index: 1
+idle
+  bounds: 2, 206, 16, 32
+  index: 2
+idle
+  bounds: 38, 172, 16, 32
+  index: 3
+idle
+  bounds: 38, 172, 16, 32
+  index: 4
+idle
+  bounds: 56, 138, 16, 32
+  index: 5
+idle
+  bounds: 56, 138, 16, 32
+  index: 6
+idle
+  bounds: 110, 172, 16, 32
+  index: 7
+idle
+  bounds: 56, 36, 16, 32
+  index: 8
+idle
+  bounds: 2, 104, 16, 32
+  index: 9
+idle
+  bounds: 92, 138, 16, 32
+  index: 10
+idleDown
+  bounds: 20, 206, 16, 32
+  index: 11
+idleDown
+  bounds: 20, 206, 16, 32
+  index: 12
+idleDown
+  bounds: 20, 70, 16, 32
+  index: 13
+idleDown
+  bounds: 92, 206, 16, 32
+  index: 14
+idleDown
+  bounds: 56, 104, 16, 32
+  index: 15
+idleDown
+  bounds: 38, 36, 16, 32
+  index: 16
+idle
+  bounds: 20, 138, 16, 32
+  index: 17
+idle
+  bounds: 20, 138, 16, 32
+  index: 18
+idle
+  bounds: 74, 206, 16, 32
+  index: 19
+idle
+  bounds: 20, 2, 16, 32
+  index: 20
+idle
+  bounds: 74, 70, 16, 32
+  index: 21
+idle
+  bounds: 56, 206, 16, 32
+  index: 22
+idle
+  bounds: 38, 172, 16, 32
+  index: 23
+idle
+  bounds: 38, 172, 16, 32
+  index: 24
+runUp
+  bounds: 2, 70, 16, 32
+  index: 1
+runUp
+  bounds: 2, 36, 16, 32
+  index: 2
+runUp
+  bounds: 74, 172, 16, 32
+  index: 3
+runUp
+  bounds: 38, 70, 16, 32
+  index: 4
+runUp
+  bounds: 74, 104, 16, 32
+  index: 5
+runUp
+  bounds: 2, 172, 16, 32
+  index: 6
+runLeft
+  bounds: 20, 104, 16, 32
+  index: 7
+runLeft
+  bounds: 56, 172, 16, 32
+  index: 8
+runLeft
+  bounds: 56, 138, 16, 32
+  index: 9
+runLeft
+  bounds: 20, 36, 16, 32
+  index: 10
+runLeft
+  bounds: 92, 172, 16, 32
+  index: 11
+runLeft
+  bounds: 56, 138, 16, 32
+  index: 12
+runDown
+  bounds: 2, 138, 16, 32
+  index: 13
+runDown
+  bounds: 38, 138, 16, 32
+  index: 14
+runDown
+  bounds: 38, 104, 16, 32
+  index: 15
+runDown
+  bounds: 110, 206, 16, 32
+  index: 16
+runDown
+  bounds: 74, 138, 16, 32
+  index: 17
+runDown
+  bounds: 110, 138, 16, 32
+  index: 18
+runRight
+  bounds: 20, 172, 16, 32
+  index: 19
+runRight
+  bounds: 2, 2, 16, 32
+  index: 20
+runRight
+  bounds: 20, 138, 16, 32
+  index: 21
+runRight
+  bounds: 38, 2, 16, 32
+  index: 22
+runRight
+  bounds: 38, 206, 16, 32
+  index: 23
+runRight
+  bounds: 20, 138, 16, 32
+  index: 24
