@@ -66,6 +66,7 @@ public class PauseScreen implements Screen {
             @Override
             public boolean handle(Event event) {
                 parent.getPreferences().setMusicVolume(volumeMusicSlider.getValue());
+                parent.getBackgroundMusic().setVolume(volumeMusicSlider.getValue());
                 // updateVolumeLabel();
                 return false;
             }
@@ -91,6 +92,11 @@ public class PauseScreen implements Screen {
             public boolean handle(Event event) {
                 boolean enabled = musicCheckbox.isChecked();
                 parent.getPreferences().setMusicEnabled(enabled);
+                if (enabled) {
+                    parent.getBackgroundMusic().play();
+                } else {
+                    parent.getBackgroundMusic().pause();
+                }
                 return false;
             }
         });

@@ -3,6 +3,7 @@ package com.eng1.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import eng1.model.views.*;
 import minigames.AcademicWeapon;
 import minigames.BasketBall;
@@ -12,6 +13,8 @@ import minigames.FoodNinja;
  * The main game class responsible for managing screens.
  */
 public class HeslingtonHustle extends Game {
+	private Music backgroundMusic;
+
 	private LoadingScreen loadingScreen;
 	private PreferencesScreen preferencesScreen;
 	private MenuScreen menuScreen;
@@ -31,6 +34,13 @@ public class HeslingtonHustle extends Game {
 		setScreen(loadingScreen);
 		preferences = new AppPreferences();
 		Activity.setGameInstance(this); // Set the game instance in Activity
+
+		backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/mixkit-kidding-around-9.mp3"));
+		backgroundMusic.setLooping(true);
+		backgroundMusic.setVolume(preferences.getMusicVolume());
+		if (preferences.isMusicEnabled()) {
+			backgroundMusic.play();
+		}
 	}
 
 	/**
@@ -97,5 +107,8 @@ public class HeslingtonHustle extends Game {
 		// Handle input events
 
 
+	}
+	public Music getBackgroundMusic() {
+		return backgroundMusic;
 	}
 }
