@@ -79,11 +79,11 @@ public class Player extends Sprite implements InputProcessor {
     private String getSelectedAtlas(String characterName){
         switch(characterName.toLowerCase()){
             case "character1":
-                return "playerCharacters/AdamAtlas.atlas";
+                return "playerCharacters/adamAtlas.atlas";
             case "character2":
-                return "playerCharacters/AmeliaAtlas.atlas";
+                return "playerCharacters/ameliaAtlas.atlas";
             case "character3":
-                return "playerCharacters/BobAtlas.atlas";
+                return "playerCharacters/bobAtlas.atlas";
             default:
                 return "playerCharacters/allAnimationsAtlas.atlas";
         }
