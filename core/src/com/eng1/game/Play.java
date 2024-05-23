@@ -27,6 +27,8 @@ public class Play implements Screen {
     private Skin skin;
     private GameStats gameStats;
     private HeslingtonHustle heslingtonHustle;
+    private BitmapFont interactionsPrompt;
+    boolean showInteractPrompt = false;
 
     public Play(HeslingtonHustle game) {
         heslingtonHustle = game;
@@ -36,7 +38,7 @@ public class Play implements Screen {
         mapManager = new MapManager(assetManager, camera);
         mapManager.loadMap("maps/map1/map1.tmx");
         playerTracker = new PlayerTracker(mapManager);
-        player = new Player(playerTracker, mapManager);
+        player = new Player(this, playerTracker, mapManager);
         playerTracker.setPlayer(player);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         gameUI = new GameUI(skin);
@@ -45,6 +47,9 @@ public class Play implements Screen {
         GameStats.initialiseStreaks();
 
         MenuScreen.setStartNewGame(false); // Set start new game to false, so a new instance is not created everytime
+        interactionsPrompt = new BitmapFont();
+        interactionsPrompt.getData().setScale(2f);
+        interactionsPrompt.setColor(1, 1, 1, 1);
 
     }
 
@@ -87,6 +92,13 @@ public class Play implements Screen {
         renderer.getBatch().setProjectionMatrix(camera.combined);
         player.draw(renderer.getBatch());
         renderer.getBatch().end();
+
+        if (showInteractPrompt) {
+            renderer.getBatch().begin();
+            interactionsPrompt.draw(renderer.getBatch(), "Press E to Interact", player.getX(), player.getY() + 50);
+            renderer.getBatch().end();
+            Gdx.app.log("InteractionPrompt", "Drawing at: " + player.getX() + ", " + player.getY() + 50);
+        }
     }
 
     @Override
@@ -137,6 +149,7 @@ public class Play implements Screen {
         player.getTexture().dispose();
         displayDateTime.dispose();
         gameUI.dispose();
+        interactionsPrompt.dispose();
     }
 }
 
